@@ -6,7 +6,6 @@ import pl.tkaczyk.expensesservice.model.Expense;
 
 import java.util.List;
 
-@Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     List<Expense> findExpensesByUserId(Long userId);

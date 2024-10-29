@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,9 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authentication(@RequestBody @Valid AuthenticationRequest request) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authenticationService.authenticate(request));
     }
 
     @GetMapping("/activate-account")

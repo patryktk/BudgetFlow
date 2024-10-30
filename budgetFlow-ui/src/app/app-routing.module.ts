@@ -6,7 +6,8 @@ import {AccountActivationComponent} from "./pages/account-activation/account-act
 import {authGuard} from "./services/guard/auth.guard";
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  {path: '', component: LoginComponent},
+  {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'activate-account', component: AccountActivationComponent},
   {
@@ -20,4 +21,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

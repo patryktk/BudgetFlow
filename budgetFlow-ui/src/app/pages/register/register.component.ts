@@ -23,15 +23,15 @@ export class RegisterComponent {
     this.authService.register({
       body: this.registrationRequest
     }).subscribe({
-      next: result => {
-        this.router.navigate(['login'])
+      next: () => {
+        this.router.navigate(['login'], {state: {successMessage: 'Rejestracja udana. Sprawdź e-mail, aby potwierdzić konto.'}});
       },
       error: err => {
         console.log(err);
         if (err.error.validationErrors) {
-          this.errorMsg = err.error.validationErrors;
+          this.errorMsg = err.error.validationErrors || 'Error. Try again later!';
         } else {
-          this.errorMsg.push(err.error.businessErrorMessage);
+          this.errorMsg.push(err.error.businessErrorMessage || "Error. Try again later!");
         }
       }
     })
@@ -40,6 +40,4 @@ export class RegisterComponent {
   login() {
     this.router.navigate(['login']);
   }
-
-
 }

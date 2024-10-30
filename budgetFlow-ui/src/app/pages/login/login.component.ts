@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {TokenService} from "../../services/token/token.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
@@ -30,8 +30,13 @@ export class LoginComponent {
         this.tokenService.token = result.token as string;
         this.router.navigate(['expense']);
       },
-      error: error => {
-        console.log(error);
+      error: err => {
+        console.log(err);
+        if (err.error.validationErrors) {
+          this.errorMsg = err.error.validationErrors;
+        } else {
+          this.errorMsg.push(err.error.businessErrorMessage);
+        }
       }
     })
   }

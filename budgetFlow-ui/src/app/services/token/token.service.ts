@@ -32,4 +32,26 @@ export class TokenService {
     }
     return true;
   }
+
+  //15 min timer w przypadku braku aktywności, może na później
+  // logout(){
+  //   sessionStorage.clear();
+  //   localStorage.removeItem('token');
+  // }
+  //
+  // private inactivityTimer: any;
+  //
+  // startInactivityTimer(){
+  //   this.clearInactivityTimer();
+  //   this.inactivityTimer = setTimeout(() => {
+  //     this.logout();
+  //   }, 15 * 60 * 1000); //15 minut
+  // }
+  //
+  // clearInactivityTimer(){
+  //   if(this.inactivityTimer){
+  //     clearTimeout(this.inactivityTimer);
+  //   }
+  // }
+
 }

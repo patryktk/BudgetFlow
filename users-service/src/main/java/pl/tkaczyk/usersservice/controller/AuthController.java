@@ -31,9 +31,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authentication(@RequestBody @Valid AuthenticationRequest request) {
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(authenticationService.authenticate(request));
+        return ResponseEntity.ok().body(authenticationService.authenticate(request));
     }
 
     @GetMapping("/activate-account")

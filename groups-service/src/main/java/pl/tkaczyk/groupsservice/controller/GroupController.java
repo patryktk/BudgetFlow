@@ -3,6 +3,7 @@ package pl.tkaczyk.groupsservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
 import pl.tkaczyk.groupsservice.service.GroupService;
@@ -29,8 +30,8 @@ public class GroupController {
         return ResponseEntity.ok(groupService.deleteGroup(groupId));
     }
 
-    public ResponseEntity<?> inviteToGroup(@RequestParam Long userId){
-        return ResponseEntity.ok(groupService.inviteToGroup(userId));
+    public ResponseEntity<?> inviteToGroup(@RequestBody GroupInviteRequest request){
+        return ResponseEntity.ok(groupService.inviteToGroup(request));
     }
 
     public ResponseEntity<?> acceptInvitation(@RequestParam String token){

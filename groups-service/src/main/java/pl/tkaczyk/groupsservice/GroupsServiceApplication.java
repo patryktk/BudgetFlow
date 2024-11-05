@@ -1,13 +1,13 @@
-package pl.tkaczyk.expensesservice;
+package pl.tkaczyk.groupsservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExpensesServiceApplication {
+public class GroupsServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExpensesServiceApplication.class, args);
+		SpringApplication.run(GroupsServiceApplication.class, args);
 	}
 
 }

@@ -25,6 +25,7 @@ public class Expense {
     @ManyToOne
     @JoinColumn(name = "expenseCategoryId")
     private ExpenseCategory expenseCategory;
+    private double amount;
     private LocalDate expenseDate;
     private String note;
     private Long userId;

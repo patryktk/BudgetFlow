@@ -1,4 +1,4 @@
-package pl.tkaczyk.usersservice.handler;
+package pl.tkaczyk.groupsservice.handler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

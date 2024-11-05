@@ -1,15 +1,20 @@
 package pl.tkaczyk.expensesservice.model.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import pl.tkaczyk.expensesservice.model.ExpenseCategory;
 
 import java.time.LocalDate;
 
 public record ExpenseRequest(
         Long id,
-        @NotNull(message = "Expense name is required")
+        @NotEmpty(message = "Expense name is required")
+        @NotBlank(message = "Expense name is required")
         String name,
         ExpenseCategory expenseCategory,
+        double amount,
+        @NotEmpty(message = "Expense date is required")
+        @NotBlank(message = "Expense date is required")
         LocalDate expenseDate,
         String note,
         Long userId

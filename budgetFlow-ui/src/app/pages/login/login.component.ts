@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
     this.successMsg = history.state.successMessage;
   }
 
-
   login() {
     this.errorMsg = [];
     this.authService.authentication({

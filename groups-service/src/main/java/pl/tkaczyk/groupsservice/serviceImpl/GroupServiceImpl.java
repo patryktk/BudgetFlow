@@ -50,16 +50,16 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Boolean inviteToGroup(GroupInviteRequest request) throws MessagingException {
-        //TODO: Sprawdzić czy user jest juz w grupie
+    public void inviteToGroup(GroupInviteRequest request) throws MessagingException {
         var newToken = generateAndSaveInvitationToken(request);
-        //TODO: Sprawdzić czy ma konto założone na tego maila
+        checkUserAndSendMail(request, newToken);
+    }
+
+    private void checkUserAndSendMail(GroupInviteRequest request, String newToken) throws MessagingException {
         Boolean userExists = userClient.userExists(request.userEmail());
-        //TODO: Wysłać maila z zaproszeniem do grupy w zależności czy ma konto czy nie, to inną templatke wysłać
         String invitationLinkWithToken = invitationLink + "?token=" + newToken;
         EmailTemplateName template = userExists ? EmailTemplateName.GROUP_INVITATION : EmailTemplateName.GROUP_INVITATION_NO_ACCOUNT;
         emailService.sendInvitationMail(request.userEmail(), template, invitationLinkWithToken);
-        return null;
     }
 
     private String generateAndSaveInvitationToken(GroupInviteRequest request) {
@@ -80,7 +80,14 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Boolean acceptInvitation(String token) {
+    public Boolean acceptInvitation(String token, String userId) {
+        var savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new IllegalStateException("Token not found"));
+        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
+            return false;
+        }
+        savedToken.setValidatedAt(LocalDateTime.now());
+        Group group = savedToken.getGroup();
+        group.addUser(Long.valueOf(userId));
         return null;
     }
 

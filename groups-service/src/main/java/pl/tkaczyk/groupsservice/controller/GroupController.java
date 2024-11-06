@@ -1,5 +1,6 @@
 package pl.tkaczyk.groupsservice.controller;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,18 @@ public class GroupController {
         return ResponseEntity.ok(groupService.deleteGroup(groupId));
     }
 
-    public ResponseEntity<?> inviteToGroup(@RequestBody GroupInviteRequest request){
-        return ResponseEntity.ok(groupService.inviteToGroup(request));
+    @PostMapping("/sendInvitation")
+    public ResponseEntity<?> inviteToGroup(@RequestBody GroupInviteRequest request) throws MessagingException {
+        groupService.inviteToGroup(request);
+        return ResponseEntity.accepted().build();
     }
 
-    public ResponseEntity<?> acceptInvitation(@RequestParam String token){
-        return ResponseEntity.ok(groupService.acceptInvitation(token));
+    @GetMapping("/acceptInvitation")
+    public ResponseEntity<?> acceptInvitation(@RequestParam String token, @RequestHeader("X-User-Id") String userId){
+        Boolean accepted = groupService.acceptInvitation(token, userId);
+        if(accepted){
+            return ResponseEntity.ok().body("Invitation accepted");
+        }
+        return ResponseEntity.ok().body("Invitation link expired.");
     }
 }

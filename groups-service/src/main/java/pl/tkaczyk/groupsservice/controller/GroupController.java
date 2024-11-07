@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
+import pl.tkaczyk.groupsservice.model.dto.GroupResponseForExpenseService;
 import pl.tkaczyk.groupsservice.service.GroupService;
 
 @RestController
@@ -17,13 +18,13 @@ public class GroupController {
     private final GroupService groupService;
 
     @GetMapping()
-    public ResponseEntity<GroupResponse> getGroup(@RequestParam Long userId){
-        return ResponseEntity.ok().body(groupService.getGroupByUserId(userId));
+    public ResponseEntity<GroupResponse> getGroup(@RequestHeader("X-User-Id") String userId){
+        return ResponseEntity.ok().body(groupService.getGroupByUserId(Long.parseLong(userId)));
     }
 
     @PostMapping()
-    public ResponseEntity<GroupResponse> createGroup(@RequestBody GroupRequest request){
-        return ResponseEntity.ok().body(groupService.createGroup(request));
+    public ResponseEntity<GroupResponse> createGroup(@RequestBody GroupRequest request, @RequestHeader("X-User-Id") String userId){
+        return ResponseEntity.ok().body(groupService.createGroup(request, Long.valueOf(userId)));
     }
 
     @DeleteMapping()
@@ -44,5 +45,10 @@ public class GroupController {
             return ResponseEntity.ok().body("Invitation accepted");
         }
         return ResponseEntity.ok().body("Invitation link expired.");
+    }
+
+    @GetMapping("/checkUserInGroup")
+    public ResponseEntity<GroupResponseForExpenseService> checkUserIsInAnyGroup(@RequestParam Long userId){
+        return ResponseEntity.ok(groupService.checkUserIsInAnyGroup(userId));
     }
 }

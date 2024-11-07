@@ -11,12 +11,14 @@ import pl.tkaczyk.groupsservice.model.Token;
 import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
+import pl.tkaczyk.groupsservice.model.dto.GroupResponseForExpenseService;
 import pl.tkaczyk.groupsservice.model.enums.EmailTemplateName;
 import pl.tkaczyk.groupsservice.repository.GroupRepository;
 import pl.tkaczyk.groupsservice.repository.TokenRepository;
 import pl.tkaczyk.groupsservice.service.GroupService;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,7 +30,7 @@ public class GroupServiceImpl implements GroupService {
     private final TokenRepository tokenRepository;
     private final EmailService emailService;
     private final UserClient userClient;
-    @Value("${application.mailing.frontend.invitation-link}")
+    @Value("${application.mailing.frontend.invitation-url}")
     private String invitationLink;
 
     @Override
@@ -37,9 +39,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupResponse createGroup(GroupRequest request) {
-        Group group = groupMapper.toGroup(request);
-        group.addUser(request.createdByUserId());
+    public GroupResponse createGroup(GroupRequest request, Long userId) {
+        Group group = groupMapper.toGroup(request, userId);
+        group.addUser(userId);
         return groupMapper.toGroupResponse(groupRepository.save(group));
     }
 
@@ -51,20 +53,20 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void inviteToGroup(GroupInviteRequest request) throws MessagingException {
-        var newToken = generateAndSaveInvitationToken(request);
-        checkUserAndSendMail(request, newToken);
+        var newToken = generateAndSaveInvitationToken(request.groupId());
+        checkUserAndSendMail(request.userEmail(), newToken);
     }
 
-    private void checkUserAndSendMail(GroupInviteRequest request, String newToken) throws MessagingException {
-        Boolean userExists = userClient.userExists(request.userEmail());
+    private void checkUserAndSendMail(String email, String newToken) throws MessagingException {
+        Boolean userExists = userClient.userExists(email);
         String invitationLinkWithToken = invitationLink + "?token=" + newToken;
         EmailTemplateName template = userExists ? EmailTemplateName.GROUP_INVITATION : EmailTemplateName.GROUP_INVITATION_NO_ACCOUNT;
-        emailService.sendInvitationMail(request.userEmail(), template, invitationLinkWithToken);
+        emailService.sendInvitationMail(email, template, invitationLinkWithToken);
     }
 
-    private String generateAndSaveInvitationToken(GroupInviteRequest request) {
+    private String generateAndSaveInvitationToken(Long id) {
         var generatedToken = generateActivationToken(6);
-        Group group = groupRepository.findById(request.groupId()).orElseThrow(() -> new IllegalStateException("Group not found"));
+        Group group = groupRepository.findById(id).orElseThrow(() -> new IllegalStateException("Group not found"));
         var invitationToken = Token.builder()
                 .token(generatedToken)
                 .createdAt(LocalDateTime.now())
@@ -91,5 +93,12 @@ public class GroupServiceImpl implements GroupService {
         return null;
     }
 
-
+    @Override
+    public GroupResponseForExpenseService checkUserIsInAnyGroup(Long userId) {
+        Optional<Group> optionalGroup = groupRepository.findById(userId);
+        if (optionalGroup.isEmpty()) {
+            return GroupResponseForExpenseService.builder().isInGroup(false).build();
+        }
+        return groupMapper.toGroupResponseExpense(optionalGroup.get());
+    }
 }

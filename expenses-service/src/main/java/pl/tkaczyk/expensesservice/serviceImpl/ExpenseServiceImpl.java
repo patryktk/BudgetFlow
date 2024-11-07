@@ -7,6 +7,7 @@ import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
 import pl.tkaczyk.expensesservice.model.dto.GroupResponse;
+import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
 import pl.tkaczyk.expensesservice.repository.ExpenseRepository;
 import pl.tkaczyk.expensesservice.service.ExpenseService;
 
@@ -20,10 +21,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
     private final GroupClient groupClient;
+    private final ExpenseCategoryRepository expenseCategoryRepository;
 
     @Override
     public List<ExpenseResponse> getAllExpensesByUser(Long userId) {
-        GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(userId);
+        GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(userId).getBody();
         if (groupResponse.isInGroup()) {
             return expenseRepository.findExpenseByUserIds(groupResponse.users())
                     .stream()

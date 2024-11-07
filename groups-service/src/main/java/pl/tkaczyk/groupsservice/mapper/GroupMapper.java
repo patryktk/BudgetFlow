@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.tkaczyk.groupsservice.model.Group;
 import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
 import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
+import pl.tkaczyk.groupsservice.model.dto.GroupResponseForExpenseService;
 
 @Service
 public class GroupMapper {
@@ -18,11 +19,19 @@ public class GroupMapper {
                 .build();
     }
 
-    public Group toGroup(GroupRequest request) {
+    public Group toGroup(GroupRequest request, Long userId) {
         return Group.builder()
                 .name(request.name())
                 .description(request.description())
-                .createdByUserId(request.createdByUserId())
+                .createdByUserId(userId)
+                .build();
+    }
+
+    public GroupResponseForExpenseService toGroupResponseExpense(Group group) {
+        return GroupResponseForExpenseService.builder()
+                .groupId(group.getId())
+                .isInGroup(true)
+                .users(group.getUsers())
                 .build();
     }
 }

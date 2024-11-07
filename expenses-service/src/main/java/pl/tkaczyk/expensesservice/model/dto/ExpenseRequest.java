@@ -1,5 +1,6 @@
 package pl.tkaczyk.expensesservice.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import pl.tkaczyk.expensesservice.model.ExpenseCategory;
@@ -13,8 +14,6 @@ public record ExpenseRequest(
         String name,
         ExpenseCategory expenseCategory,
         double amount,
-        @NotEmpty(message = "Expense date is required")
-        @NotBlank(message = "Expense date is required")
         LocalDate expenseDate,
         String note,
         Long userId

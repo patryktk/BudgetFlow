@@ -1,8 +1,8 @@
 package pl.tkaczyk.groupsservice.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
@@ -14,6 +14,7 @@ import pl.tkaczyk.groupsservice.service.GroupService;
 @RestController
 @RequestMapping("/groups")
 @RequiredArgsConstructor
+@Tag(name = "Group")
 public class GroupController {
 
     private final GroupService groupService;

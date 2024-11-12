@@ -52,13 +52,13 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void inviteToGroup(GroupInviteRequest request) throws MessagingException {
+    public void inviteToGroup(GroupInviteRequest request, String authorizationHeader) throws MessagingException {
         var newToken = generateAndSaveInvitationToken(request.groupId());
-        checkUserAndSendMail(request.userEmail(), newToken);
+        checkUserAndSendMail(request.userEmail(), newToken, authorizationHeader);
     }
 
-    private void checkUserAndSendMail(String email, String newToken) throws MessagingException {
-        Boolean userExists = userClient.userExists(email);
+    private void checkUserAndSendMail(String email, String newToken, String authorizationHeader) throws MessagingException {
+        Boolean userExists = userClient.userExists(email, authorizationHeader).getBody();
         String invitationLinkWithToken = invitationLink + "?token=" + newToken;
         EmailTemplateName template = userExists ? EmailTemplateName.GROUP_INVITATION : EmailTemplateName.GROUP_INVITATION_NO_ACCOUNT;
         emailService.sendInvitationMail(email, template, invitationLinkWithToken);
@@ -84,13 +84,14 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Boolean acceptInvitation(String token, String userId) {
         var savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new IllegalStateException("Token not found"));
-        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
+        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt()) || savedToken.getValidatedAt() != null) {
             return false;
         }
         savedToken.setValidatedAt(LocalDateTime.now());
         Group group = savedToken.getGroup();
         group.addUser(Long.valueOf(userId));
-        return null;
+        groupRepository.save(group);
+        return true;
     }
 
     @Override

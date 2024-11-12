@@ -2,6 +2,7 @@ package pl.tkaczyk.groupsservice.controller;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
@@ -33,8 +34,8 @@ public class GroupController {
     }
 
     @PostMapping("/sendInvitation")
-    public ResponseEntity<?> inviteToGroup(@RequestBody GroupInviteRequest request) throws MessagingException {
-        groupService.inviteToGroup(request);
+    public ResponseEntity<?> inviteToGroup(@RequestBody GroupInviteRequest request,  @RequestHeader("Authorization") String authorizationHeader) throws MessagingException {
+        groupService.inviteToGroup(request, authorizationHeader);
         return ResponseEntity.accepted().build();
     }
 
@@ -44,7 +45,7 @@ public class GroupController {
         if(accepted){
             return ResponseEntity.ok().body("Invitation accepted");
         }
-        return ResponseEntity.ok().body("Invitation link expired.");
+        return ResponseEntity.ok().body("Invitation error.");
     }
 
     @GetMapping("/checkUserInGroup")

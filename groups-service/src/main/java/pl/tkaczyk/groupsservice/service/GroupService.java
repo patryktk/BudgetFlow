@@ -13,7 +13,7 @@ public interface GroupService {
 
     Boolean deleteGroup(Long groupId);
 
-    void inviteToGroup(GroupInviteRequest request) throws MessagingException;
+    void inviteToGroup(GroupInviteRequest request, String authorizationHeader) throws MessagingException;
 
     Boolean acceptInvitation(String token, String userId);
 

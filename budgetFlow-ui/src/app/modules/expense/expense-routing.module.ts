@@ -3,13 +3,15 @@ import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from "./pages/main/main.component";
 import {authGuard} from "../../services/guard/auth.guard";
 import {ExpenseListComponent} from "./pages/expense-list/expense-list.component";
+import {GroupsComponent} from "./pages/groups/groups.component";
 
 const routes: Routes = [
   {
     path: '', component: MainComponent,
     canActivate: [authGuard],
     children:[
-      {path: '', component: ExpenseListComponent, canActivate: [authGuard]}
+      {path: '', component: ExpenseListComponent, canActivate: [authGuard],},
+      {path: 'groups', component: GroupsComponent, canActivate: [authGuard],}
     ]
   }
 ];

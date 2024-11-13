@@ -4,4 +4,12 @@
 
 export { AuthenticationRequest } from './models/authentication-request';
 export { AuthenticationResponse } from './models/authentication-response';
+export { ExpenseCategory } from './models/expense-category';
+export { ExpenseCategoryRequest } from './models/expense-category-request';
+export { ExpenseRequest } from './models/expense-request';
+export { ExpenseResponse } from './models/expense-response';
+export { GroupInviteRequest } from './models/group-invite-request';
+export { GroupRequest } from './models/group-request';
+export { GroupResponse } from './models/group-response';
+export { GroupResponseForExpenseService } from './models/group-response-for-expense-service';
 export { RegistrationRequest } from './models/registration-request';

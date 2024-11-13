@@ -3,15 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { ExpenseRoutingModule } from './expense-routing.module';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
+import { GroupsComponent } from './pages/groups/groups.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
-    ExpenseListComponent
+    ExpenseListComponent,
+    GroupsComponent
   ],
   imports: [
     CommonModule,
-    ExpenseRoutingModule
+    ExpenseRoutingModule,
+    FormsModule
   ]
 })
 export class ExpenseModule { }

@@ -8,15 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
+import { ExpenseRequest } from '../../models/expense-request';
+import { ExpenseResponse } from '../../models/expense-response';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface AddExpense$Params {
+      body: ExpenseRequest
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+export function addExpense(http: HttpClient, rootUrl: string, params: AddExpense$Params, context?: HttpContext): Observable<StrictHttpResponse<ExpenseResponse>> {
+  const rb = new RequestBuilder(rootUrl, addExpense.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -26,10 +26,9 @@ export function register(http: HttpClient, rootUrl: string, params: Register$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<ExpenseResponse>;
     })
   );
 }
 
-register.PATH = '/users/auth/register';
+addExpense.PATH = '/expenses';

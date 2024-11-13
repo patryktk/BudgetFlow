@@ -8,15 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
+import { GroupInviteRequest } from '../../models/group-invite-request';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface InviteToGroup$Params {
+      body: GroupInviteRequest
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function inviteToGroup(http: HttpClient, rootUrl: string, params: InviteToGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, inviteToGroup.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -32,4 +32,4 @@ export function register(http: HttpClient, rootUrl: string, params: Register$Par
   );
 }
 
-register.PATH = '/users/auth/register';
+inviteToGroup.PATH = '/groups/sendInvitation';

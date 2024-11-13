@@ -8,17 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface DeleteExpense$Params {
+  expenseId: number;
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+export function deleteExpense(http: HttpClient, rootUrl: string, params: DeleteExpense$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+  const rb = new RequestBuilder(rootUrl, deleteExpense.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('expenseId', params.expenseId, {});
   }
 
   return http.request(
@@ -26,10 +24,9 @@ export function register(http: HttpClient, rootUrl: string, params: Register$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return (r as HttpResponse<any>).clone({ body: String((r as HttpResponse<any>).body) === 'true' }) as StrictHttpResponse<boolean>;
     })
   );
 }
 
-register.PATH = '/users/auth/register';
+deleteExpense.PATH = '/expenses/{expenseId}';

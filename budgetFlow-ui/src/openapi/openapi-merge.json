@@ -1,0 +1,14 @@
+{
+  "inputs": [
+    {
+      "inputFile": "./openapiGroup.json"
+    },
+    {
+      "inputFile": "./openapiExpense.json"
+    },
+    {
+      "inputFile": "./openapiUsersAuth.json"
+    }
+  ],
+  "output": "./openapi.json"
+}

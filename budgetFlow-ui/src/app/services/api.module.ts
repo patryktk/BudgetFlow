@@ -6,7 +6,11 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { GroupService } from './services/group.service';
+import { ExpenseService } from './services/expense.service';
+import { ExpensesCategoryService } from './services/expenses-category.service';
 import { AuthenticationService } from './services/authentication.service';
+import { UsersService } from './services/users.service';
 
 /**
  * Module that provides all services and configuration.
@@ -16,7 +20,11 @@ import { AuthenticationService } from './services/authentication.service';
   exports: [],
   declarations: [],
   providers: [
+    GroupService,
+    ExpenseService,
+    ExpensesCategoryService,
     AuthenticationService,
+    UsersService,
     ApiConfiguration
   ],
 })

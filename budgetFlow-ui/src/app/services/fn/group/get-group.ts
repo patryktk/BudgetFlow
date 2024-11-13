@@ -8,17 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegistrationRequest } from '../../models/registration-request';
+import { GroupResponse } from '../../models/group-response';
 
-export interface Register$Params {
-      body: RegistrationRequest
+export interface GetGroup$Params {
 }
 
-export function register(http: HttpClient, rootUrl: string, params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, register.PATH, 'post');
+export function getGroup(http: HttpClient, rootUrl: string, params?: GetGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponse>> {
+  const rb = new RequestBuilder(rootUrl, getGroup.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -26,10 +23,9 @@ export function register(http: HttpClient, rootUrl: string, params: Register$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<GroupResponse>;
     })
   );
 }
 
-register.PATH = '/users/auth/register';
+getGroup.PATH = '/groups';

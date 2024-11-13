@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,23 +23,23 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
         authenticationService.register(registrationRequest);
         return ResponseEntity.accepted().build();
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping(value = "/authenticate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthenticationResponse> authentication(@RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity.ok().body(authenticationService.authenticate(request));
     }
 
-    @GetMapping("/activate-account")
+    @GetMapping(value = "/activate-account", produces = MediaType.APPLICATION_JSON_VALUE)
     public void confirm(@RequestParam String token) throws MessagingException {
         authenticationService.activateAccount(token);
     }
 
-    @GetMapping("/validateToken")
+    @GetMapping(value = "/validateToken", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token, Authentication authentication) {
         boolean isTokenValid = authenticationService.validateToken(token, authentication);
         var user = (User) authentication.getPrincipal();

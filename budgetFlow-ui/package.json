@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:budgetFlow-ui": "node dist/budget-flow-ui/server/server.mjs",
+    "api-doc-gen": "cd src/openapi && npx openapi-merge-cli",
     "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/services"
   },
   "private": true,

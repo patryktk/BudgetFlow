@@ -1,0 +1,12 @@
+<div class="container mt-5">
+  <div *ngIf="!inGroup">
+    <h3>Create a Group</h3>
+    <input [(ngModel)]="groupRequest.name" class="form-control" placeholder="Group Name" />
+    <input [(ngModel)]="groupRequest.description" class="form-control" placeholder="Group description" />
+    <button (click)="createGroup()" class="btn btn-primary mt-2">Create Group</button>
+  </div>
+  <div *ngIf="inGroup">
+    <h3>You're already in a group.</h3>
+<!--    <app-invite></app-invite>-->
+  </div>
+</div>

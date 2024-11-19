@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.feign.GroupClient;
 import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
+import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
 import pl.tkaczyk.expensesservice.model.dto.GroupResponse;
@@ -39,8 +40,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ExpenseResponse saveExpense(ExpenseRequest request) {
-        return expenseMapper.toExpenseResponse(expenseRepository.save(expenseMapper.toExpense(request)));
+    public ExpenseResponse saveExpense(ExpenseRequest request, String userId) {
+        Expense expense = expenseMapper.toExpense(request);
+        expense.setUserId(Long.valueOf(userId));
+        return expenseMapper.toExpenseResponse(expenseRepository.save(expense));
     }
 
     @Override

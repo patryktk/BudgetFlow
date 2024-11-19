@@ -10,7 +10,7 @@ import java.util.List;
 public interface ExpenseService {
     List<ExpenseResponse> getAllExpensesByUser(Long userId);
 
-    ExpenseResponse saveExpense(ExpenseRequest request);
+    ExpenseResponse saveExpense(ExpenseRequest request, String userId);
 
     Boolean deleteExpenseById(Long expenseId);
 }

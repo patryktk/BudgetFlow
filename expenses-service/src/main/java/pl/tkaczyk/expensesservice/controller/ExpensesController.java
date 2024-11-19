@@ -28,8 +28,8 @@ public class ExpensesController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExpenseResponse> addExpense(@RequestBody @Valid ExpenseRequest request){
-        return ResponseEntity.ok().body(expenseService.saveExpense(request));
+    public ResponseEntity<ExpenseResponse> addExpense(@RequestBody @Valid ExpenseRequest request, @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
+        return ResponseEntity.ok().body(expenseService.saveExpense(request, userId));
     }
 
     @DeleteMapping(value = "/{expenseId}", produces = MediaType.APPLICATION_JSON_VALUE)

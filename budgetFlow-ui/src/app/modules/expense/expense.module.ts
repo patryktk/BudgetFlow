@@ -4,18 +4,21 @@ import { CommonModule } from '@angular/common';
 import { ExpenseRoutingModule } from './expense-routing.module';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
 import { GroupsComponent } from './pages/groups/groups.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { AddExpenseComponent } from './pages/add-expense/add-expense.component';
 
 
 @NgModule({
   declarations: [
     ExpenseListComponent,
-    GroupsComponent
+    GroupsComponent,
+    AddExpenseComponent
   ],
   imports: [
     CommonModule,
     ExpenseRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ExpenseModule { }

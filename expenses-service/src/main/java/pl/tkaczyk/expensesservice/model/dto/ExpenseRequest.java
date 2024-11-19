@@ -15,7 +15,6 @@ public record ExpenseRequest(
         ExpenseCategory expenseCategory,
         double amount,
         LocalDate expenseDate,
-        String note,
-        Long userId
+        String note
 ) {
 }

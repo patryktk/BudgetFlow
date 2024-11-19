@@ -1,12 +1,27 @@
 <div class="container mt-5">
-  <div *ngIf="!inGroup">
-    <h3>Create a Group</h3>
-    <input [(ngModel)]="groupRequest.name" class="form-control" placeholder="Group Name" />
-    <input [(ngModel)]="groupRequest.description" class="form-control" placeholder="Group description" />
-    <button (click)="createGroup()" class="btn btn-primary mt-2">Create Group</button>
+  <div *ngIf="!inGroup" class="card group-card">
+    <div class="card-body">
+      <h3 class="card-title">Create a Group</h3>
+      <input [(ngModel)]="groupRequest.name" class="form-control mt-2" placeholder="Group Name" />
+      <input [(ngModel)]="groupRequest.description" class="form-control mt-2" placeholder="Group description" />
+      <button (click)="createGroup()" class="btn btn-primary mt-3">Create Group</button>
+    </div>
   </div>
-  <div *ngIf="inGroup">
-    <h3>You're already in a group.</h3>
-<!--    <app-invite></app-invite>-->
+
+  <div *ngIf="inGroup" class="card group-card">
+    <div class="card-body">
+      <h3 class="card-title">{{ groupDetails.name }}</h3>
+      <p class="card-text">{{ groupDetails.description }}</p>
+      <p><strong>Created By:</strong> {{ groupDetails.createdByUserId }}</p>
+      <p><strong>Users:</strong> {{ groupDetails.users?.join(', ') }}</p>
+      <button class="btn btn-secondary mt-2" (click)="openInvitePopup()">Invite</button>
+    </div>
   </div>
+
+  <app-invite-to-group
+    *ngIf="showInvitePopup"
+    [groupId]="groupDetails.id"
+    (close)="closeInvitePopup()">
+  </app-invite-to-group>
+
 </div>

@@ -8,16 +8,15 @@ import pl.tkaczyk.groupsservice.feign.UserClient;
 import pl.tkaczyk.groupsservice.mapper.GroupMapper;
 import pl.tkaczyk.groupsservice.model.Group;
 import pl.tkaczyk.groupsservice.model.Token;
-import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
-import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
-import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
-import pl.tkaczyk.groupsservice.model.dto.GroupResponseForExpenseService;
+import pl.tkaczyk.groupsservice.model.dto.*;
 import pl.tkaczyk.groupsservice.model.enums.EmailTemplateName;
 import pl.tkaczyk.groupsservice.repository.GroupRepository;
 import pl.tkaczyk.groupsservice.repository.TokenRepository;
 import pl.tkaczyk.groupsservice.service.GroupService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,15 +33,19 @@ public class GroupServiceImpl implements GroupService {
     private String invitationLink;
 
     @Override
-    public GroupResponse getGroupByUserId(Long userId) {
-        return groupMapper.toGroupResponse(groupRepository.getGroupByUsersContaining(userId).orElseThrow(() -> new IllegalStateException("Not found group")));
+    public GroupResponseWithUser getGroupByUserId(Long userId, String authorizationHeader) {
+        Group group = groupRepository.getGroupByUsersContaining(userId).orElseThrow(() -> new IllegalStateException("Not found group"));
+        List<UserResponse> usersData = userClient.getUsers(new ArrayList<>(group.getUsers()), authorizationHeader).getBody();
+        return groupMapper.toGroupResponseWithUser(group, usersData);
     }
 
     @Override
-    public GroupResponse createGroup(GroupRequest request, Long userId) {
+    public GroupResponseWithUser createGroup(GroupRequest request, Long userId, String authorizationHeader) {
+        if(groupRepository.getGroupByUsersContaining(userId).isPresent()) throw new IllegalStateException("User is already in group");
         Group group = groupMapper.toGroup(request, userId);
         group.addUser(userId);
-        return groupMapper.toGroupResponse(groupRepository.save(group));
+        List<UserResponse> usersData = userClient.getUsers(new ArrayList<>(group.getUsers()), authorizationHeader).getBody();
+        return groupMapper.toGroupResponseWithUser(groupRepository.save(group), usersData);
     }
 
     @Override

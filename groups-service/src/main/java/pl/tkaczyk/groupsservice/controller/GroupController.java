@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.tkaczyk.groupsservice.model.dto.GroupInviteRequest;
-import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
-import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
-import pl.tkaczyk.groupsservice.model.dto.GroupResponseForExpenseService;
+import pl.tkaczyk.groupsservice.model.dto.*;
 import pl.tkaczyk.groupsservice.service.GroupService;
 
 @RestController
@@ -22,14 +19,16 @@ public class GroupController {
     private final GroupService groupService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GroupResponse> getGroup(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        return ResponseEntity.ok().body(groupService.getGroupByUserId(Long.parseLong(userId)));
+    public ResponseEntity<GroupResponseWithUser> getGroup(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                          @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok().body(groupService.getGroupByUserId(Long.parseLong(userId), authorizationHeader));
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GroupResponse> createGroup(@RequestBody GroupRequest request,
-                                                     @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        return ResponseEntity.ok().body(groupService.createGroup(request, Long.valueOf(userId)));
+    public ResponseEntity<GroupResponseWithUser> createGroup(@RequestBody GroupRequest request,
+                                                             @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                             @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok().body(groupService.createGroup(request, Long.valueOf(userId), authorizationHeader));
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)

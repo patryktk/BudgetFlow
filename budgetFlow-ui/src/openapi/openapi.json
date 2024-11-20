@@ -43,7 +43,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GroupResponse"
+                  "$ref": "#/components/schemas/GroupResponseWithUser"
                 }
               }
             }
@@ -71,7 +71,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GroupResponse"
+                  "$ref": "#/components/schemas/GroupResponseWithUser"
                 }
               }
             }
@@ -334,6 +334,43 @@
         }
       }
     },
+    "/users/getUsers": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "getUsers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/auth/register": {
       "post": {
         "tags": [
@@ -491,7 +528,7 @@
           }
         }
       },
-      "GroupResponse": {
+      "GroupResponseWithUser": {
         "type": "object",
         "properties": {
           "id": {
@@ -508,13 +545,25 @@
             "type": "integer",
             "format": "int64"
           },
-          "users": {
-            "uniqueItems": true,
+          "usersData": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int64"
+              "$ref": "#/components/schemas/UserResponse"
             }
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
           }
         }
       },
@@ -588,10 +637,6 @@
           },
           "note": {
             "type": "string"
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int64"
           }
         }
       },

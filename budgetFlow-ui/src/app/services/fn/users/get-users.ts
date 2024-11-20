@@ -8,15 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { GroupRequest } from '../../models/group-request';
-import { GroupResponseWithUser } from '../../models/group-response-with-user';
+import { UserResponse } from '../../models/user-response';
 
-export interface CreateGroup$Params {
-      body: GroupRequest
+export interface GetUsers$Params {
+      body: Array<number>
 }
 
-export function createGroup(http: HttpClient, rootUrl: string, params: CreateGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponseWithUser>> {
-  const rb = new RequestBuilder(rootUrl, createGroup.PATH, 'post');
+export function getUsers(http: HttpClient, rootUrl: string, params: GetUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
+  const rb = new RequestBuilder(rootUrl, getUsers.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -26,9 +25,9 @@ export function createGroup(http: HttpClient, rootUrl: string, params: CreateGro
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<GroupResponseWithUser>;
+      return r as StrictHttpResponse<Array<UserResponse>>;
     })
   );
 }
 
-createGroup.PATH = '/groups';
+getUsers.PATH = '/users/getUsers';

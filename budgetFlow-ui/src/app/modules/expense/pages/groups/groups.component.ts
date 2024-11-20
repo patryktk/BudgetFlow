@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {GroupService} from "../../../../services/services/group.service";
 import {GroupRequest} from "../../../../services/models/group-request";
-import {GroupResponse} from "../../../../services/models/group-response";
+import {GroupResponseWithUser} from "../../../../services/models/group-response-with-user";
 
 @Component({
   selector: 'app-groups',
@@ -11,7 +11,7 @@ import {GroupResponse} from "../../../../services/models/group-response";
 export class GroupsComponent implements OnInit {
   inGroup = false;
   groupRequest: GroupRequest = {name: '', description: ''};
-  groupDetails: GroupResponse = {};
+  groupDetails: GroupResponseWithUser = {};
 
   showInvitePopup = false;
 
@@ -26,12 +26,31 @@ export class GroupsComponent implements OnInit {
   }
 
 
+  deleteGroup() {
+    if (this.groupDetails?.id === undefined) {
+      return;
+    }
+    this.groupService.deleteGroup({
+      groupId: this.groupDetails.id
+    }).subscribe({
+      next: result => {
+        console.log(result);
+        this.inGroup = false;
+      }
+    });
+  }
+
+
   createGroup() {
     this.groupService.createGroup({
       body: this.groupRequest
     }).subscribe({
       next: result => {
         console.log("Group created successfully:", result);
+        this.checkGroupStatus();
+      },
+      error: err => {
+        console.log(err);
       }
     })
   }
@@ -42,7 +61,11 @@ export class GroupsComponent implements OnInit {
         if (value) {
           this.inGroup = true;
           this.groupDetails = value;
+          console.log(value)
         }
+      },
+      error: err => {
+        console.log(err);
       }
     });
   }

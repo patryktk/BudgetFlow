@@ -21,8 +21,8 @@ import { deleteGroup } from '../fn/group/delete-group';
 import { DeleteGroup$Params } from '../fn/group/delete-group';
 import { getGroup } from '../fn/group/get-group';
 import { GetGroup$Params } from '../fn/group/get-group';
-import { GroupResponse } from '../models/group-response';
 import { GroupResponseForExpenseService } from '../models/group-response-for-expense-service';
+import { GroupResponseWithUser } from '../models/group-response-with-user';
 import { inviteToGroup } from '../fn/group/invite-to-group';
 import { InviteToGroup$Params } from '../fn/group/invite-to-group';
 
@@ -41,7 +41,7 @@ export class GroupService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getGroup$Response(params?: GetGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponse>> {
+  getGroup$Response(params?: GetGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponseWithUser>> {
     return getGroup(this.http, this.rootUrl, params, context);
   }
 
@@ -51,9 +51,9 @@ export class GroupService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getGroup(params?: GetGroup$Params, context?: HttpContext): Observable<GroupResponse> {
+  getGroup(params?: GetGroup$Params, context?: HttpContext): Observable<GroupResponseWithUser> {
     return this.getGroup$Response(params, context).pipe(
-      map((r: StrictHttpResponse<GroupResponse>): GroupResponse => r.body)
+      map((r: StrictHttpResponse<GroupResponseWithUser>): GroupResponseWithUser => r.body)
     );
   }
 
@@ -66,7 +66,7 @@ export class GroupService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createGroup$Response(params: CreateGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponse>> {
+  createGroup$Response(params: CreateGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponseWithUser>> {
     return createGroup(this.http, this.rootUrl, params, context);
   }
 
@@ -76,9 +76,9 @@ export class GroupService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createGroup(params: CreateGroup$Params, context?: HttpContext): Observable<GroupResponse> {
+  createGroup(params: CreateGroup$Params, context?: HttpContext): Observable<GroupResponseWithUser> {
     return this.createGroup$Response(params, context).pipe(
-      map((r: StrictHttpResponse<GroupResponse>): GroupResponse => r.body)
+      map((r: StrictHttpResponse<GroupResponseWithUser>): GroupResponseWithUser => r.body)
     );
   }
 

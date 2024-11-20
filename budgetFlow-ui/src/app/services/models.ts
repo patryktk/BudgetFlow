@@ -10,6 +10,7 @@ export { ExpenseRequest } from './models/expense-request';
 export { ExpenseResponse } from './models/expense-response';
 export { GroupInviteRequest } from './models/group-invite-request';
 export { GroupRequest } from './models/group-request';
-export { GroupResponse } from './models/group-response';
 export { GroupResponseForExpenseService } from './models/group-response-for-expense-service';
+export { GroupResponseWithUser } from './models/group-response-with-user';
 export { RegistrationRequest } from './models/registration-request';
+export { UserResponse } from './models/user-response';

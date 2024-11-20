@@ -10,5 +10,4 @@ export interface ExpenseRequest {
   id?: number;
   name: string;
   note?: string;
-  userId?: number;
 }

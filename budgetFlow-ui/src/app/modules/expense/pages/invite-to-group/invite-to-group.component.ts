@@ -10,14 +10,15 @@ import {GroupInviteRequest} from "../../../../services/models/group-invite-reque
 export class InviteToGroupComponent {
 
   invRequest: GroupInviteRequest = {};
+  email = '';
+
 
   constructor(
-    private groupService: GroupService,
+    private groupService: GroupService
   ) {
   }
-  @Input() groupId!: number;
+  @Input() groupId!: number | undefined;
   @Output() close = new EventEmitter<void>(); // EventEmitter do zamykania popupu
-  email = '';
   closePopup() {
     this.close.emit(); // Wysyła zdarzenie do rodzica, aby zamknąć popup
   }

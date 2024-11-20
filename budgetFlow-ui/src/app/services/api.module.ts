@@ -9,8 +9,8 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { GroupService } from './services/group.service';
 import { ExpenseService } from './services/expense.service';
 import { ExpensesCategoryService } from './services/expenses-category.service';
-import { AuthenticationService } from './services/authentication.service';
 import { UsersService } from './services/users.service';
+import { AuthenticationService } from './services/authentication.service';
 
 /**
  * Module that provides all services and configuration.
@@ -23,8 +23,8 @@ import { UsersService } from './services/users.service';
     GroupService,
     ExpenseService,
     ExpensesCategoryService,
-    AuthenticationService,
     UsersService,
+    AuthenticationService,
     ApiConfiguration
   ],
 })

@@ -2,9 +2,9 @@ package pl.tkaczyk.groupsservice.mapper;
 
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.groupsservice.model.Group;
-import pl.tkaczyk.groupsservice.model.dto.GroupRequest;
-import pl.tkaczyk.groupsservice.model.dto.GroupResponse;
-import pl.tkaczyk.groupsservice.model.dto.GroupResponseForExpenseService;
+import pl.tkaczyk.groupsservice.model.dto.*;
+
+import java.util.List;
 
 @Service
 public class GroupMapper {
@@ -16,6 +16,16 @@ public class GroupMapper {
                 .description(group.getDescription())
                 .createdByUserId(group.getCreatedByUserId())
                 .users(group.getUsers())
+                .build();
+    }
+
+    public GroupResponseWithUser toGroupResponseWithUser(Group group, List<UserResponse> usersData) {
+        return GroupResponseWithUser.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .description(group.getDescription())
+                .createdByUserId(group.getCreatedByUserId())
+                .usersData(usersData)
                 .build();
     }
 

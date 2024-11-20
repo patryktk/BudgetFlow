@@ -13,8 +13,9 @@
       <h3 class="card-title">{{ groupDetails.name }}</h3>
       <p class="card-text">{{ groupDetails.description }}</p>
       <p><strong>Created By:</strong> {{ groupDetails.createdByUserId }}</p>
-      <p><strong>Users:</strong> {{ groupDetails.users?.join(', ') }}</p>
+      <p *ngFor="let user of groupDetails.usersData"><strong>Users: </strong>{{ user.email }}</p>
       <button class="btn btn-secondary mt-2" (click)="openInvitePopup()">Invite</button>
+      <button class="btn btn-danger mt-2" (click)="deleteGroup()">Delete</button>
     </div>
   </div>
 

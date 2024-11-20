@@ -1,1 +1,38 @@
-<p>expense-list works!</p>
+<div class="container mt-4">
+  <h2 class="text-center">Expense List</h2>
+  <div *ngIf="expenses.length > 0; else noExpenses" class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Note</th>
+        <th>User ID</th>
+        <th>Created Date</th>
+        <th>Last Modified</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let expense of expenses; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ expense.name }}</td>
+        <td>{{ expense.expenseCategory?.name }}</td>
+        <td>{{ expense.amount | currency }}</td>
+        <td>{{ expense.expenseDate | date: 'shortDate' }}</td>
+        <td>{{ expense.note || '—' }}</td>
+        <td>{{ expense.userId }}</td>
+        <td>{{ expense.createdDate | date: 'short' }}</td>
+        <td>{{ expense.lastModifiedDate | date: 'short' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noExpenses>
+    <div class="alert alert-warning text-center">
+      No expenses found. Start adding some!
+    </div>
+  </ng-template>
+</div>

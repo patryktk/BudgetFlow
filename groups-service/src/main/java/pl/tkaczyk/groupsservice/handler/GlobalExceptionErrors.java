@@ -33,4 +33,14 @@ public class GlobalExceptionErrors {
                         .error(exp.getMessage())
                         .build());
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ExceptionResponse> handleIllegalStateException(IllegalStateException exp) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ExceptionResponse.builder()
+                        .businessErrorDescription("Internal Error")
+                        .error(exp.getMessage())
+                        .build());
+    }
 }

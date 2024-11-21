@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenService} from "../../services/token/token.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
 import {AuthenticationRequest} from "../../services/models/authentication-request";
 
@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private router: Router,
-    private authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private route: ActivatedRoute,) {
   }
 
   authRequest: AuthenticationRequest = {email: '', password: ''}
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit {
     }).subscribe({
       next: result => {
         this.tokenService.token = result.token as string;
-        this.router.navigate(['expense']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/expense';
+        this.router.navigateByUrl(returnUrl);
       },
       error: err => {
         console.log(err);

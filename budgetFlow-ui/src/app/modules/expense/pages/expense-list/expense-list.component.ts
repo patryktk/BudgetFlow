@@ -27,4 +27,18 @@ export class ExpenseListComponent implements OnInit{
   }
 
 
+  deleteExpense(id: number | undefined) {
+    if (id !== undefined) {
+      this.expenseService.deleteExpense({expenseId: id}).subscribe({
+        next: result => {
+          this.expenses = this.expenses.filter(expense => expense.id !== id);
+        },
+        error: err => {
+          console.log("Error deleting expense");
+        }
+      })
+    } else {
+      console.log("Error delete expense", id);
+    }
+  }
 }

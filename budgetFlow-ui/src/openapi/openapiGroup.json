@@ -108,6 +108,36 @@
         }
       }
     },
+    "/groups/verifyInvitation/{token}": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "operationId": "verifyInvitation",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupInviteRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/sendInvitation": {
       "post": {
         "tags": [

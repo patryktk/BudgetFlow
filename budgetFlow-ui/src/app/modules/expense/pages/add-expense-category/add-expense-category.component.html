@@ -1,0 +1,73 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- Lista kategorii -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Lista Kategorii</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li
+            *ngFor="let category of categories"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            {{ category.name }}
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deleteCategory(category.id)"
+            >
+              Usuń
+            </button>
+          </li>
+          <li *ngIf="categories.length === 0" class="list-group-item">
+            Brak kategorii do wyświetlenia.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Formularz dodawania kategorii -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Dodaj Kategorię</h5>
+        </div>
+        <div class="card-body">
+          <form #categoryForm="ngForm" (ngSubmit)="addCategory()">
+            <!-- Nazwa kategorii -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Nazwa Kategorii</label>
+              <input
+                id="name"
+                type="text"
+                class="form-control"
+                [(ngModel)]="newCategory.name"
+                name="name"
+                required
+                minlength="3"
+              />
+              <div
+                *ngIf="
+                  categoryForm.submitted &&
+                  categoryForm.controls['name']?.invalid
+                "
+                class="text-danger mt-1"
+              >
+                Nazwa jest wymagana i musi mieć co najmniej 3 znaki.
+              </div>
+            </div>
+
+            <!-- Przycisk Dodaj -->
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!categoryForm.valid"
+            >
+              Dodaj
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

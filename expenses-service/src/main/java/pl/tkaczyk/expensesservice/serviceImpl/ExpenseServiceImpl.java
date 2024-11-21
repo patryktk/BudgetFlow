@@ -22,7 +22,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
     private final GroupClient groupClient;
-    private final ExpenseCategoryRepository expenseCategoryRepository;
 
     @Override
     public List<ExpenseResponse> getAllExpensesByUser(Long userId) {

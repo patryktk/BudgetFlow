@@ -11,6 +11,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { deleteExpenseCategory } from '../fn/expenses-category/delete-expense-category';
+import { DeleteExpenseCategory$Params } from '../fn/expenses-category/delete-expense-category';
 import { ExpenseCategory } from '../models/expense-category';
 import { getAllExpenseCategory } from '../fn/expenses-category/get-all-expense-category';
 import { GetAllExpenseCategory$Params } from '../fn/expenses-category/get-all-expense-category';
@@ -70,6 +72,31 @@ export class ExpensesCategoryService extends BaseService {
   getAllExpenseCategory(params?: GetAllExpenseCategory$Params, context?: HttpContext): Observable<Array<ExpenseCategory>> {
     return this.getAllExpenseCategory$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ExpenseCategory>>): Array<ExpenseCategory> => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteExpenseCategory()` */
+  static readonly DeleteExpenseCategoryPath = '/expenses/expenseCategory/{expenseCategoryId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteExpenseCategory()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteExpenseCategory$Response(params: DeleteExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+    return deleteExpenseCategory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteExpenseCategory$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteExpenseCategory(params: DeleteExpenseCategory$Params, context?: HttpContext): Observable<boolean> {
+    return this.deleteExpenseCategory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<boolean>): boolean => r.body)
     );
   }
 

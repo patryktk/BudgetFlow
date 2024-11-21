@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {CommonModule, registerLocaleData} from '@angular/common';
 
 import { ExpenseRoutingModule } from './expense-routing.module';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
@@ -7,6 +7,11 @@ import { GroupsComponent } from './pages/groups/groups.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { InviteToGroupComponent } from './pages/invite-to-group/invite-to-group.component';
 import { AddExpenseComponent } from './pages/add-expense/add-expense.component';
+import { AddExpenseCategoryComponent } from './pages/add-expense-category/add-expense-category.component';
+import localePl from '@angular/common/locales/pl';
+import { GroupInvitationComponent } from './pages/group-invitation/group-invitation.component';
+
+registerLocaleData(localePl);
 
 
 @NgModule({
@@ -14,13 +19,18 @@ import { AddExpenseComponent } from './pages/add-expense/add-expense.component';
     ExpenseListComponent,
     GroupsComponent,
     AddExpenseComponent,
-    InviteToGroupComponent
+    InviteToGroupComponent,
+    AddExpenseCategoryComponent,
+    GroupInvitationComponent
   ],
   imports: [
     CommonModule,
     ExpenseRoutingModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'pl'}
   ]
 })
 export class ExpenseModule { }

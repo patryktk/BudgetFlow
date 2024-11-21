@@ -21,10 +21,13 @@ import { deleteGroup } from '../fn/group/delete-group';
 import { DeleteGroup$Params } from '../fn/group/delete-group';
 import { getGroup } from '../fn/group/get-group';
 import { GetGroup$Params } from '../fn/group/get-group';
+import { GroupInviteRequest } from '../models/group-invite-request';
 import { GroupResponseForExpenseService } from '../models/group-response-for-expense-service';
 import { GroupResponseWithUser } from '../models/group-response-with-user';
 import { inviteToGroup } from '../fn/group/invite-to-group';
 import { InviteToGroup$Params } from '../fn/group/invite-to-group';
+import { verifyInvitation } from '../fn/group/verify-invitation';
+import { VerifyInvitation$Params } from '../fn/group/verify-invitation';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService extends BaseService {
@@ -104,6 +107,31 @@ export class GroupService extends BaseService {
   deleteGroup(params: DeleteGroup$Params, context?: HttpContext): Observable<boolean> {
     return this.deleteGroup$Response(params, context).pipe(
       map((r: StrictHttpResponse<boolean>): boolean => r.body)
+    );
+  }
+
+  /** Path part for operation `verifyInvitation()` */
+  static readonly VerifyInvitationPath = '/groups/verifyInvitation/{token}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `verifyInvitation()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  verifyInvitation$Response(params: VerifyInvitation$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupInviteRequest>> {
+    return verifyInvitation(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `verifyInvitation$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  verifyInvitation(params: VerifyInvitation$Params, context?: HttpContext): Observable<GroupInviteRequest> {
+    return this.verifyInvitation$Response(params, context).pipe(
+      map((r: StrictHttpResponse<GroupInviteRequest>): GroupInviteRequest => r.body)
     );
   }
 

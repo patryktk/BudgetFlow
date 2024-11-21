@@ -8,14 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { GroupResponseWithUser } from '../../models/group-response-with-user';
+import { GroupInviteRequest } from '../../models/group-invite-request';
 
-export interface GetGroup$Params {
+export interface VerifyInvitation$Params {
+  token: string;
 }
 
-export function getGroup(http: HttpClient, rootUrl: string, params?: GetGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponseWithUser>> {
-  const rb = new RequestBuilder(rootUrl, getGroup.PATH, 'get');
+export function verifyInvitation(http: HttpClient, rootUrl: string, params: VerifyInvitation$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupInviteRequest>> {
+  const rb = new RequestBuilder(rootUrl, verifyInvitation.PATH, 'post');
   if (params) {
+    rb.path('token', params.token, {});
   }
 
   return http.request(
@@ -23,9 +25,9 @@ export function getGroup(http: HttpClient, rootUrl: string, params?: GetGroup$Pa
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<GroupResponseWithUser>;
+      return r as StrictHttpResponse<GroupInviteRequest>;
     })
   );
 }
 
-getGroup.PATH = '/groups';
+verifyInvitation.PATH = '/groups/verifyInvitation/{token}';

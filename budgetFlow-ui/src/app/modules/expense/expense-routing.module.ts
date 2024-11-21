@@ -5,6 +5,8 @@ import {authGuard} from "../../services/guard/auth.guard";
 import {ExpenseListComponent} from "./pages/expense-list/expense-list.component";
 import {GroupsComponent} from "./pages/groups/groups.component";
 import {AddExpenseComponent} from "./pages/add-expense/add-expense.component";
+import {AddExpenseCategoryComponent} from "./pages/add-expense-category/add-expense-category.component";
+import {GroupInvitationComponent} from "./pages/group-invitation/group-invitation.component";
 
 const routes: Routes = [
   {
@@ -13,7 +15,9 @@ const routes: Routes = [
     children:[
       {path: '', component: ExpenseListComponent, canActivate: [authGuard],},
       {path: 'groups', component: GroupsComponent, canActivate: [authGuard],},
-      {path: 'addExpense', component: AddExpenseComponent, canActivate: [authGuard],}
+      {path: 'addExpense', component: AddExpenseComponent, canActivate: [authGuard],},
+      {path: 'addExpenseCategory', component: AddExpenseCategoryComponent, canActivate: [authGuard],},
+      {path: 'join-group', component: GroupInvitationComponent, canActivate: [authGuard],},
     ]
   }
 ];

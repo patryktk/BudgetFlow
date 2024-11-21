@@ -34,4 +34,10 @@ public class ExpenseCategoryController {
     public ResponseEntity<List<ExpenseCategory>> getAllExpenseCategory() {
         return ResponseEntity.ok(repository.findAll());
     }
+
+    @DeleteMapping(value = "/{expenseCategoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> deleteExpenseCategory(@PathVariable Long expenseCategoryId) {
+        repository.deleteById(expenseCategoryId);
+        return ResponseEntity.ok(true);
+    }
 }

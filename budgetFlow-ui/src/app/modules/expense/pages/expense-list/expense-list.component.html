@@ -13,6 +13,7 @@
         <th>User ID</th>
         <th>Created Date</th>
         <th>Last Modified</th>
+        <th>Actin</th>
       </tr>
       </thead>
       <tbody>
@@ -20,12 +21,13 @@
         <td>{{ i + 1 }}</td>
         <td>{{ expense.name }}</td>
         <td>{{ expense.expenseCategory?.name }}</td>
-        <td>{{ expense.amount | currency }}</td>
+        <td>{{ expense.amount | currency:'PLN' }}</td>
         <td>{{ expense.expenseDate | date: 'shortDate' }}</td>
         <td>{{ expense.note || '—' }}</td>
         <td>{{ expense.userId }}</td>
         <td>{{ expense.createdDate | date: 'short' }}</td>
         <td>{{ expense.lastModifiedDate | date: 'short' }}</td>
+        <td><button class="btn-danger btn" (click)="deleteExpense(expense.id)">Delete</button></td>
       </tr>
       </tbody>
     </table>

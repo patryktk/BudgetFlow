@@ -165,6 +165,37 @@
           }
         }
       }
+    },
+    "/expenses/expenseCategory/{expenseCategoryId}": {
+      "delete": {
+        "tags": [
+          "ExpensesCategory"
+        ],
+        "operationId": "deleteExpenseCategory",
+        "parameters": [
+          {
+            "name": "expenseCategoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

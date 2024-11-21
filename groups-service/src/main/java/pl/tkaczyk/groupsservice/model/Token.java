@@ -24,4 +24,6 @@ public class Token {
     @ManyToOne
     @JoinColumn(name = "groupId", nullable = false)
     private Group group;
+
+    private String invitedUserEmail;
 }

@@ -8,14 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { GroupResponseWithUser } from '../../models/group-response-with-user';
 
-export interface GetGroup$Params {
+export interface DeleteExpenseCategory$Params {
+  expenseCategoryId: number;
 }
 
-export function getGroup(http: HttpClient, rootUrl: string, params?: GetGroup$Params, context?: HttpContext): Observable<StrictHttpResponse<GroupResponseWithUser>> {
-  const rb = new RequestBuilder(rootUrl, getGroup.PATH, 'get');
+export function deleteExpenseCategory(http: HttpClient, rootUrl: string, params: DeleteExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+  const rb = new RequestBuilder(rootUrl, deleteExpenseCategory.PATH, 'delete');
   if (params) {
+    rb.path('expenseCategoryId', params.expenseCategoryId, {});
   }
 
   return http.request(
@@ -23,9 +24,9 @@ export function getGroup(http: HttpClient, rootUrl: string, params?: GetGroup$Pa
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<GroupResponseWithUser>;
+      return (r as HttpResponse<any>).clone({ body: String((r as HttpResponse<any>).body) === 'true' }) as StrictHttpResponse<boolean>;
     })
   );
 }
 
-getGroup.PATH = '/groups';
+deleteExpenseCategory.PATH = '/expenses/expenseCategory/{expenseCategoryId}';

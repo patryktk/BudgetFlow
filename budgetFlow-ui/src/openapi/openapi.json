@@ -108,6 +108,36 @@
         }
       }
     },
+    "/groups/verifyInvitation/{token}": {
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "operationId": "verifyInvitation",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupInviteRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/sendInvitation": {
       "post": {
         "tags": [
@@ -312,6 +342,37 @@
         "parameters": [
           {
             "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/expenseCategory/{expenseCategoryId}": {
+      "delete": {
+        "tags": [
+          "ExpensesCategory"
+        ],
+        "operationId": "deleteExpenseCategory",
+        "parameters": [
+          {
+            "name": "expenseCategoryId",
             "in": "path",
             "required": true,
             "schema": {

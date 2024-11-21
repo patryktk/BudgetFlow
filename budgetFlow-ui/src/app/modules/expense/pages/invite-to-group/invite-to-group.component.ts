@@ -26,6 +26,7 @@ export class InviteToGroupComponent {
   sendInvitation() {
     if (this.email) {
       this.invRequest.userEmail = this.email;
+      this.invRequest.groupId = this.groupId;
       this.groupService.inviteToGroup({
         body: this.invRequest
       }).subscribe({

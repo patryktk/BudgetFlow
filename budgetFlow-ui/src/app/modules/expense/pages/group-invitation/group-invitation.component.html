@@ -1,0 +1,8 @@
+<div *ngIf="loading">Ładowanie...</div>
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<div *ngIf="invitation">
+  <h2>Zaproszenie do grupy</h2>
+  <p>Czy chcesz dołączyć do grupy: {{ invitation.groupName }}?</p>
+  <button class="btn btn-success" (click)="acceptInvitation()">Dołącz</button>
+  <button class="btn btn-danger" (click)="declineInvitation()">Odrzuć</button>
+</div>

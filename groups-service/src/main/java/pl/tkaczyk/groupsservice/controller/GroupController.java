@@ -4,9 +4,11 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.tkaczyk.groupsservice.model.Token;
 import pl.tkaczyk.groupsservice.model.dto.*;
 import pl.tkaczyk.groupsservice.service.GroupService;
 
@@ -41,6 +43,18 @@ public class GroupController {
                                            @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws MessagingException {
         groupService.inviteToGroup(request, authorizationHeader);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping(value = "/verifyInvitation/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GroupInviteRequest> verifyInvitation(@PathVariable("token") String token){
+        Token invToken = groupService.verifyInvToken(token);
+        if(invToken == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(GroupInviteRequest.builder()
+                        .groupId(invToken.getGroup().getId())
+                        .userEmail(invToken.getInvitedUserEmail())
+                .build());
     }
 
     @GetMapping(value = "/acceptInvitation", produces = MediaType.APPLICATION_JSON_VALUE)

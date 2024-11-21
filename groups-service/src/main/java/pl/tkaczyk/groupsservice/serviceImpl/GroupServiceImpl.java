@@ -56,7 +56,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void inviteToGroup(GroupInviteRequest request, String authorizationHeader) throws MessagingException {
-        var newToken = generateAndSaveInvitationToken(request.groupId());
+        var newToken = generateAndSaveInvitationToken(request);
         checkUserAndSendMail(request.userEmail(), newToken, authorizationHeader);
     }
 
@@ -67,14 +67,15 @@ public class GroupServiceImpl implements GroupService {
         emailService.sendInvitationMail(email, template, invitationLinkWithToken);
     }
 
-    private String generateAndSaveInvitationToken(Long id) {
+    private String generateAndSaveInvitationToken(GroupInviteRequest groupInviteRequest) {
         var generatedToken = generateActivationToken(6);
-        Group group = groupRepository.findById(id).orElseThrow(() -> new IllegalStateException("Group not found"));
+        Group group = groupRepository.findById(groupInviteRequest.groupId()).orElseThrow(() -> new IllegalStateException("Group not found"));
         var invitationToken = Token.builder()
                 .token(generatedToken)
                 .createdAt(LocalDateTime.now())
                 .expiresAt(LocalDateTime.now().plusMinutes(15))
                 .group(group)
+                .invitedUserEmail(groupInviteRequest.userEmail())
                 .build();
         tokenRepository.save(invitationToken);
         return generatedToken;
@@ -82,6 +83,12 @@ public class GroupServiceImpl implements GroupService {
 
     private String generateActivationToken(int length) {
         return UUID.randomUUID().toString().replace("-", "").substring(0, length);
+    }
+
+    @Override
+    public Token verifyInvToken(String token) {
+        return tokenRepository.findByToken(token).filter(invitation -> invitation.getExpiresAt().isAfter(LocalDateTime.now()) && invitation.getValidatedAt() != null)
+                .orElse(null);
     }
 
     @Override

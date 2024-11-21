@@ -1,6 +1,7 @@
 package pl.tkaczyk.groupsservice.service;
 
 import jakarta.mail.MessagingException;
+import pl.tkaczyk.groupsservice.model.Token;
 import pl.tkaczyk.groupsservice.model.dto.*;
 
 public interface GroupService {
@@ -15,4 +16,6 @@ public interface GroupService {
     Boolean acceptInvitation(String token, String userId);
 
     GroupResponseForExpenseService checkUserIsInAnyGroup(Long userId);
+
+    Token verifyInvToken(String token);
 }

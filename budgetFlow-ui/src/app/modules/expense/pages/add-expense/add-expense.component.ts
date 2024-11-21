@@ -13,7 +13,7 @@ export class AddExpenseComponent implements OnInit {
   expense: ExpenseRequest = {
     name: '',
     expenseCategory: {id: 0, name: ''},
-    amount: 0,
+    amount: undefined,
     expenseDate: '',
     note: '',
   };

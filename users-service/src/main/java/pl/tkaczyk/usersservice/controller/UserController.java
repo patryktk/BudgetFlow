@@ -24,8 +24,13 @@ public class UserController {
         return ResponseEntity.ok(exists);
     }
 
-    @PostMapping(value = "/getUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserResponse>> getUsers(@RequestBody List<Long> userIds) {
+    @PostMapping(value = "/getUsersData", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserResponse>> getUsersData(@RequestBody List<Long> userIds) {
         return ResponseEntity.ok(userService.getDataUsers(userIds));
+    }
+
+    @PostMapping(value = "/getUserData", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserResponse> getUserData(@RequestBody Long userId) {
+        return ResponseEntity.ok(userService.getDataUser(userId));
     }
 }

@@ -19,12 +19,12 @@ public class GroupMapper {
                 .build();
     }
 
-    public GroupResponseWithUser toGroupResponseWithUser(Group group, List<UserResponse> usersData) {
+    public GroupResponseWithUser toGroupResponseWithUser(Group group, List<UserResponse> usersData, UserResponse ownerData) {
         return GroupResponseWithUser.builder()
                 .id(group.getId())
                 .name(group.getName())
                 .description(group.getDescription())
-                .createdByUserId(group.getCreatedByUserId())
+                .createdByUser(ownerData)
                 .usersData(usersData)
                 .build();
     }

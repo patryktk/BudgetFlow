@@ -24,7 +24,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final GroupClient groupClient;
 
     @Override
-    public List<ExpenseResponse> getAllExpensesByUser(Long userId) {
+    public List<ExpenseResponse> getAllExpenses(Long userId) {
         GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(userId).getBody();
         if (groupResponse.isInGroup()) {
             return expenseRepository.findExpenseByUserIds(groupResponse.users())

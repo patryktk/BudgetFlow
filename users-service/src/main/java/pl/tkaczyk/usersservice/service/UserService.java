@@ -9,4 +9,6 @@ public interface UserService {
     boolean checkIfUserExistsByEmail(String email);
 
     List<UserResponse> getDataUsers(List<Long> userIds);
+
+    UserResponse getDataUser(long userId);
 }

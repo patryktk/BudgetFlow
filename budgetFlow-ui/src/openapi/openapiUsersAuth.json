@@ -31,12 +31,12 @@
     }
   ],
   "paths": {
-    "/users/getUsers": {
+    "/users/getUsersData": {
       "post": {
         "tags": [
           "Users"
         ],
-        "operationId": "getUsers",
+        "operationId": "getUsersData",
         "requestBody": {
           "content": {
             "application/json": {
@@ -61,6 +61,37 @@
                   "items": {
                     "$ref": "#/components/schemas/UserResponse"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/getUserData": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "getUserData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
                 }
               }
             }

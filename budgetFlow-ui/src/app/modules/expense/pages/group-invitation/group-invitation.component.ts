@@ -24,7 +24,7 @@ export class GroupInvitationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.token = this.route.snapshot.paramMap.get("token");
+    this.token = this.route.snapshot.queryParamMap.get("token");
     if(!this.isLoggedIn()){
       this.redirectToLogin();
     }else if (this.token){
@@ -54,14 +54,14 @@ export class GroupInvitationComponent implements OnInit {
   acceptInvitation(){
     if(this.token){
       this.groupService.acceptInvitation({token: this.token}).subscribe({
-        next: () => this.router.navigate(['/expenses']),
+        next: () => this.router.navigate(['/expense']),
         error: () => (this.error = "Wystąpił błąd przy akceptowaniu zaproszenia")
       });
     }
   }
 
   declineInvitation(){
-    this.router.navigate(['/expenses'])
+    this.router.navigate(['/expense'])
   }
 
 

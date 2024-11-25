@@ -13,8 +13,10 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { checkIfUserExists } from '../fn/users/check-if-user-exists';
 import { CheckIfUserExists$Params } from '../fn/users/check-if-user-exists';
-import { getUsers } from '../fn/users/get-users';
-import { GetUsers$Params } from '../fn/users/get-users';
+import { getUserData } from '../fn/users/get-user-data';
+import { GetUserData$Params } from '../fn/users/get-user-data';
+import { getUsersData } from '../fn/users/get-users-data';
+import { GetUsersData$Params } from '../fn/users/get-users-data';
 import { UserResponse } from '../models/user-response';
 
 @Injectable({ providedIn: 'root' })
@@ -23,28 +25,53 @@ export class UsersService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `getUsers()` */
-  static readonly GetUsersPath = '/users/getUsers';
+  /** Path part for operation `getUsersData()` */
+  static readonly GetUsersDataPath = '/users/getUsersData';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getUsers()` instead.
+   * To access only the response body, use `getUsersData()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getUsers$Response(params: GetUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
-    return getUsers(this.http, this.rootUrl, params, context);
+  getUsersData$Response(params: GetUsersData$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
+    return getUsersData(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getUsers$Response()` instead.
+   * To access the full response (for headers, for example), `getUsersData$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getUsers(params: GetUsers$Params, context?: HttpContext): Observable<Array<UserResponse>> {
-    return this.getUsers$Response(params, context).pipe(
+  getUsersData(params: GetUsersData$Params, context?: HttpContext): Observable<Array<UserResponse>> {
+    return this.getUsersData$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<UserResponse>>): Array<UserResponse> => r.body)
+    );
+  }
+
+  /** Path part for operation `getUserData()` */
+  static readonly GetUserDataPath = '/users/getUserData';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getUserData()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  getUserData$Response(params: GetUserData$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
+    return getUserData(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getUserData$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  getUserData(params: GetUserData$Params, context?: HttpContext): Observable<UserResponse> {
+    return this.getUserData$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
     );
   }
 

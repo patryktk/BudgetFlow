@@ -1,8 +1,30 @@
-<div *ngIf="loading">Ładowanie...</div>
-<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-<div *ngIf="invitation">
-  <h2>Zaproszenie do grupy</h2>
-  <p>Czy chcesz dołączyć do grupy: {{ invitation.groupName }}?</p>
-  <button class="btn btn-success" (click)="acceptInvitation()">Dołącz</button>
-  <button class="btn btn-danger" (click)="declineInvitation()">Odrzuć</button>
+<div class="container mt-5">
+  <!-- Ładowanie -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Ładowanie...</span>
+    </div>
+    <p>Ładowanie...</p>
+  </div>
+
+  <!-- Błąd -->
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <!-- Zaproszenie -->
+  <div *ngIf="invitation" class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h2 class="card-title mb-0">Zaproszenie do grupy</h2>
+    </div>
+    <div class="card-body">
+      <p class="card-text fs-5">
+        Czy chcesz dołączyć do grupy: <strong>{{ invitation.groupName }}</strong>?
+      </p>
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-success px-4" (click)="acceptInvitation()">Dołącz</button>
+        <button class="btn btn-danger px-4" (click)="declineInvitation()">Odrzuć</button>
+      </div>
+    </div>
+  </div>
 </div>

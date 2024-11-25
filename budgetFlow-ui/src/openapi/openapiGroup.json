@@ -256,9 +256,8 @@
           "description": {
             "type": "string"
           },
-          "createdByUserId": {
-            "type": "integer",
-            "format": "int64"
+          "createdByUser": {
+            "$ref": "#/components/schemas/UserResponse"
           },
           "usersData": {
             "type": "array",

@@ -35,21 +35,25 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupResponseWithUser getGroupByUserId(Long userId, String authorizationHeader) {
         Group group = groupRepository.getGroupByUsersContaining(userId).orElseThrow(() -> new IllegalStateException("Not found group"));
-        List<UserResponse> usersData = userClient.getUsers(new ArrayList<>(group.getUsers()), authorizationHeader).getBody();
-        return groupMapper.toGroupResponseWithUser(group, usersData);
+        List<UserResponse> usersData = userClient.getUsersData(new ArrayList<>(group.getUsers()), authorizationHeader).getBody();
+        UserResponse ownerData = userClient.getUserData(group.getCreatedByUserId(), authorizationHeader).getBody();
+        return groupMapper.toGroupResponseWithUser(group, usersData, ownerData);
     }
 
     @Override
     public GroupResponseWithUser createGroup(GroupRequest request, Long userId, String authorizationHeader) {
-        if(groupRepository.getGroupByUsersContaining(userId).isPresent()) throw new IllegalStateException("User is already in group");
+        if (groupRepository.getGroupByUsersContaining(userId).isPresent())
+            throw new IllegalStateException("User is already in group");
         Group group = groupMapper.toGroup(request, userId);
         group.addUser(userId);
-        List<UserResponse> usersData = userClient.getUsers(new ArrayList<>(group.getUsers()), authorizationHeader).getBody();
-        return groupMapper.toGroupResponseWithUser(groupRepository.save(group), usersData);
+        List<UserResponse> usersData = userClient.getUsersData(new ArrayList<>(group.getUsers()), authorizationHeader).getBody();
+        UserResponse ownerData = userClient.getUserData(userId, authorizationHeader).getBody();
+        return groupMapper.toGroupResponseWithUser(groupRepository.save(group), usersData, ownerData);
     }
 
     @Override
     public Boolean deleteGroup(Long groupId) {
+        tokenRepository.deleteByGroupId(groupId);
         groupRepository.deleteById(groupId);
         return true;
     }
@@ -73,7 +77,7 @@ public class GroupServiceImpl implements GroupService {
         var invitationToken = Token.builder()
                 .token(generatedToken)
                 .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .expiresAt(LocalDateTime.now().plusMinutes(60))
                 .group(group)
                 .invitedUserEmail(groupInviteRequest.userEmail())
                 .build();
@@ -87,7 +91,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Token verifyInvToken(String token) {
-        return tokenRepository.findByToken(token).filter(invitation -> invitation.getExpiresAt().isAfter(LocalDateTime.now()) && invitation.getValidatedAt() != null)
+        return tokenRepository.findByToken(token).filter(invitation -> invitation.getExpiresAt().isBefore(LocalDateTime.now()) || invitation.getValidatedAt() == null)
                 .orElse(null);
     }
 
@@ -106,7 +110,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public GroupResponseForExpenseService checkUserIsInAnyGroup(Long userId) {
-        Optional<Group> optionalGroup = groupRepository.findById(userId);
+        Optional<Group> optionalGroup = groupRepository.getGroupByUsersContaining(userId);
         if (optionalGroup.isEmpty()) {
             return GroupResponseForExpenseService.builder().isInGroup(false).build();
         }

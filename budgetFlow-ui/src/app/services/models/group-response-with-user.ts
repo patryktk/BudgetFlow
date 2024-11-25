@@ -4,7 +4,7 @@
 
 import { UserResponse } from '../models/user-response';
 export interface GroupResponseWithUser {
-  createdByUserId?: number;
+  createdByUser?: UserResponse;
   description?: string;
   id?: number;
   name?: string;

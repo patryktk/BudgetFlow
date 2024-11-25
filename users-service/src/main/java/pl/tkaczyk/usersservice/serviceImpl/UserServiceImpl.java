@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> getDataUsers(List<Long> userIds) {
         return userRepository.findAllById(userIds).stream().map(userMapper::toUserResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public UserResponse getDataUser(long userId) {
+        return userRepository.findById(userId).map(userMapper::toUserResponse).orElseThrow(() -> new IllegalStateException("Brak takiego user'a"));
+    }
 }

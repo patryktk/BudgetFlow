@@ -23,8 +23,8 @@ public class ExpensesController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponse>> getAllExpensesByUser(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        List<ExpenseResponse> allExpensesByUser = expenseService.getAllExpensesByUser(Long.parseLong(userId));
-        return ResponseEntity.ok().body(allExpensesByUser);
+        List<ExpenseResponse> allExpenses = expenseService.getAllExpenses(Long.parseLong(userId));
+        return ResponseEntity.ok().body(allExpenses);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

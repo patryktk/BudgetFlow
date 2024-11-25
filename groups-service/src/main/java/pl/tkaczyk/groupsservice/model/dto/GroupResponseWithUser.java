@@ -9,7 +9,7 @@ public record GroupResponseWithUser(
         Long id,
         String name,
         String description,
-        Long createdByUserId,
+        UserResponse createdByUser,
         List<UserResponse> usersData
 ) {
 }

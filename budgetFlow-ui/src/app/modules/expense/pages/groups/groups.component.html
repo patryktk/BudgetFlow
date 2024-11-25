@@ -12,12 +12,22 @@
     <div class="card-body">
       <h3 class="card-title">{{ groupDetails.name }}</h3>
       <p class="card-text">{{ groupDetails.description }}</p>
-      <p><strong>Created By:</strong> {{ groupDetails.createdByUserId }}</p>
-      <p *ngFor="let user of groupDetails.usersData"><strong>Users: </strong>{{ user.email }}</p>
+      <p><strong>Created By:</strong> {{ groupDetails.createdByUser?.email }}</p>
+
+      <div>
+        <strong>Users:</strong>
+        <ul class="list-group mt-2">
+          <li class="list-group-item" *ngFor="let user of groupDetails.usersData">
+            {{ user.email }}
+          </li>
+        </ul>
+      </div>
+
       <button class="btn btn-secondary mt-2" (click)="openInvitePopup()">Invite</button>
-      <button class="btn btn-danger mt-2" (click)="deleteGroup()">Delete</button>
+      <button *ngIf="groupOwner" class="btn btn-danger mt-2" (click)="deleteGroup()">Delete</button>
     </div>
   </div>
+
 
   <app-invite-to-group
     *ngIf="showInvitePopup"

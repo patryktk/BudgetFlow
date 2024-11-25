@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {GroupService} from "../../../../services/services/group.service";
 import {GroupRequest} from "../../../../services/models/group-request";
 import {GroupResponseWithUser} from "../../../../services/models/group-response-with-user";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {TokenService} from "../../../../services/token/token.service";
 
 @Component({
   selector: 'app-groups',
@@ -12,17 +14,21 @@ export class GroupsComponent implements OnInit {
   inGroup = false;
   groupRequest: GroupRequest = {name: '', description: ''};
   groupDetails: GroupResponseWithUser = {};
+  groupOwner = false;
 
   showInvitePopup = false;
 
   constructor(
     private groupService: GroupService,
+    private tokenService: TokenService,
   ) {
   }
 
 
   ngOnInit(): void {
     this.checkGroupStatus();
+    //TODO: Sprawdzenie czy jesteś właścielem grupy
+    // this.checkIfGroupOwner();
   }
 
 
@@ -62,6 +68,7 @@ export class GroupsComponent implements OnInit {
           this.inGroup = true;
           this.groupDetails = value;
           console.log(value)
+          this.checkIfGroupOwner();
         }
       },
       error: err => {
@@ -71,10 +78,19 @@ export class GroupsComponent implements OnInit {
   }
 
   openInvitePopup() {
-    this.showInvitePopup = true; // Ustawia flagę na true, aby otworzyć popup
+    this.showInvitePopup = true;
   }
 
   closeInvitePopup() {
-    this.showInvitePopup = false; // Ustawia flagę na false, aby zamknąć popup
+    this.showInvitePopup = false;
+  }
+
+  private checkIfGroupOwner() {
+    const jwtHelper = new JwtHelperService();
+    // Sprawdzenie czy zalogowany użytkownik jest właścicielem grupy
+    if (this.groupDetails.createdByUser?.email === jwtHelper.decodeToken(this.tokenService.token).sub) {
+      this.groupOwner = true;
+    }
+
   }
 }

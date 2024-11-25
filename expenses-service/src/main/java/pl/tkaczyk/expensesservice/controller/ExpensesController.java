@@ -23,8 +23,7 @@ public class ExpensesController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponse>> getAllExpensesByUser(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        List<ExpenseResponse> allExpenses = expenseService.getAllExpenses(Long.parseLong(userId));
-        return ResponseEntity.ok().body(allExpenses);
+        return ResponseEntity.ok().body(expenseService.getAllExpenses(Long.parseLong(userId)));
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,5 +34,10 @@ public class ExpensesController {
     @DeleteMapping(value = "/{expenseId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deleteExpense(@PathVariable Long expenseId){
         return ResponseEntity.ok().body(expenseService.deleteExpenseById(expenseId));
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExpenseResponse> getExpenseById(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
+        return ResponseEntity.ok().body(expenseService.getAllExpensesStatistics());
     }
 }

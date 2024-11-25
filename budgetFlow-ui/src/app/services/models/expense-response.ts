@@ -4,7 +4,11 @@
 
 import { ExpenseCategory } from '../models/expense-category';
 export interface ExpenseResponse {
-  amount?: number;
+
+  /**
+   * Kwota wydatku
+   */
+  amount: number;
   createdDate?: string;
   expenseCategory?: ExpenseCategory;
   expenseDate?: string;

@@ -7,6 +7,7 @@ import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
 import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
+import pl.tkaczyk.expensesservice.model.dto.ExpenseStatisticsResponse;
 import pl.tkaczyk.expensesservice.model.dto.GroupResponse;
 import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
 import pl.tkaczyk.expensesservice.repository.ExpenseRepository;
@@ -49,5 +50,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     public Boolean deleteExpenseById(Long expenseId) {
         expenseRepository.deleteById(expenseId);
         return true;
+    }
+
+    @Override
+    public ExpenseStatisticsResponse getAllExpensesStatistics() {
+        //TODO: Zwrócić dane do statystyk
+        expenseRepository.findExpensesStatistics();
+        return null;
     }
 }

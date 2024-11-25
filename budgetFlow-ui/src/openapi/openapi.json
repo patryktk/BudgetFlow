@@ -732,6 +732,9 @@
         }
       },
       "ExpenseResponse": {
+        "required": [
+          "amount"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -746,6 +749,7 @@
           },
           "amount": {
             "type": "number",
+            "description": "Kwota wydatku",
             "format": "double"
           },
           "expenseDate": {

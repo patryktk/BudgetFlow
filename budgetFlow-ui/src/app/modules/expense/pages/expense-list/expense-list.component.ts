@@ -13,7 +13,7 @@ export class ExpenseListComponent implements OnInit{
 
   expenses: ExpenseResponse[] = [];
   statistics: ExpenseResponseForStatistics[] = []
-  requestStatistics: StatisticsByMonthRequest;
+  requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
 
 
   constructor(private expenseService: ExpenseService) {
@@ -48,12 +48,7 @@ export class ExpenseListComponent implements OnInit{
   }
 
   private dataForTable() {
-    const starDate = new Date();
-    starDate.setDate(1);
-    const endDate = new Date(starDate);
-    endDate.setMonth(starDate.getMonth() + 1);
-    endDate.setDate(0);
-    this.requestStatistics = {startDate: starDate.toString(), endDate: endDate.toString()};
+    this.prepareDates();
 
     this.expenseService.getStatisticsByMonth({
       body: this.requestStatistics
@@ -65,5 +60,15 @@ export class ExpenseListComponent implements OnInit{
         console.log("Error during getting data");
       }
     })
+  }
+
+  private prepareDates() {
+    const formatDate = (date: Date) => date.toISOString().split('T')[0];
+    const starDate = new Date();
+    starDate.setDate(1);
+    const endDate = new Date(starDate);
+    endDate.setMonth(starDate.getMonth() + 1);
+    endDate.setDate(0);
+    this.requestStatistics = {startDate: formatDate(starDate).toString(), endDate: formatDate(endDate).toString()};
   }
 }

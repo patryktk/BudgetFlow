@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Builder
 public record StatisticsByMonthRequest(
-        LocalDate startDate,
-        LocalDate endDate
+        String  startDate,
+        String  endDate
 ) {
 }

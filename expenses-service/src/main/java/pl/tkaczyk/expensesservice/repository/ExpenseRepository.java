@@ -32,7 +32,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<ExpenseResponsePartialProjection> findExpensesStatistics(@Param("userIds") Set<Long> userIds);
 
     @Query("""
-            select ec.name, sum(e.amount) as value
+            select ec.name as name, sum(e.amount) as amount
             from Expense e
             join ExpenseCategory ec on ec = e.expenseCategory
             where e.expenseDate >= :startDate

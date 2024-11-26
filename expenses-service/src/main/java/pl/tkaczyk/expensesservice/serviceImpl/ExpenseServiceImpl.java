@@ -10,6 +10,7 @@ import pl.tkaczyk.expensesservice.model.dto.*;
 import pl.tkaczyk.expensesservice.repository.ExpenseRepository;
 import pl.tkaczyk.expensesservice.service.ExpenseService;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,9 +71,13 @@ public class ExpenseServiceImpl implements ExpenseService {
         GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId)).getBody();
         List<ExpenseResponsePartialProjection> expensesByStartDateAndEndDate;
         if (groupResponse.isInGroup()) {
-            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(request.startDate(), request.endDate(), groupResponse.users());
+            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(LocalDate.parse(request.startDate())
+                    ,LocalDate.parse(request.endDate()),
+                    groupResponse.users());
         } else {
-            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(request.startDate(), request.endDate(), Collections.singleton(Long.valueOf(userId)));
+            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(LocalDate.parse(request.startDate())
+                    ,LocalDate.parse(request.endDate())
+                    , Collections.singleton(Long.valueOf(userId)));
         }
         //TODO: Dodać wyliczanie średniej jak będzie już pomysł na to
         return expensesByStartDateAndEndDate.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());

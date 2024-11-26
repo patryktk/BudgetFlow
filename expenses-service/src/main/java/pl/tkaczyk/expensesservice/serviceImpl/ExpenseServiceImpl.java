@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.feign.GroupClient;
 import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
+import pl.tkaczyk.expensesservice.mapper.ExpenseStatisticsMapper;
 import pl.tkaczyk.expensesservice.model.Expense;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseStatisticsResponse;
-import pl.tkaczyk.expensesservice.model.dto.GroupResponse;
-import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
+import pl.tkaczyk.expensesservice.model.dto.*;
 import pl.tkaczyk.expensesservice.repository.ExpenseRepository;
 import pl.tkaczyk.expensesservice.service.ExpenseService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +21,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
     private final GroupClient groupClient;
+    private final ExpenseStatisticsMapper expenseStatisticsMapper;
 
     @Override
     public List<ExpenseResponse> getAllExpenses(Long userId) {
@@ -53,9 +52,29 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ExpenseStatisticsResponse getAllExpensesStatistics() {
-        //TODO: Zwrócić dane do statystyk
-        expenseRepository.findExpensesStatistics();
-        return null;
+    public List<ExpenseResponseForStatistics> getAllExpensesStatistics(String userId) {
+        GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId)).getBody();
+        List<ExpenseResponsePartialProjection> expensesStatistics;
+        if (groupResponse.isInGroup()) {
+            expensesStatistics = expenseRepository.findExpensesStatistics(groupResponse.users());
+
+        } else {
+            expensesStatistics = expenseRepository.findExpensesStatistics(Collections.singleton(Long.valueOf(userId)));
+        }
+        //TODO: Wyliczyć to do średniej? Ale nie ma jeszcze, żadnej średniej wartości. Czyli zrobić to w przyszłości jak będą dane historyczne
+        return expensesStatistics.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ExpenseResponseForStatistics> getExpensesStatisticsByMonth(String userId, StatisticsByMonthRequest request) {
+        GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId)).getBody();
+        List<ExpenseResponsePartialProjection> expensesByStartDateAndEndDate;
+        if (groupResponse.isInGroup()) {
+            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(request.startDate(), request.endDate(), groupResponse.users());
+        } else {
+            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(request.startDate(), request.endDate(), Collections.singleton(Long.valueOf(userId)));
+        }
+        //TODO: Dodać wyliczanie średniej jak będzie już pomysł na to
+        return expensesByStartDateAndEndDate.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());
     }
 }

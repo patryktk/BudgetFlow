@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../../services/services/expense.service";
 import {ExpenseResponse} from "../../../../services/models/expense-response";
+import {ExpenseResponseForStatistics} from "../../../../services/models/expense-response-for-statistics";
+import {StatisticsByMonthRequest} from "../../../../services/models/statistics-by-month-request";
 
 @Component({
   selector: 'app-expense-list',
@@ -10,7 +12,8 @@ import {ExpenseResponse} from "../../../../services/models/expense-response";
 export class ExpenseListComponent implements OnInit{
 
   expenses: ExpenseResponse[] = [];
-  statistics: { category: string | undefined, amount: number, percentage: string }[] = [];
+  statistics: ExpenseResponseForStatistics[] = []
+  requestStatistics: StatisticsByMonthRequest;
 
 
   constructor(private expenseService: ExpenseService) {
@@ -45,15 +48,22 @@ export class ExpenseListComponent implements OnInit{
   }
 
   private dataForTable() {
+    const starDate = new Date();
+    starDate.setDate(1);
+    const endDate = new Date(starDate);
+    endDate.setMonth(starDate.getMonth() + 1);
+    endDate.setDate(0);
+    this.requestStatistics = {startDate: starDate.toString(), endDate: endDate.toString()};
 
-    const totalAmount = this.expenses.reduce((acc, expense) => acc + expense.amount, 0);
-    const averageAmount = totalAmount / this.expenses.length;
-
-    this.statistics = this.expenses.map(expense => ({
-      category: expense.expenseCategory?.name,
-      amount: expense.amount,
-      percentage: ((expense.amount / averageAmount) * 100).toFixed(2) // Procent do średniej
-    }));
-
+    this.expenseService.getStatisticsByMonth({
+      body: this.requestStatistics
+    }).subscribe({
+      next: result => {
+        this.statistics = result;
+      },
+      error: err => {
+        console.log("Error during getting data");
+      }
+    })
   }
 }

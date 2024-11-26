@@ -14,9 +14,9 @@
       </thead>
       <tbody>
       <tr *ngFor="let stat of statistics">
-        <td>{{ stat.category }}</td>
+        <td>{{ stat.name }}</td>
         <td>{{ stat.amount | currency:'PLN' }}</td>
-        <td>{{ stat.percentage }}%</td>
+        <td>{{ stat.averageAmount }}%</td>
       </tr>
       </tbody>
     </table>

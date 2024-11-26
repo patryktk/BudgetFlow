@@ -280,6 +280,60 @@
         }
       }
     },
+    "/expenses/statistics": {
+      "get": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "getExpenseById",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseResponseForStatistics"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "getStatisticsByMonth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseResponseForStatistics"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory": {
       "post": {
         "tags": [
@@ -770,6 +824,35 @@
           "lastModifiedDate": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "StatisticsByMonthRequest": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ExpenseResponseForStatistics": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "averageAmount": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

@@ -1,9 +1,7 @@
 package pl.tkaczyk.expensesservice.service;
 
 import org.springframework.stereotype.Service;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseStatisticsResponse;
+import pl.tkaczyk.expensesservice.model.dto.*;
 
 import java.util.List;
 
@@ -15,5 +13,7 @@ public interface ExpenseService {
 
     Boolean deleteExpenseById(Long expenseId);
 
-    ExpenseStatisticsResponse getAllExpensesStatistics();
+    List<ExpenseResponseForStatistics> getAllExpensesStatistics(String userId);
+
+    List<ExpenseResponseForStatistics> getExpensesStatisticsByMonth(String userId, StatisticsByMonthRequest request);
 }

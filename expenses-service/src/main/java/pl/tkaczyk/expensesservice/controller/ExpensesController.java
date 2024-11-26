@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
+import pl.tkaczyk.expensesservice.model.dto.ExpenseResponseForStatistics;
+import pl.tkaczyk.expensesservice.model.dto.StatisticsByMonthRequest;
 import pl.tkaczyk.expensesservice.service.ExpenseService;
 
 import java.util.List;
@@ -36,8 +38,14 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.deleteExpenseById(expenseId));
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExpenseResponse> getExpenseById(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
-        return ResponseEntity.ok().body(expenseService.getAllExpensesStatistics());
+    @GetMapping(value = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ExpenseResponseForStatistics>> getAllExpenseStatistics(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
+        return ResponseEntity.ok().body(expenseService.getAllExpensesStatistics(userId));
+    }
+
+    @PostMapping(value = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ExpenseResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                                                   @RequestBody StatisticsByMonthRequest request) {
+        return ResponseEntity.ok().body(expenseService.getExpensesStatisticsByMonth(userId, request));
     }
 }

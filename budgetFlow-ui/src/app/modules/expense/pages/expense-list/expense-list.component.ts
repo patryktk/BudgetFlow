@@ -71,4 +71,8 @@ export class ExpenseListComponent implements OnInit{
     endDate.setDate(0);
     this.requestStatistics = {startDate: formatDate(starDate).toString(), endDate: formatDate(endDate).toString()};
   }
+
+  editExpense(id: number | undefined) {
+
+  }
 }

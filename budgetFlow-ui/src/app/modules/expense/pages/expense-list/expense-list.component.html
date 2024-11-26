@@ -53,7 +53,10 @@
         <td>{{ expense.userId }}</td>
         <td>{{ expense.createdDate | date: 'short' }}</td>
         <td>{{ expense.lastModifiedDate | date: 'short' }}</td>
-        <td><button class="btn-danger btn" (click)="deleteExpense(expense.id)">Delete</button></td>
+        <td>
+          <button class="btn-danger btn" (click)="deleteExpense(expense.id)">Delete</button>
+          <button class="btn-info btn" (click)="editExpense(expense.id)">Edit</button>
+        </td>
       </tr>
       </tbody>
     </table>

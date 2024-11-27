@@ -82,4 +82,16 @@ public class ExpenseServiceImpl implements ExpenseService {
         //TODO: Dodać wyliczanie średniej jak będzie już pomysł na to
         return expensesByStartDateAndEndDate.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());
     }
+
+    @Override
+    public ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId) {
+        Expense expenseToEdit = expenseRepository.findById(expenseRequest.id()).orElseThrow(() -> new IllegalArgumentException("Expense does not exist"));
+        expenseToEdit.setName(expenseRequest.name());
+        expenseToEdit.setExpenseCategory(expenseRequest.expenseCategory());
+        expenseToEdit.setAmount(expenseRequest.amount());
+        expenseToEdit.setExpenseDate(expenseRequest.expenseDate());
+        expenseToEdit.setNote(expenseRequest.note());
+        expenseRepository.save(expenseToEdit);
+        return expenseMapper.toExpenseResponse(expenseToEdit);
+    }
 }

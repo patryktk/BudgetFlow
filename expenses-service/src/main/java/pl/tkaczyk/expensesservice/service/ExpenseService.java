@@ -16,4 +16,6 @@ public interface ExpenseService {
     List<ExpenseResponseForStatistics> getAllExpensesStatistics(String userId);
 
     List<ExpenseResponseForStatistics> getExpensesStatisticsByMonth(String userId, StatisticsByMonthRequest request);
+
+    ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId);
 }

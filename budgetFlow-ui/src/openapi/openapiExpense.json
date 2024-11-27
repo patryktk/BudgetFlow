@@ -53,6 +53,34 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "updateExpense",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Expense"
@@ -87,7 +115,7 @@
         "tags": [
           "Expense"
         ],
-        "operationId": "getExpenseById",
+        "operationId": "getAllExpenseStatistics",
         "responses": {
           "200": {
             "description": "OK",
@@ -341,12 +369,10 @@
         "type": "object",
         "properties": {
           "startDate": {
-            "type": "string",
-            "format": "date"
+            "type": "string"
           },
           "endDate": {
-            "type": "string",
-            "format": "date"
+            "type": "string"
           }
         }
       },

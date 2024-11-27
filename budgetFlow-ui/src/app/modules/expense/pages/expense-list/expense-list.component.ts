@@ -10,26 +10,19 @@ import {StatisticsByMonthRequest} from "../../../../services/models/statistics-b
   styleUrl: './expense-list.component.scss'
 })
 export class ExpenseListComponent implements OnInit{
-
   expenses: ExpenseResponse[] = [];
   statistics: ExpenseResponseForStatistics[] = []
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
 
+  selectedExpense: any = null;
+
+  private modalInstance: any;
 
   constructor(private expenseService: ExpenseService) {
   }
 
   ngOnInit(): void {
-    this.expenseService.getAllExpensesByUser().subscribe({
-      next: result => {
-        console.log(result)
-        this.expenses = result;
-        this.dataForTable();
-      },
-      error: err => {
-        console.log("Error loading expenses list", err);
-      }
-    })
+    this.loadExpense();
   }
 
   deleteExpense(id: number | undefined) {
@@ -72,7 +65,45 @@ export class ExpenseListComponent implements OnInit{
     this.requestStatistics = {startDate: formatDate(starDate).toString(), endDate: formatDate(endDate).toString()};
   }
 
-  editExpense(id: number | undefined) {
+  editExpense(expense: any) {
+    this.selectedExpense = {...expense}; // Kopia obiektu wydatku
 
+    setTimeout(() => {
+      const modalElement = document.getElementById('editExpenseModal');
+      if (modalElement) {
+        this.modalInstance = new bootstrap.Modal(modalElement)
+        this.modalInstance.show();
+      } else {
+        console.error('Modal element not found!');
+      }
+    }, 0);
+  }
+
+  updateExpense(updatedExpense: any) {
+    this.expenseService.updateExpense({body: updatedExpense}).subscribe({
+      next: result => {
+        console.log("Successfully updated expense", result)
+
+        if(this.modalInstance){
+          this.modalInstance.hide();
+        }else{
+          console.log("Modal not found")
+        }
+
+        this.loadExpense();
+      }
+    })
+  }
+
+  private loadExpense() {
+    this.expenseService.getAllExpensesByUser().subscribe({
+      next: result => {
+        this.expenses = result;
+        this.dataForTable();
+      },
+      error: err => {
+        console.log("Error loading expenses list", err);
+      }
+    });
   }
 }

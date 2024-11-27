@@ -19,10 +19,12 @@ import { ExpenseResponse } from '../models/expense-response';
 import { ExpenseResponseForStatistics } from '../models/expense-response-for-statistics';
 import { getAllExpensesByUser } from '../fn/expense/get-all-expenses-by-user';
 import { GetAllExpensesByUser$Params } from '../fn/expense/get-all-expenses-by-user';
-import { getExpenseById } from '../fn/expense/get-expense-by-id';
-import { GetExpenseById$Params } from '../fn/expense/get-expense-by-id';
+import { getAllExpenseStatistics } from '../fn/expense/get-all-expense-statistics';
+import { GetAllExpenseStatistics$Params } from '../fn/expense/get-all-expense-statistics';
 import { getStatisticsByMonth } from '../fn/expense/get-statistics-by-month';
 import { GetStatisticsByMonth$Params } from '../fn/expense/get-statistics-by-month';
+import { updateExpense } from '../fn/expense/update-expense';
+import { UpdateExpense$Params } from '../fn/expense/update-expense';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseService extends BaseService {
@@ -55,6 +57,31 @@ export class ExpenseService extends BaseService {
     );
   }
 
+  /** Path part for operation `updateExpense()` */
+  static readonly UpdateExpensePath = '/expenses';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateExpense()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateExpense$Response(params: UpdateExpense$Params, context?: HttpContext): Observable<StrictHttpResponse<ExpenseResponse>> {
+    return updateExpense(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateExpense$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateExpense(params: UpdateExpense$Params, context?: HttpContext): Observable<ExpenseResponse> {
+    return this.updateExpense$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ExpenseResponse>): ExpenseResponse => r.body)
+    );
+  }
+
   /** Path part for operation `addExpense()` */
   static readonly AddExpensePath = '/expenses';
 
@@ -80,27 +107,27 @@ export class ExpenseService extends BaseService {
     );
   }
 
-  /** Path part for operation `getExpenseById()` */
-  static readonly GetExpenseByIdPath = '/expenses/statistics';
+  /** Path part for operation `getAllExpenseStatistics()` */
+  static readonly GetAllExpenseStatisticsPath = '/expenses/statistics';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getExpenseById()` instead.
+   * To access only the response body, use `getAllExpenseStatistics()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getExpenseById$Response(params?: GetExpenseById$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponseForStatistics>>> {
-    return getExpenseById(this.http, this.rootUrl, params, context);
+  getAllExpenseStatistics$Response(params?: GetAllExpenseStatistics$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponseForStatistics>>> {
+    return getAllExpenseStatistics(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getExpenseById$Response()` instead.
+   * To access the full response (for headers, for example), `getAllExpenseStatistics$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getExpenseById(params?: GetExpenseById$Params, context?: HttpContext): Observable<Array<ExpenseResponseForStatistics>> {
-    return this.getExpenseById$Response(params, context).pipe(
+  getAllExpenseStatistics(params?: GetAllExpenseStatistics$Params, context?: HttpContext): Observable<Array<ExpenseResponseForStatistics>> {
+    return this.getAllExpenseStatistics$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ExpenseResponseForStatistics>>): Array<ExpenseResponseForStatistics> => r.body)
     );
   }

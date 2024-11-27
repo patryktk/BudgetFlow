@@ -1,0 +1,108 @@
+<div class="modal fade" id="editExpenseModal" tabindex="-1" aria-labelledby="editExpenseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editExpenseModalLabel">Edytuj wydatek</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSubmit()" #expenseForm="ngForm">
+          <!-- Formularz: Nazwa, Kategoria, Kwota, Data, Notatka -->
+          <!-- Wklej tutaj swój kod formularza -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Nazwa wydatku</label>
+            <input
+              id="name"
+              type="text"
+              class="form-control"
+              name="name"
+              [(ngModel)]="expense.name"
+              #name="ngModel"
+              placeholder="Podaj nazwę wydatku"
+              required
+              minlength="3"
+            />
+            <div *ngIf="name.invalid && name.touched" class="text-danger">
+              Nazwa wydatku jest wymagana (min. 3 znaki).
+            </div>
+          </div>
+
+          <!-- Kategoria -->
+          <div class="mb-3">
+            <label for="expenseCategory" class="form-label">Kategoria</label>
+            <select
+              id="expenseCategory"
+              class="form-control"
+              name="expenseCategory"
+              [(ngModel)]="expense.expenseCategory"
+              [compareWith]="compareCategories"
+              #expenseCategory="ngModel"
+              required
+            >
+              <option value="" disabled>Wybierz kategorię</option>
+              <option *ngFor="let category of expenseCategories" [ngValue]="category">
+                {{ category.name }}
+              </option>
+            </select>
+            <div *ngIf="expenseCategory.invalid && expenseCategory.touched" class="text-danger">
+              Kategoria jest wymagana.
+            </div>
+          </div>
+
+          <!-- Kwota -->
+          <div class="mb-3">
+            <label for="amount" class="form-label">Kwota</label>
+            <input
+              id="amount"
+              type="number"
+              class="form-control"
+              name="amount"
+              [(ngModel)]="expense.amount"
+              #amount="ngModel"
+              placeholder="Podaj kwotę"
+              required
+              min="0.01"
+            />
+            <div *ngIf="amount.invalid && amount.touched" class="text-danger">
+              Kwota musi być większa od 0.
+            </div>
+          </div>
+
+          <!-- Data -->
+          <div class="mb-3">
+            <label for="expenseDate" class="form-label">Data</label>
+            <input
+              id="expenseDate"
+              type="date"
+              class="form-control"
+              name="expenseDate"
+              [(ngModel)]="expense.expenseDate"
+              #expenseDate="ngModel"
+              required
+            />
+            <div *ngIf="expenseDate.invalid && expenseDate.touched" class="text-danger">
+              Data jest wymagana.
+            </div>
+          </div>
+
+          <!-- Notatka -->
+          <div class="mb-3">
+            <label for="note" class="form-label">Notatka</label>
+            <textarea
+              id="note"
+              class="form-control"
+              name="note"
+              [(ngModel)]="expense.note"
+              #note="ngModel"
+              placeholder="Dodaj notatkę (opcjonalnie)"
+              maxlength="255"
+            ></textarea>
+          </div>
+
+
+          <button type="submit" class="btn btn-primary" [disabled]="expenseForm.invalid">Zapisz</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

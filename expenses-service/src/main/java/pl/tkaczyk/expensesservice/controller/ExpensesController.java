@@ -28,6 +28,12 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.getAllExpenses(Long.parseLong(userId)));
     }
 
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExpenseResponse> updateExpense(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                         @RequestBody ExpenseRequest expenseRequest) {
+        return ResponseEntity.ok().body(expenseService.updateExpense(expenseRequest, userId));
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExpenseResponse> addExpense(@RequestBody @Valid ExpenseRequest request, @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
         return ResponseEntity.ok().body(expenseService.saveExpense(request, userId));

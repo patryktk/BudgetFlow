@@ -10,11 +10,11 @@ import { RequestBuilder } from '../../request-builder';
 
 import { ExpenseResponseForStatistics } from '../../models/expense-response-for-statistics';
 
-export interface GetExpenseById$Params {
+export interface GetAllExpenseStatistics$Params {
 }
 
-export function getExpenseById(http: HttpClient, rootUrl: string, params?: GetExpenseById$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponseForStatistics>>> {
-  const rb = new RequestBuilder(rootUrl, getExpenseById.PATH, 'get');
+export function getAllExpenseStatistics(http: HttpClient, rootUrl: string, params?: GetAllExpenseStatistics$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponseForStatistics>>> {
+  const rb = new RequestBuilder(rootUrl, getAllExpenseStatistics.PATH, 'get');
   if (params) {
   }
 
@@ -28,4 +28,4 @@ export function getExpenseById(http: HttpClient, rootUrl: string, params?: GetEx
   );
 }
 
-getExpenseById.PATH = '/expenses/statistics';
+getAllExpenseStatistics.PATH = '/expenses/statistics';

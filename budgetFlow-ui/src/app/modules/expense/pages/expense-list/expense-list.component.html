@@ -55,12 +55,17 @@
         <td>{{ expense.lastModifiedDate | date: 'short' }}</td>
         <td>
           <button class="btn-danger btn" (click)="deleteExpense(expense.id)">Delete</button>
-          <button class="btn-info btn" (click)="editExpense(expense.id)">Edit</button>
+          <button class="btn-info btn" (click)="editExpense(expense)">Edit</button>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
+  <app-edit-expense
+    *ngIf="selectedExpense"
+    [expense]="selectedExpense"
+    (save)="updateExpense($event)">
+  </app-edit-expense>
   <ng-template #noExpenses>
     <div class="alert alert-warning text-center">
       No expenses found. Start adding some!

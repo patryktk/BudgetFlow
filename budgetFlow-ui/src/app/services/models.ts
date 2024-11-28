@@ -13,6 +13,8 @@ export { GroupInviteRequest } from './models/group-invite-request';
 export { GroupRequest } from './models/group-request';
 export { GroupResponseForExpenseService } from './models/group-response-for-expense-service';
 export { GroupResponseWithUser } from './models/group-response-with-user';
+export { IncomeRequest } from './models/income-request';
+export { IncomeResponse } from './models/income-response';
 export { RegistrationRequest } from './models/registration-request';
 export { StatisticsByMonthRequest } from './models/statistics-by-month-request';
 export { UserResponse } from './models/user-response';

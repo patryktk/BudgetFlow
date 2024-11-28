@@ -11,6 +11,7 @@ import { AddExpenseCategoryComponent } from './pages/add-expense-category/add-ex
 import localePl from '@angular/common/locales/pl';
 import { GroupInvitationComponent } from './pages/group-invitation/group-invitation.component';
 import { EditExpenseComponent } from './pages/edit-expense/edit-expense.component';
+import { AddIncomeComponent } from './pages/add-income/add-income.component';
 
 registerLocaleData(localePl);
 
@@ -23,7 +24,8 @@ registerLocaleData(localePl);
     InviteToGroupComponent,
     AddExpenseCategoryComponent,
     GroupInvitationComponent,
-    EditExpenseComponent
+    EditExpenseComponent,
+    AddIncomeComponent
   ],
   imports: [
     CommonModule,

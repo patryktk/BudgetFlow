@@ -308,6 +308,114 @@
         }
       }
     },
+    "/expenses/income": {
+      "get": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "getAllIncomeByUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncomeResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "updateIncome",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncomeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncomeResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "addIncome",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncomeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncomeResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "deleteIncome",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/statistics": {
       "get": {
         "tags": [
@@ -385,6 +493,39 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExpenseCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/income/incomeByMonth": {
+      "get": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "getIncomeByUserByMonth",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/StatisticsByMonthRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncomeResponse"
+                  }
                 }
               }
             }
@@ -852,6 +993,50 @@
           "lastModifiedDate": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "IncomeRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "incomeDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "IncomeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "incomeDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },

@@ -4,6 +4,7 @@
 
 export { GroupService } from './services/group.service';
 export { ExpenseService } from './services/expense.service';
+export { IncomeService } from './services/income.service';
 export { ExpensesCategoryService } from './services/expenses-category.service';
 export { UsersService } from './services/users.service';
 export { AuthenticationService } from './services/authentication.service';

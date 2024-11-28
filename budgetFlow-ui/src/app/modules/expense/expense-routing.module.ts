@@ -7,6 +7,7 @@ import {GroupsComponent} from "./pages/groups/groups.component";
 import {AddExpenseComponent} from "./pages/add-expense/add-expense.component";
 import {AddExpenseCategoryComponent} from "./pages/add-expense-category/add-expense-category.component";
 import {GroupInvitationComponent} from "./pages/group-invitation/group-invitation.component";
+import {AddIncomeComponent} from "./pages/add-income/add-income.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       {path: '', component: ExpenseListComponent, canActivate: [authGuard],},
       {path: 'groups', component: GroupsComponent, canActivate: [authGuard],},
       {path: 'addExpense', component: AddExpenseComponent, canActivate: [authGuard],},
+      {path: 'income', component: AddIncomeComponent, canActivate: [authGuard],},
       {path: 'addExpenseCategory', component: AddExpenseCategoryComponent, canActivate: [authGuard],},
       {path: 'join-group', component: GroupInvitationComponent, canActivate: [authGuard],},
     ]

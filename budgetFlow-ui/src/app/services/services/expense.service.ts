@@ -17,6 +17,8 @@ import { deleteExpense } from '../fn/expense/delete-expense';
 import { DeleteExpense$Params } from '../fn/expense/delete-expense';
 import { ExpenseResponse } from '../models/expense-response';
 import { ExpenseResponseForStatistics } from '../models/expense-response-for-statistics';
+import { getAllExpenseByUserByMonth } from '../fn/expense/get-all-expense-by-user-by-month';
+import { GetAllExpenseByUserByMonth$Params } from '../fn/expense/get-all-expense-by-user-by-month';
 import { getAllExpensesByUser } from '../fn/expense/get-all-expenses-by-user';
 import { GetAllExpensesByUser$Params } from '../fn/expense/get-all-expenses-by-user';
 import { getAllExpenseStatistics } from '../fn/expense/get-all-expense-statistics';
@@ -107,6 +109,31 @@ export class ExpenseService extends BaseService {
     );
   }
 
+  /** Path part for operation `deleteExpense()` */
+  static readonly DeleteExpensePath = '/expenses';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteExpense()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteExpense$Response(params: DeleteExpense$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+    return deleteExpense(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteExpense$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteExpense(params: DeleteExpense$Params, context?: HttpContext): Observable<boolean> {
+    return this.deleteExpense$Response(params, context).pipe(
+      map((r: StrictHttpResponse<boolean>): boolean => r.body)
+    );
+  }
+
   /** Path part for operation `getAllExpenseStatistics()` */
   static readonly GetAllExpenseStatisticsPath = '/expenses/statistics';
 
@@ -157,28 +184,28 @@ export class ExpenseService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteExpense()` */
-  static readonly DeleteExpensePath = '/expenses/{expenseId}';
+  /** Path part for operation `getAllExpenseByUserByMonth()` */
+  static readonly GetAllExpenseByUserByMonthPath = '/expenses/expenseByMonth';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteExpense()` instead.
+   * To access only the response body, use `getAllExpenseByUserByMonth()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  deleteExpense$Response(params: DeleteExpense$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
-    return deleteExpense(this.http, this.rootUrl, params, context);
+  getAllExpenseByUserByMonth$Response(params: GetAllExpenseByUserByMonth$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponse>>> {
+    return getAllExpenseByUserByMonth(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteExpense$Response()` instead.
+   * To access the full response (for headers, for example), `getAllExpenseByUserByMonth$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  deleteExpense(params: DeleteExpense$Params, context?: HttpContext): Observable<boolean> {
-    return this.deleteExpense$Response(params, context).pipe(
-      map((r: StrictHttpResponse<boolean>): boolean => r.body)
+  getAllExpenseByUserByMonth(params: GetAllExpenseByUserByMonth$Params, context?: HttpContext): Observable<Array<ExpenseResponse>> {
+    return this.getAllExpenseByUserByMonth$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ExpenseResponse>>): Array<ExpenseResponse> => r.body)
     );
   }
 

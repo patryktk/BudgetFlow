@@ -18,4 +18,6 @@ public interface ExpenseService {
     List<ExpenseResponseForStatistics> getExpensesStatisticsByMonth(String userId, StatisticsByMonthRequest request);
 
     ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId);
+
+    List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request);
 }

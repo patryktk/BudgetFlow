@@ -71,11 +71,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId)).getBody();
         List<ExpenseResponsePartialProjection> expensesByStartDateAndEndDate;
         if (groupResponse.isInGroup()) {
-            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(LocalDate.parse(request.startDate())
+            expensesByStartDateAndEndDate = expenseRepository.findPartialExpensesByUsersByStartDateAndEndDate(LocalDate.parse(request.startDate())
                     ,LocalDate.parse(request.endDate()),
                     groupResponse.users());
         } else {
-            expensesByStartDateAndEndDate = expenseRepository.findExpensesByStartDateAndEndDate(LocalDate.parse(request.startDate())
+            expensesByStartDateAndEndDate = expenseRepository.findPartialExpensesByUsersByStartDateAndEndDate(LocalDate.parse(request.startDate())
                     ,LocalDate.parse(request.endDate())
                     , Collections.singleton(Long.valueOf(userId)));
         }
@@ -93,5 +93,15 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseToEdit.setNote(expenseRequest.note());
         expenseRepository.save(expenseToEdit);
         return expenseMapper.toExpenseResponse(expenseToEdit);
+    }
+
+    @Override
+    public List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request) {
+        return expenseRepository.findExpensesByUserIdAndMonth(LocalDate.parse(request.startDate()),
+                        LocalDate.parse(request.endDate()),
+                        Collections.singleton(Long.valueOf(userId)))
+                .stream()
+                .map(expenseMapper::toExpenseResponse)
+                .collect(Collectors.toList());
     }
 }

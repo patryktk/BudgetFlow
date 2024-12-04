@@ -1,74 +1,40 @@
-<!-- expenses.component.html -->
-<div class="card">
-  <div class="card-header">
-    <h3>Wydatki - Statystyki</h3>
-  </div>
-  <div class="card-body">
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th>Kategoria</th>
-        <th>Kwota</th>
-        <th>Procent do średniej</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let stat of statistics">
-        <td>{{ stat.name }}</td>
-        <td>{{ stat.amount | currency:'PLN' }}</td>
-        <td>{{ stat.averageAmount }}%</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<div class="container mt-4">
-  <h2 class="text-center">Expense List</h2>
-  <div *ngIf="expenses.length > 0; else noExpenses" class="table-responsive">
-    <table class="table table-striped table-bordered table-hover">
-      <thead class="thead-dark">
-      <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>Note</th>
-        <th>User ID</th>
-        <th>Created Date</th>
-        <th>Last Modified</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let expense of expenses; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ expense.name }}</td>
-        <td>{{ expense.expenseCategory?.name }}</td>
-        <td>{{ expense.amount | currency:'PLN' }}</td>
-        <td>{{ expense.expenseDate | date: 'shortDate' }}</td>
-        <td>{{ expense.note || '—' }}</td>
-        <td>{{ expense.userId }}</td>
-        <td>{{ expense.createdDate | date: 'short' }}</td>
-        <td>{{ expense.lastModifiedDate | date: 'short' }}</td>
-        <td>
-          <button class="btn-danger btn" (click)="deleteExpense(expense.id)">Delete</button>
-          <button class="btn-info btn" (click)="editExpense(expense)">Edit</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <app-edit-expense
-    *ngIf="selectedExpense"
+<div>
+  <button class="btn btn-primary mb-3" (click)="openForm()">Dodaj wydatek</button>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Nazwa</th>
+      <th>Kwota</th>
+      <th>Data</th>
+      <th>Notatka</th>
+      <th>Kto stworzył</th>
+      <th>Data dodania</th>
+      <th>Data modyfikacji</th>
+      <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let expense of expenses; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ expense.name }}</td>
+      <td>{{ expense.amount | currency:'PLN' }}</td>
+      <td>{{ expense.expenseDate | date:'dd-MM-yyyy' }}</td>
+      <td>{{ expense.note}}</td>
+      <td>{{ expense.userId}}</td>
+      <td>{{ expense.createdDate | date:'dd-MM-yyyy' }}</td>
+      <td>{{ expense.lastModifiedDate | date:'dd-MM-yyyy' }}</td>
+      <td>
+        <button class="btn btn-warning btn-sm me-2" (click)="editExpense(expense)">Edytuj</button>
+        <button class="btn btn-danger btn-sm me-2" (click)="deleteExpense(expense.id)">Usuń</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-expense-form
+    *ngIf="showForm"
     [expense]="selectedExpense"
-    (save)="updateExpense($event)">
-  </app-edit-expense>
-  <ng-template #noExpenses>
-    <div class="alert alert-warning text-center">
-      No expenses found. Start adding some!
-    </div>
-  </ng-template>
+    [selectedTab]="selectedTab"
+    (formClose)="closeForm()"
+  ></app-expense-form>
 </div>

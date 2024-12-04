@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponseForStatistics;
@@ -28,6 +29,12 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.getAllExpenses(Long.parseLong(userId)));
     }
 
+    @PostMapping(value = "/expenseByMonth",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ExpenseResponse>> getAllExpenseByUserByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                                            @RequestBody StatisticsByMonthRequest request){
+        return ResponseEntity.ok().body(expenseService.getAllExpensesByUserByMonth(userId, request));
+    }
+
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExpenseResponse> updateExpense(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                          @RequestBody ExpenseRequest expenseRequest) {
@@ -39,8 +46,8 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.saveExpense(request, userId));
     }
 
-    @DeleteMapping(value = "/{expenseId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> deleteExpense(@PathVariable Long expenseId){
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> deleteExpense(@RequestParam Long expenseId){
         return ResponseEntity.ok().body(expenseService.deleteExpenseById(expenseId));
     }
 

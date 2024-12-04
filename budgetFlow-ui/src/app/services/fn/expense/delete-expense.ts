@@ -16,7 +16,7 @@ export interface DeleteExpense$Params {
 export function deleteExpense(http: HttpClient, rootUrl: string, params: DeleteExpense$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
   const rb = new RequestBuilder(rootUrl, deleteExpense.PATH, 'delete');
   if (params) {
-    rb.path('expenseId', params.expenseId, {});
+    rb.query('expenseId', params.expenseId, {});
   }
 
   return http.request(
@@ -29,4 +29,4 @@ export function deleteExpense(http: HttpClient, rootUrl: string, params: DeleteE
   );
 }
 
-deleteExpense.PATH = '/expenses/{expenseId}';
+deleteExpense.PATH = '/expenses';

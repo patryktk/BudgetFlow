@@ -1,0 +1,84 @@
+<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">  <div class="modal d-block" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ expense?.id ? 'Edytuj Wydatek' : 'Dodaj Wydatek' }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="formClose.emit()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitForm()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nazwa</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              [(ngModel)]="expenseData.name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">Kwota</label>
+            <input
+              type="number"
+              class="form-control"
+              id="amount"
+              [(ngModel)]="expenseData.amount"
+              name="amount"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="expenseDate" class="form-label">Data</label>
+            <input
+              type="date"
+              class="form-control"
+              id="expenseDate"
+              [(ngModel)]="expenseData.expenseDate"
+              name="expenseDate"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="expenseCategory" class="form-label">Kategoria</label>
+            <select
+              id="expenseCategory"
+              class="form-control"
+              name="expenseCategory"
+              [(ngModel)]="expenseData.expenseCategory"
+              [compareWith]="compareCategories"
+              required
+            >
+              <option value="" disabled>Wybierz kategorię</option>
+              <option *ngFor="let category of expenseCategories" [ngValue]="category">
+                {{ category.name }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="note" class="form-label">Notatka</label>
+            <input
+              type="text"
+              class="form-control"
+              id="note"
+              [(ngModel)]="expenseData.note"
+              name="note"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-success">Zapisz</button>
+          <button type="button" class="btn btn-secondary" (click)="formClose.emit()">Anuluj</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -306,6 +306,35 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "deleteExpense",
+        "parameters": [
+          {
+            "name": "expenseId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/expenses/income": {
@@ -533,6 +562,39 @@
         }
       }
     },
+    "/expenses/expenseByMonth": {
+      "post": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "getAllExpenseByUserByMonth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory/getAll": {
       "get": {
         "tags": [
@@ -549,37 +611,6 @@
                   "items": {
                     "$ref": "#/components/schemas/ExpenseCategory"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/expenses/{expenseId}": {
-      "delete": {
-        "tags": [
-          "Expense"
-        ],
-        "operationId": "deleteExpense",
-        "parameters": [
-          {
-            "name": "expenseId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
                 }
               }
             }

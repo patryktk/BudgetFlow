@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ExpenseService} from "../../../../../services/services/expense.service";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ExpenseResponse} from "../../../../../services/models/expense-response";
-import {ExpenseResponseForStatistics} from "../../../../../services/models/expense-response-for-statistics";
 import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
+import {ExpenseService} from "../../../../../services/services/expense.service";
+import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
 
 @Component({
@@ -10,92 +10,102 @@ import {UtilsService} from "../../../../../services/utils/utils.service";
   templateUrl: './expense-list.component.html',
   styleUrl: './expense-list.component.scss'
 })
-export class ExpenseListComponent implements OnInit{
+export class ExpenseListComponent implements OnChanges {
+
+  @Input() selectedTab: 'all' | 'user' = 'user';
+
   expenses: ExpenseResponse[] = [];
-  statistics: ExpenseResponseForStatistics[] = []
+  showForm = false;
+  selectedExpense: ExpenseRequest | null = null;
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
 
-  selectedExpense: any = null;
-
-  private modalInstance: any;
-
-  constructor(private expenseService: ExpenseService,
-              private utilsService: UtilsService,) {
+  constructor(
+    private expenseService: ExpenseService,
+    private utilsService: UtilsService,
+  ) {
   }
 
-  ngOnInit(): void {
-    this.loadExpense();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedTab']) {
+      this.loadExpenses();
+    }
+  }
+
+  private loadExpenses() {
+    if (this.selectedTab === 'all') {
+      this.fetchUserMonthlyExpenses();
+    } else {
+      this.fetchUserExpenses();
+    }
+  }
+
+  openForm() {
+    this.selectedExpense = null;
+    this.showForm = true;
+  }
+
+  closeForm() {
+    this.loadExpenses();
+    this.showForm = false;
+  }
+
+  private fetchUserMonthlyExpenses() {
+    this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
+
+    this.expenseService.getAllExpenseByUserByMonth({
+      body: this.requestStatistics
+    }).subscribe({
+      next: result => {
+        this.expenses = result;
+        console.log("Expenses loaded", result);
+      },
+      error: error => {
+        console.log("Error during getting expenses data");
+      }
+    })
+  }
+
+  private fetchUserExpenses() {
+    this.expenseService.getAllExpensesByUser().subscribe({
+      next: response => {
+        this.expenses = response;
+      },
+      error: err => {
+        console.log("Error loading expenses list", err);
+      }
+    })
+  }
+
+  mapToExpenseRequest(expense: any): ExpenseRequest {
+    return {
+      id: expense.id,  // Możesz pominąć id, jeśli jest opcjonalne w ExpenseRequest
+      name: expense.name,
+      expenseCategory: expense.expenseCategory ? {
+        id: expense.expenseCategory.id,
+        name: expense.expenseCategory.name
+      } : undefined, // Jeśli expenseCategory jest dostępne, przypisuje go, w przeciwnym razie undefined
+      amount: expense.amount,
+      expenseDate: expense.expenseDate,
+      note: expense.note
+    };
+  }
+
+  editExpense(expense: ExpenseResponse) {
+    this.selectedExpense = {...this.mapToExpenseRequest(expense)} //kopiowanie obiektu expense do nowego obiektu
+    this.showForm = true;
   }
 
   deleteExpense(id: number | undefined) {
     if (id !== undefined) {
       this.expenseService.deleteExpense({expenseId: id}).subscribe({
         next: result => {
-          this.expenses = this.expenses.filter(expense => expense.id !== id);
+          this.loadExpenses();
+          console.log("Deleted expense", id);
         },
         error: err => {
-          console.log("Error deleting expense");
+          console.log("Error deleting expense", id);
         }
       })
-    } else {
-      console.log("Error delete expense", id);
     }
-  }
-
-  private dataForTable() {
-    this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
-
-    this.expenseService.getStatisticsByMonth({
-      body: this.requestStatistics
-    }).subscribe({
-      next: result => {
-        this.statistics = result;
-      },
-      error: err => {
-        console.log("Error during getting data");
-      }
-    })
-  }
-
-  editExpense(expense: any) {
-    this.selectedExpense = {...expense}; // Kopia obiektu wydatku
-
-    setTimeout(() => {
-      const modalElement = document.getElementById('editExpenseModal');
-      if (modalElement) {
-        this.modalInstance = new bootstrap.Modal(modalElement)
-        this.modalInstance.show();
-      } else {
-        console.error('Modal element not found!');
-      }
-    }, 0);
-  }
-
-  updateExpense(updatedExpense: any) {
-    this.expenseService.updateExpense({body: updatedExpense}).subscribe({
-      next: result => {
-        console.log("Successfully updated expense", result)
-
-        if(this.modalInstance){
-          this.modalInstance.hide();
-        }else{
-          console.log("Modal not found")
-        }
-
-        this.loadExpense();
-      }
-    })
-  }
-
-  private loadExpense() {
-    this.expenseService.getAllExpensesByUser().subscribe({
-      next: result => {
-        this.expenses = result;
-        this.dataForTable();
-      },
-      error: err => {
-        console.log("Error loading expenses list", err);
-      }
-    });
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ExpenseCategory} from "../../../../services/models/expense-category";
-import {ExpensesCategoryService} from "../../../../services/services/expenses-category.service";
+import {ExpenseCategory} from "../../../../../services/models/expense-category";
+import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 
 @Component({
   selector: 'app-add-expense-category',

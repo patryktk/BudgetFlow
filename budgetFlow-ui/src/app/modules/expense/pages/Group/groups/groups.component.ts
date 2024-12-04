@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {GroupService} from "../../../../services/services/group.service";
-import {GroupRequest} from "../../../../services/models/group-request";
-import {GroupResponseWithUser} from "../../../../services/models/group-response-with-user";
+import {GroupService} from "../../../../../services/services/group.service";
+import {GroupRequest} from "../../../../../services/models/group-request";
+import {GroupResponseWithUser} from "../../../../../services/models/group-response-with-user";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {TokenService} from "../../../../services/token/token.service";
+import {TokenService} from "../../../../../services/token/token.service";
 
 @Component({
   selector: 'app-groups',

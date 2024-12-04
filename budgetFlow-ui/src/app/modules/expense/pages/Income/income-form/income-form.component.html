@@ -1,0 +1,57 @@
+<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">  <div class="modal d-block" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ income?.id ? 'Edytuj Przychód' : 'Dodaj Przychód' }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="formClose.emit()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="submitForm()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nazwa</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                [(ngModel)]="incomeData.name"
+                name="name"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">Kwota</label>
+              <input
+                type="number"
+                class="form-control"
+                id="amount"
+                [(ngModel)]="incomeData.amount"
+                name="amount"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="incomeDate" class="form-label">Data</label>
+              <input
+                type="date"
+                class="form-control"
+                id="incomeDate"
+                [(ngModel)]="incomeData.incomeDate"
+                name="incomeDate"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-success">Zapisz</button>
+            <button type="button" class="btn btn-secondary" (click)="formClose.emit()">Anuluj</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

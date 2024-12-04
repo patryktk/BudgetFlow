@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h2>Przychody</h2>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="selectedTab === 'all'"
+        (click)="selectTab('all')"
+      >
+        Lista przychodów w tym miesiącu
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="selectedTab === 'user'"
+        (click)="selectTab('user')"
+      >
+        Lista wszystkich przychodów użytkownika
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content mt-3">
+    <app-income-list
+      [selectedTab]="selectedTab"
+    ></app-income-list>
+  </div>
+</div>

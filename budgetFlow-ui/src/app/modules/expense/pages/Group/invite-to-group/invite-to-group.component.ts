@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {GroupService} from "../../../../services/services/group.service";
-import {GroupInviteRequest} from "../../../../services/models/group-invite-request";
+import {GroupService} from "../../../../../services/services/group.service";
+import {GroupInviteRequest} from "../../../../../services/models/group-invite-request";
 
 @Component({
   selector: 'app-invite-to-group',

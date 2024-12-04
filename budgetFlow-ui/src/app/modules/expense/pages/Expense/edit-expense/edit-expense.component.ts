@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ExpenseCategory} from "../../../../services/models/expense-category";
-import {ExpensesCategoryService} from "../../../../services/services/expenses-category.service";
-import {ExpenseRequest} from "../../../../services/models/expense-request";
+import {ExpenseCategory} from "../../../../../services/models/expense-category";
+import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
+import {ExpenseRequest} from "../../../../../services/models/expense-request";
 
 @Component({
   selector: 'app-edit-expense',

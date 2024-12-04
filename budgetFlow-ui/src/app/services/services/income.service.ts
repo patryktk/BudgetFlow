@@ -136,7 +136,7 @@ export class IncomeService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `getIncomeByUserByMonth()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   getIncomeByUserByMonth$Response(params: GetIncomeByUserByMonth$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<IncomeResponse>>> {
     return getIncomeByUserByMonth(this.http, this.rootUrl, params, context);
@@ -146,7 +146,7 @@ export class IncomeService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `getIncomeByUserByMonth$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   getIncomeByUserByMonth(params: GetIncomeByUserByMonth$Params, context?: HttpContext): Observable<Array<IncomeResponse>> {
     return this.getIncomeByUserByMonth$Response(params, context).pipe(

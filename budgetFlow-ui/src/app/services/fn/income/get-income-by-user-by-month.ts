@@ -12,13 +12,13 @@ import { IncomeResponse } from '../../models/income-response';
 import { StatisticsByMonthRequest } from '../../models/statistics-by-month-request';
 
 export interface GetIncomeByUserByMonth$Params {
-  request: StatisticsByMonthRequest;
+      body: StatisticsByMonthRequest
 }
 
 export function getIncomeByUserByMonth(http: HttpClient, rootUrl: string, params: GetIncomeByUserByMonth$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<IncomeResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getIncomeByUserByMonth.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, getIncomeByUserByMonth.PATH, 'post');
   if (params) {
-    rb.query('request', params.request, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(

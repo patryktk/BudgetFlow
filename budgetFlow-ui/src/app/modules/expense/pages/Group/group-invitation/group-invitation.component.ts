@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {GroupService} from "../../../../services/services/group.service";
-import {AuthenticationService} from "../../../../services/services/authentication.service";
+import {GroupService} from "../../../../../services/services/group.service";
+import {AuthenticationService} from "../../../../../services/services/authentication.service";
 
 @Component({
   selector: 'app-group-invitation',

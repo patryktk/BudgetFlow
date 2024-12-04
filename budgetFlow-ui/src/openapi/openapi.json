@@ -470,6 +470,39 @@
         }
       }
     },
+    "/expenses/income/incomeByMonth": {
+      "post": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "getIncomeByUserByMonth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncomeResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory": {
       "post": {
         "tags": [
@@ -493,39 +526,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExpenseCategory"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/expenses/income/incomeByMonth": {
-      "get": {
-        "tags": [
-          "Income"
-        ],
-        "operationId": "getIncomeByUserByMonth",
-        "parameters": [
-          {
-            "name": "request",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/StatisticsByMonthRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/IncomeResponse"
-                  }
                 }
               }
             }

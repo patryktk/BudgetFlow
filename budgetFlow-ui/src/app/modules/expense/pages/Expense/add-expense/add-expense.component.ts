@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ExpenseService} from "../../../../services/services/expense.service";
-import {ExpensesCategoryService} from "../../../../services/services/expenses-category.service";
-import {ExpenseCategory} from "../../../../services/models/expense-category";
-import {ExpenseRequest} from "../../../../services/models/expense-request";
+import {ExpenseService} from "../../../../../services/services/expense.service";
+import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
+import {ExpenseCategory} from "../../../../../services/models/expense-category";
+import {ExpenseRequest} from "../../../../../services/models/expense-request";
 
 @Component({
   selector: 'app-add-expense',

@@ -1,0 +1,32 @@
+<div>
+  <button class="btn btn-primary mb-3" (click)="openForm()">Dodaj przychód</button>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Nazwa</th>
+      <th>Kwota</th>
+      <th>Data</th>
+      <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let income of incomes; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ income.name }}</td>
+      <td>{{ income.amount | currency:'PLN' }}</td>
+      <td>{{ income.incomeDate | date:'dd-MM-yyyy' }}</td>
+      <td>
+        <button class="btn btn-warning btn-sm me-2" (click)="editIncome(income)">Edytuj</button>
+        <button class="btn btn-danger btn-sm me-2" (click)="deleteIncome(income.id)">Usuń</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-income-form
+    *ngIf="showForm"
+    [income]="selectedIncome"
+    [selectedTab]="selectedTab"
+    (formClose)="closeForm()"
+  ></app-income-form>
+</div>

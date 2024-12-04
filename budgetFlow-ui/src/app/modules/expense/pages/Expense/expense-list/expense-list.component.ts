@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ExpenseService} from "../../../../services/services/expense.service";
-import {ExpenseResponse} from "../../../../services/models/expense-response";
-import {ExpenseResponseForStatistics} from "../../../../services/models/expense-response-for-statistics";
-import {StatisticsByMonthRequest} from "../../../../services/models/statistics-by-month-request";
+import {ExpenseService} from "../../../../../services/services/expense.service";
+import {ExpenseResponse} from "../../../../../services/models/expense-response";
+import {ExpenseResponseForStatistics} from "../../../../../services/models/expense-response-for-statistics";
+import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
+import {UtilsService} from "../../../../../services/utils/utils.service";
 
 @Component({
   selector: 'app-expense-list',
@@ -18,7 +19,8 @@ export class ExpenseListComponent implements OnInit{
 
   private modalInstance: any;
 
-  constructor(private expenseService: ExpenseService) {
+  constructor(private expenseService: ExpenseService,
+              private utilsService: UtilsService,) {
   }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class ExpenseListComponent implements OnInit{
   }
 
   private dataForTable() {
-    this.prepareDates();
+    this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
 
     this.expenseService.getStatisticsByMonth({
       body: this.requestStatistics
@@ -53,16 +55,6 @@ export class ExpenseListComponent implements OnInit{
         console.log("Error during getting data");
       }
     })
-  }
-
-  private prepareDates() {
-    const formatDate = (date: Date) => date.toISOString().split('T')[0];
-    const starDate = new Date();
-    starDate.setDate(1);
-    const endDate = new Date(starDate);
-    endDate.setMonth(starDate.getMonth() + 1);
-    endDate.setDate(0);
-    this.requestStatistics = {startDate: formatDate(starDate).toString(), endDate: formatDate(endDate).toString()};
   }
 
   editExpense(expense: any) {

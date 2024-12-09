@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3>Wydatki - Statystyki</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>Kategoria</th>
+            <th>Kwota</th>
+            <th>Procent do średniej</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let stat of statistics">
+            <td>{{ stat.name }}</td>
+            <td>{{ stat.amount | currency:'PLN' }}</td>
+            <td>{{ stat.averageAmount }}%</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Karta Przychodów -->
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3>Przychody - Statystyki</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>Kategoria</th>
+            <th>Kwota</th>
+            <th>Procent do średniej</th>
+          </tr>
+          </thead>
+          <tbody>
+<!--          <tr *ngFor="let stat of incomeStatistics">-->
+<!--            <td>{{ stat.name }}</td>-->
+<!--            <td>{{ stat.amount | currency:'PLN' }}</td>-->
+<!--            <td>{{ stat.averageAmount }}%</td>-->
+<!--          </tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

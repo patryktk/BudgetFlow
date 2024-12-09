@@ -24,7 +24,9 @@ export class LoginComponent implements OnInit {
   successMsg = '';
 
   ngOnInit(): void {
-    this.successMsg = history.state.successMessage;
+    if (typeof window !== 'undefined' && window.history) {
+      this.successMsg = history.state.successMessage;
+    }
   }
 
   login() {

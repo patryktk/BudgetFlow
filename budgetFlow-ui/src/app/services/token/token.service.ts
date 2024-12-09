@@ -12,7 +12,10 @@ export class TokenService {
   }
 
   get token() {
-    return localStorage.getItem('token') as string;
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem('token') as string;
+    }
+    return "";
   }
 
   isTokenNotValid() {

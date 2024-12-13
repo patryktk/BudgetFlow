@@ -53,12 +53,15 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<IncomeResponse>getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request) {
-        return incomeRepository.findIncomesByUserIdAndMonth(userId,
-                        LocalDate.parse(request.startDate()),
-                        LocalDate.parse(request.endDate()))
-                .stream()
-                .map(incomeMapper::toIncomeResponse)
-                .collect(Collectors.toList());
+    public List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request, String groupId) {
+        if (groupId.isEmpty()) {
+            return incomeRepository.findIncomesByUserIdAndMonth(userId,
+                            LocalDate.parse(request.startDate()),
+                            LocalDate.parse(request.endDate()))
+                    .stream()
+                    .map(incomeMapper::toIncomeResponse)
+                    .collect(Collectors.toList());
+        }
+
     }
 }

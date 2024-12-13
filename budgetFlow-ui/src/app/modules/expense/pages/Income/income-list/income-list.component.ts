@@ -3,6 +3,7 @@ import {IncomeResponse} from "../../../../../services/models/income-response";
 import {IncomeService} from "../../../../../services/services/income.service";
 import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
+import {GroupResponseWithUser} from "../../../../../services/models/group-response-with-user";
 
 @Component({
   selector: 'app-income-list',
@@ -11,7 +12,8 @@ import {UtilsService} from "../../../../../services/utils/utils.service";
 })
 export class IncomeListComponent implements OnChanges {
 
-  @Input() selectedTab: 'all' | 'user' = 'user';  // Przekazujemy zakładkę z IncomeMainComponent
+  @Input() selectedTab: 'all' | 'user' | 'group' = 'all';  // Przekazujemy zakładkę z IncomeMainComponent
+  @Input() groupResponse: GroupResponseWithUser = {name: '', description: ''};
 
   incomes: IncomeResponse[] = [];
   showForm = false;
@@ -34,8 +36,10 @@ export class IncomeListComponent implements OnChanges {
   private loadIncomes() {
     if (this.selectedTab === 'all') {
       this.fetchUserMonthlyIncomes();
-    } else {
+    } else if(this.selectedTab === 'user') {
       this.fetchUserIncomes();
+    } else if(this.selectedTab === 'group'){
+      this.fetchUserGroupMonthlyIncome();
     }
   }
 
@@ -76,6 +80,10 @@ export class IncomeListComponent implements OnChanges {
     })
   }
 
+  private fetchUserGroupMonthlyIncome() {
+    console.log(this.groupResponse);
+  }
+
   editIncome(income: IncomeResponse) {
     this.selectedIncome = {...income};
     this.showForm = true;
@@ -94,4 +102,5 @@ export class IncomeListComponent implements OnChanges {
       })
     }
   }
+
 }

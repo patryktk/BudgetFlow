@@ -9,7 +9,7 @@ import {IncomeService} from "../../../../../services/services/income.service";
 })
 export class IncomeFormComponent implements OnInit {
   @Input() income: IncomeRequest | null = null;
-  @Input() selectedTab: 'all' | 'user' = 'user'; // Przechowuje aktywną zakładkę
+  @Input() selectedTab: 'all' | 'user' | 'group' = 'user'; // Przechowuje aktywną zakładkę
   @Output() formClose = new EventEmitter<void>();
 
   incomeData: IncomeRequest = {};

@@ -2,9 +2,12 @@ package pl.tkaczyk.expensesservice.serviceImpl;
 
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.tkaczyk.expensesservice.feign.GroupClient;
 import pl.tkaczyk.expensesservice.mapper.IncomeMapper;
 import pl.tkaczyk.expensesservice.model.Income;
+import pl.tkaczyk.expensesservice.model.dto.GroupResponse;
 import pl.tkaczyk.expensesservice.model.dto.IncomeRequest;
 import pl.tkaczyk.expensesservice.model.dto.IncomeResponse;
 import pl.tkaczyk.expensesservice.model.dto.StatisticsByMonthRequest;
@@ -21,6 +24,7 @@ public class IncomeServiceImpl implements IncomeService {
 
     private final IncomeRepository incomeRepository;
     private final IncomeMapper incomeMapper;
+    private final GroupClient groupClient;
 
     @Override
     public IncomeResponse save(IncomeRequest incomeRequest, String userId) {
@@ -53,15 +57,21 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request, String groupId) {
-        if (groupId.isEmpty()) {
-            return incomeRepository.findIncomesByUserIdAndMonth(userId,
+    public List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request) {
+        ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
+        if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
+            return incomeRepository.findIncomesByUsersIdAndMonth(groupResponseResponseEntity.getBody().users(),
                             LocalDate.parse(request.startDate()),
                             LocalDate.parse(request.endDate()))
                     .stream()
                     .map(incomeMapper::toIncomeResponse)
                     .collect(Collectors.toList());
         }
-
+        return incomeRepository.findIncomesByUserIdAndMonth(userId,
+                        LocalDate.parse(request.startDate()),
+                        LocalDate.parse(request.endDate()))
+                .stream()
+                .map(incomeMapper::toIncomeResponse)
+                .collect(Collectors.toList());
     }
 }

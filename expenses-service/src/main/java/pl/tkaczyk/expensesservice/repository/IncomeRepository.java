@@ -7,6 +7,7 @@ import pl.tkaczyk.expensesservice.model.Income;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public interface IncomeRepository extends JpaRepository<Income, Long> {
 
@@ -20,6 +21,17 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
             and inc.userId = :userId
             """)
     List<Income> findIncomesByUserIdAndMonth(@Param("userId") String userId,
+                                             @Param("startDate") LocalDate startDate,
+                                             @Param("endDate") LocalDate endDate);
+
+    @Query("""
+            select inc
+            from Income inc
+            where inc.incomeDate >= :startDate
+            and inc.incomeDate <= :endDate
+            and inc.userId in :usersId
+            """)
+    List<Income> findIncomesByUsersIdAndMonth(@Param("usersId") Set<Long> usersId,
                                              @Param("startDate") LocalDate startDate,
                                              @Param("endDate") LocalDate endDate);
 }

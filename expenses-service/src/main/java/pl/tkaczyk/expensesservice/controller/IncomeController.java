@@ -46,9 +46,8 @@ public class IncomeController {
 
     @PostMapping(value = "/incomeByMonth", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<IncomeResponse>> getIncomeByUserByMonth(@RequestBody StatisticsByMonthRequest request,
-                                                    @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
-                                                                       @RequestParam (required = false) List<> groupId) {
-        return ResponseEntity.ok(incomeService.getIncomeByUserByMonth(userId, request, groupId));;
+                                                                       @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
+        return ResponseEntity.ok(incomeService.getIncomeByUserByMonth(userId, request));
     }
 
 }

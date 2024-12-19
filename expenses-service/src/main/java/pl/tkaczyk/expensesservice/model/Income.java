@@ -24,6 +24,9 @@ public class Income {
     private double amount;
     private LocalDate incomeDate;
     private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "incomeCategoryId")
+    private IncomeCategory incomeCategory;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

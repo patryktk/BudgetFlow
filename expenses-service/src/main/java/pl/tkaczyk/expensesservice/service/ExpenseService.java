@@ -19,5 +19,5 @@ public interface ExpenseService {
 
     ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId);
 
-    List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request);
+    List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup);
 }

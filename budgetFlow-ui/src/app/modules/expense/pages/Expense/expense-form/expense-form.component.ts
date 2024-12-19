@@ -12,7 +12,7 @@ import {ExpensesCategoryService} from "../../../../../services/services/expenses
 export class ExpenseFormComponent implements OnInit {
 
   @Input() expense: ExpenseRequest | null = null;
-  @Input() selectedTab: 'all' | 'user' = 'user';
+  @Input() selectedTab: 'all' | 'user' | 'group' = 'user';
   @Output() formClose = new EventEmitter<void>();
 
   expenseData: ExpenseRequest = {name: ""}

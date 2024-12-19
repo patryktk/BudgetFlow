@@ -505,6 +505,16 @@
           "Income"
         ],
         "operationId": "getIncomeByUserByMonth",
+        "parameters": [
+          {
+            "name": "inGroup",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -568,6 +578,16 @@
           "Expense"
         ],
         "operationId": "getAllExpenseByUserByMonth",
+        "parameters": [
+          {
+            "name": "inGroup",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {

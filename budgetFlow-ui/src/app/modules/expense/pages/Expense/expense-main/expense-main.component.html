@@ -19,6 +19,15 @@
         Lista wszystkich przychodów użytkownika
       </a>
     </li>
+    <li *ngIf="inGroup" class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="selectedTab === 'group'"
+        (click)="selectTab('group')"
+      >
+        Lista wszystkich przychodów w grupie
+      </a>
+    </li>
   </ul>
   <div class="tab-content mt-3">
     <app-expense-list

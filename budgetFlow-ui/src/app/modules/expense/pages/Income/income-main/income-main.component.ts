@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {GroupService} from "../../../../../services/services/group.service";
-import {GroupResponseWithUser} from "../../../../../services/models/group-response-with-user";
 
 @Component({
   selector: 'app-income-main',
@@ -10,9 +9,8 @@ import {GroupResponseWithUser} from "../../../../../services/models/group-respon
 export class IncomeMainComponent implements OnInit {
   selectedTab: 'all' | 'user' | 'group' = 'all';
   inGroup = false;
-  groupResponse: GroupResponseWithUser = {name: '', description: ''};
 
-  constructor(private groupSerivce: GroupService) {
+  constructor(private groupService: GroupService) {
   }
 
   ngOnInit(): void {
@@ -24,10 +22,9 @@ export class IncomeMainComponent implements OnInit {
   }
 
   private checkGroup() {
-    this.groupSerivce.getGroup().subscribe({
+    this.groupService.getGroup().subscribe({
       next: (res) => {
         if(res){
-          this.groupResponse = res;
           this.inGroup = true;
         }
       },

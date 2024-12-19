@@ -31,8 +31,9 @@ public class ExpensesController {
 
     @PostMapping(value = "/expenseByMonth",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponse>> getAllExpenseByUserByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
-                                                                            @RequestBody StatisticsByMonthRequest request){
-        return ResponseEntity.ok().body(expenseService.getAllExpensesByUserByMonth(userId, request));
+                                                                            @RequestBody StatisticsByMonthRequest request,
+                                                                            @RequestParam Boolean inGroup){
+        return ResponseEntity.ok().body(expenseService.getAllExpensesByUserByMonth(userId, request, inGroup));
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)

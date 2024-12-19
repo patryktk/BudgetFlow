@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ExpenseResponse} from "../../../../../services/models/expense-response";
 import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
 import {ExpenseService} from "../../../../../services/services/expense.service";
@@ -12,7 +12,7 @@ import {UtilsService} from "../../../../../services/utils/utils.service";
 })
 export class ExpenseListComponent implements OnChanges {
 
-  @Input() selectedTab: 'all' | 'user' = 'user';
+  @Input() selectedTab: 'all' | 'user' | 'group' = 'all';
 
   expenses: ExpenseResponse[] = [];
   showForm = false;
@@ -33,9 +33,11 @@ export class ExpenseListComponent implements OnChanges {
 
   private loadExpenses() {
     if (this.selectedTab === 'all') {
-      this.fetchUserMonthlyExpenses();
-    } else {
-      this.fetchUserExpenses();
+      this.fetchUserMonthlyExpenses(false);
+    } else if (this.selectedTab === 'user') {
+      this.fetchUserAllExpenses();
+    } else if (this.selectedTab === 'group') {
+      this.fetchUserMonthlyExpenses(true);
     }
   }
 
@@ -49,11 +51,12 @@ export class ExpenseListComponent implements OnChanges {
     this.showForm = false;
   }
 
-  private fetchUserMonthlyExpenses() {
+  private fetchUserMonthlyExpenses(inGroup: boolean) {
     this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
 
     this.expenseService.getAllExpenseByUserByMonth({
-      body: this.requestStatistics
+      body: this.requestStatistics,
+      inGroup: inGroup
     }).subscribe({
       next: result => {
         this.expenses = result;
@@ -65,7 +68,7 @@ export class ExpenseListComponent implements OnChanges {
     })
   }
 
-  private fetchUserExpenses() {
+  private fetchUserAllExpenses() {
     this.expenseService.getAllExpensesByUser().subscribe({
       next: response => {
         this.expenses = response;

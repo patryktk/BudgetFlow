@@ -57,15 +57,17 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request) {
-        ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
-        if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
-            return incomeRepository.findIncomesByUsersIdAndMonth(groupResponseResponseEntity.getBody().users(),
-                            LocalDate.parse(request.startDate()),
-                            LocalDate.parse(request.endDate()))
-                    .stream()
-                    .map(incomeMapper::toIncomeResponse)
-                    .collect(Collectors.toList());
+    public List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup) {
+        if(inGroup){
+            ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
+            if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
+                return incomeRepository.findIncomesByUsersIdAndMonth(groupResponseResponseEntity.getBody().users(),
+                                LocalDate.parse(request.startDate()),
+                                LocalDate.parse(request.endDate()))
+                        .stream()
+                        .map(incomeMapper::toIncomeResponse)
+                        .collect(Collectors.toList());
+            }
         }
         return incomeRepository.findIncomesByUserIdAndMonth(userId,
                         LocalDate.parse(request.startDate()),

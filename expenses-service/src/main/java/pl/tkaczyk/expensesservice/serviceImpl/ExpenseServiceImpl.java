@@ -1,6 +1,7 @@
 package pl.tkaczyk.expensesservice.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.feign.GroupClient;
 import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
@@ -96,7 +97,18 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request) {
+    public List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup) {
+        if(inGroup){
+            ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
+            if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
+                return expenseRepository.findExpensesByUserIdAndMonth(LocalDate.parse(request.startDate()),
+                                LocalDate.parse(request.endDate()),
+                                groupResponseResponseEntity.getBody().users())
+                        .stream()
+                        .map(expenseMapper::toExpenseResponse)
+                        .collect(Collectors.toList());
+            }
+        }
         return expenseRepository.findExpensesByUserIdAndMonth(LocalDate.parse(request.startDate()),
                         LocalDate.parse(request.endDate()),
                         Collections.singleton(Long.valueOf(userId)))

@@ -35,11 +35,11 @@ export class IncomeListComponent implements OnChanges {
 
   private loadIncomes() {
     if (this.selectedTab === 'all') {
-      this.fetchUserMonthlyIncomes();
+      this.fetchUserMonthlyIncomes(false);
     } else if(this.selectedTab === 'user') {
-      this.fetchUserIncomes();
+      this.fetchUserAllIncomes();
     } else if(this.selectedTab === 'group'){
-      this.fetchUserGroupMonthlyIncome();
+      this.fetchUserMonthlyIncomes(true);
     }
   }
 
@@ -53,7 +53,7 @@ export class IncomeListComponent implements OnChanges {
     this.showForm = false;
   }
 
-  fetchUserIncomes() {
+  fetchUserAllIncomes() {
     this.incomeService.getAllIncomeByUser().subscribe({
       next: response => {
         this.incomes = response;
@@ -65,10 +65,11 @@ export class IncomeListComponent implements OnChanges {
     })
   }
 
-  private fetchUserMonthlyIncomes() {
+  private fetchUserMonthlyIncomes(inGroup: boolean) {
     this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
     this.incomeService.getIncomeByUserByMonth({
-      body: this.requestStatistics
+      body: this.requestStatistics,
+      inGroup: inGroup
     }).subscribe({
       next: result => {
         this.incomes = result;
@@ -78,10 +79,6 @@ export class IncomeListComponent implements OnChanges {
         console.log("Error loading fetchIncomes list", err);
       }
     })
-  }
-
-  private fetchUserGroupMonthlyIncome() {
-    console.log(this.groupResponse);
   }
 
   editIncome(income: IncomeResponse) {

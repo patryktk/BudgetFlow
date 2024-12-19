@@ -12,12 +12,14 @@ import { ExpenseResponse } from '../../models/expense-response';
 import { StatisticsByMonthRequest } from '../../models/statistics-by-month-request';
 
 export interface GetAllExpenseByUserByMonth$Params {
+  inGroup: boolean;
       body: StatisticsByMonthRequest
 }
 
 export function getAllExpenseByUserByMonth(http: HttpClient, rootUrl: string, params: GetAllExpenseByUserByMonth$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponse>>> {
   const rb = new RequestBuilder(rootUrl, getAllExpenseByUserByMonth.PATH, 'post');
   if (params) {
+    rb.query('inGroup', params.inGroup, {});
     rb.body(params.body, 'application/json');
   }
 

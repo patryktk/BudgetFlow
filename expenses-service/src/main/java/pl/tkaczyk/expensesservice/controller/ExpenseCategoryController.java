@@ -18,24 +18,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExpenseCategoryController {
 
-    //TODO: przerobić to tak, żeby każdy miał swoje osobne kategorie, żeby nie powtarzały się dla wszystkich użytkowników
-
     private final ExpenseCategoryService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExpenseCategoryResponse> saveExpenseCategory(@RequestBody ExpenseCategoryRequest request,
-                                                                       @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        return ResponseEntity.ok(service.saveExpenseCategory(request,userId));
+                                                                       @Parameter(hidden = true) @RequestHeader("X-User-Id") String activeUserId) {
+        return ResponseEntity.ok(service.saveExpenseCategory(request, activeUserId));
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ExpenseCategoryResponse>> getAllExpenseCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        return ResponseEntity.ok(service.findAllExpenseCategories(userId));
+    public ResponseEntity<List<ExpenseCategoryResponse>> getAllExpenseCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String activeUserId) {
+        return ResponseEntity.ok(service.findAllExpenseCategories(activeUserId));
     }
 
     @DeleteMapping(value = "/{expenseCategoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> deleteExpenseCategory(@PathVariable Long expenseCategoryId) {
-        service.deleteExpenseCategory(expenseCategoryId);
+    public ResponseEntity<Boolean> deleteExpenseCategory(@PathVariable Long expenseCategoryId,
+                                                         @Parameter(hidden = true) @RequestHeader("X-User-Id") String activeUserId) {
+        service.deleteExpenseCategory(expenseCategoryId, activeUserId);
         return ResponseEntity.noContent().build();
     }
 }

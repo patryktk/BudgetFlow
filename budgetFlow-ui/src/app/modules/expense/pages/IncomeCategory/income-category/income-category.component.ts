@@ -1,31 +1,32 @@
 import {Component, OnInit} from '@angular/core';
+import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
-import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
-import {JwtHelperService} from "@auth0/angular-jwt";
 import {TokenService} from "../../../../../services/token/token.service";
+import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";
+import {IncomeCategoryRequest} from "../../../../../services/models/income-category-request";
+import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
 
 @Component({
-  selector: 'app-add-expense-category',
-  templateUrl: './add-expense-category.component.html',
-  styleUrl: './add-expense-category.component.scss'
+  selector: 'app-income-category',
+  templateUrl: './income-category.component.html',
+  styleUrl: './income-category.component.scss'
 })
-export class AddExpenseCategoryComponent implements OnInit {
+export class IncomeCategoryComponent implements OnInit{
 
-  categories: ExpenseCategoryResponse[] = [];
+  categories: IncomeCategoryResponse[] = [];
 
-  newCategory: ExpenseCategory = {name: ''}
+  newCategory: IncomeCategoryRequest = {name: ''}
 
-  constructor(private expensesCategoryService: ExpensesCategoryService,
-              private tokenService: TokenService) {
+  constructor(private incomeCategoryService: IncomeCategoryService) {
   }
 
   ngOnInit(): void {
-    this.getAllExpenseCategory();
+    this.getAllIncomeCategory();
   }
 
-  getAllExpenseCategory() {
-    this.expensesCategoryService.getAllExpenseCategory().subscribe({
+  getAllIncomeCategory() {
+    this.incomeCategoryService.getAllIncomeCategories().subscribe({
       next: result => {
         this.categories = result;
       },
@@ -38,7 +39,7 @@ export class AddExpenseCategoryComponent implements OnInit {
 
   deleteCategory(id: number | undefined) {
     if (id !== undefined) {
-      this.expensesCategoryService.deleteExpenseCategory({expenseCategoryId: id}).subscribe({
+      this.incomeCategoryService.deleteIncomeCategory({incomeCategoryId: id}).subscribe({
         next: result => {
           this.categories = this.categories.filter(category => category.id !== id);
         },
@@ -52,7 +53,7 @@ export class AddExpenseCategoryComponent implements OnInit {
   }
 
   addCategory() {
-    this.expensesCategoryService.saveExpenseCategory({
+    this.incomeCategoryService.createIncomeCategory({
       body: this.newCategory
     }).subscribe({
       next: result => {

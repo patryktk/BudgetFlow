@@ -8,15 +8,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ExpenseCategoryRequest } from '../../models/expense-category-request';
-import { ExpenseCategoryResponse } from '../../models/expense-category-response';
+import { IncomeCategoryRequest } from '../../models/income-category-request';
+import { IncomeCategoryResponse } from '../../models/income-category-response';
 
-export interface SaveExpenseCategory$Params {
-      body: ExpenseCategoryRequest
+export interface CreateIncomeCategory$Params {
+      body: IncomeCategoryRequest
 }
 
-export function saveExpenseCategory(http: HttpClient, rootUrl: string, params: SaveExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<ExpenseCategoryResponse>> {
-  const rb = new RequestBuilder(rootUrl, saveExpenseCategory.PATH, 'post');
+export function createIncomeCategory(http: HttpClient, rootUrl: string, params: CreateIncomeCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<IncomeCategoryResponse>> {
+  const rb = new RequestBuilder(rootUrl, createIncomeCategory.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -26,9 +26,9 @@ export function saveExpenseCategory(http: HttpClient, rootUrl: string, params: S
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ExpenseCategoryResponse>;
+      return r as StrictHttpResponse<IncomeCategoryResponse>;
     })
   );
 }
 
-saveExpenseCategory.PATH = '/expenses/expenseCategory';
+createIncomeCategory.PATH = '/expenses/incomeCategory';

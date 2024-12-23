@@ -1,6 +1,10 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {IncomeRequest} from "../../../../../services/models/income-request";
 import {IncomeService} from "../../../../../services/services/income.service";
+import {ExpenseCategory} from "../../../../../services/models/expense-category";
+import {IncomeCategory} from "../../../../../services/models/income-category";
+import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
+import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";
 
 @Component({
   selector: 'app-income-form',
@@ -13,14 +17,22 @@ export class IncomeFormComponent implements OnInit {
   @Output() formClose = new EventEmitter<void>();
 
   incomeData: IncomeRequest = {};
+  incomeCategories: IncomeCategoryResponse[] = [];
 
-  constructor(private incomeService: IncomeService,) {
+  constructor(private incomeService: IncomeService,
+              private incomeCategoryService: IncomeCategoryService) {
   }
 
   ngOnInit() {
+    this.getIncomeCategories();
+
     if (this.income) {
       this.incomeData = {...this.income};
     }
+  }
+
+  compareCategories(cat1: IncomeCategory, cat2: IncomeCategory): boolean {
+    return cat1 && cat2 ? cat1.id === cat2.id : cat1 === cat2;
   }
 
   submitForm() {
@@ -61,5 +73,17 @@ export class IncomeFormComponent implements OnInit {
     if (target.classList.contains('modal')) {
       this.closeModal();
     }
+  }
+
+  private getIncomeCategories() {
+    this.incomeCategoryService.getAllIncomeCategories().subscribe({
+      next: result => {
+        this.incomeCategories = result;
+        console.log(result)
+      },
+      error: err => {
+        console.log('Error: getting income categories ', err)
+      }
+    })
   }
 }

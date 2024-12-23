@@ -12,7 +12,7 @@ public class ExpenseCategoryMapper {
         return ExpenseCategory.builder()
                 .id(request.id())
                 .name(request.name())
-                .createdByUser(Long.valueOf(userId))
+                .createdByUserId(Long.valueOf(userId))
                 .build();
     }
 
@@ -20,6 +20,7 @@ public class ExpenseCategoryMapper {
         return ExpenseCategoryResponse.builder()
                 .id(expenseCategory.getId())
                 .name(expenseCategory.getName())
+                .createdByUserId(expenseCategory.getCreatedByUserId())
                 .build();
     }
 }

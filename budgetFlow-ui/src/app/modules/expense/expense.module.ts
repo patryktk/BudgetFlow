@@ -15,6 +15,7 @@ import {ExpenseMainComponent} from './pages/Expense/expense-main/expense-main.co
 import {ExpenseFormComponent} from './pages/Expense/expense-form/expense-form.component';
 import {ExpenseListComponent} from "./pages/Expense/expense-list/expense-list.component";
 import {MainViewComponent} from './pages/MainPage/main-view/main-view.component';
+import { IncomeCategoryComponent } from './pages/IncomeCategory/income-category/income-category.component';
 
 registerLocaleData(localePl);
 
@@ -31,7 +32,8 @@ registerLocaleData(localePl);
     IncomeMainComponent,
     ExpenseMainComponent,
     ExpenseFormComponent,
-    MainViewComponent
+    MainViewComponent,
+    IncomeCategoryComponent
   ],
   imports: [
     CommonModule,

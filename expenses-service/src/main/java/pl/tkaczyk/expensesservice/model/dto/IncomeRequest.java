@@ -1,6 +1,7 @@
 package pl.tkaczyk.expensesservice.model.dto;
 
 import lombok.Builder;
+import pl.tkaczyk.expensesservice.model.IncomeCategory;
 
 import java.time.LocalDate;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 public record IncomeRequest(
         Long id,
         String name,
+        IncomeCategory incomeCategory,
         double amount,
         LocalDate incomeDate
 ) {

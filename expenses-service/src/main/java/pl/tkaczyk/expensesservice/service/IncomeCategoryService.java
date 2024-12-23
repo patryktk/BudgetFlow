@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IncomeCategoryService {
 
-    void deleteIncomeCategory(Long id);
+    void deleteIncomeCategory(Long id, String activeUserId);
 
-    List<IncomeCategoryResponse> getAllIncomeCategories();
+    List<IncomeCategoryResponse> findAllIncomeCategories(String activeUserId);
 
-    IncomeCategoryResponse saveIncomeCategory(IncomeCategoryRequest request);
+    IncomeCategoryResponse saveIncomeCategory(IncomeCategoryRequest request, String activeUserId);
 }

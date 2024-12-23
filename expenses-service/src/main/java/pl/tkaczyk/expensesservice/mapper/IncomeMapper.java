@@ -13,6 +13,7 @@ public class IncomeMapper {
                 .id(request.id())
                 .name(request.name())
                 .amount(request.amount())
+                .incomeCategory(request.incomeCategory())
                 .incomeDate(request.incomeDate())
                 .build();
     }

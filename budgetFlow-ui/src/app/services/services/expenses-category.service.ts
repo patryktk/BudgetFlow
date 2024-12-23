@@ -13,7 +13,7 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { deleteExpenseCategory } from '../fn/expenses-category/delete-expense-category';
 import { DeleteExpenseCategory$Params } from '../fn/expenses-category/delete-expense-category';
-import { ExpenseCategory } from '../models/expense-category';
+import { ExpenseCategoryResponse } from '../models/expense-category-response';
 import { getAllExpenseCategory } from '../fn/expenses-category/get-all-expense-category';
 import { GetAllExpenseCategory$Params } from '../fn/expenses-category/get-all-expense-category';
 import { saveExpenseCategory } from '../fn/expenses-category/save-expense-category';
@@ -34,7 +34,7 @@ export class ExpensesCategoryService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  saveExpenseCategory$Response(params: SaveExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<ExpenseCategory>> {
+  saveExpenseCategory$Response(params: SaveExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<ExpenseCategoryResponse>> {
     return saveExpenseCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -44,9 +44,9 @@ export class ExpensesCategoryService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  saveExpenseCategory(params: SaveExpenseCategory$Params, context?: HttpContext): Observable<ExpenseCategory> {
+  saveExpenseCategory(params: SaveExpenseCategory$Params, context?: HttpContext): Observable<ExpenseCategoryResponse> {
     return this.saveExpenseCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ExpenseCategory>): ExpenseCategory => r.body)
+      map((r: StrictHttpResponse<ExpenseCategoryResponse>): ExpenseCategoryResponse => r.body)
     );
   }
 
@@ -59,7 +59,7 @@ export class ExpensesCategoryService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllExpenseCategory$Response(params?: GetAllExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseCategory>>> {
+  getAllExpenseCategory$Response(params?: GetAllExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseCategoryResponse>>> {
     return getAllExpenseCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -69,9 +69,9 @@ export class ExpensesCategoryService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllExpenseCategory(params?: GetAllExpenseCategory$Params, context?: HttpContext): Observable<Array<ExpenseCategory>> {
+  getAllExpenseCategory(params?: GetAllExpenseCategory$Params, context?: HttpContext): Observable<Array<ExpenseCategoryResponse>> {
     return this.getAllExpenseCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ExpenseCategory>>): Array<ExpenseCategory> => r.body)
+      map((r: StrictHttpResponse<Array<ExpenseCategoryResponse>>): Array<ExpenseCategoryResponse> => r.body)
     );
   }
 

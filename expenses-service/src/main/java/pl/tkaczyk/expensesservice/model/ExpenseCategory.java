@@ -21,7 +21,8 @@ public class ExpenseCategory {
     @GeneratedValue
     private Long id;
     private String name;
-    private Long createdByUser;
+    private Long createdByUserId;
+
     @ElementCollection
     private Set<Long> sharedWithUsers;
 

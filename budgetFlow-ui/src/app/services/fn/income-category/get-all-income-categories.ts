@@ -8,13 +8,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ExpenseCategoryResponse } from '../../models/expense-category-response';
+import { IncomeCategoryResponse } from '../../models/income-category-response';
 
-export interface GetAllExpenseCategory$Params {
+export interface GetAllIncomeCategories$Params {
 }
 
-export function getAllExpenseCategory(http: HttpClient, rootUrl: string, params?: GetAllExpenseCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseCategoryResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getAllExpenseCategory.PATH, 'get');
+export function getAllIncomeCategories(http: HttpClient, rootUrl: string, params?: GetAllIncomeCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<IncomeCategoryResponse>>> {
+  const rb = new RequestBuilder(rootUrl, getAllIncomeCategories.PATH, 'get');
   if (params) {
   }
 
@@ -23,9 +23,9 @@ export function getAllExpenseCategory(http: HttpClient, rootUrl: string, params?
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ExpenseCategoryResponse>>;
+      return r as StrictHttpResponse<Array<IncomeCategoryResponse>>;
     })
   );
 }
 
-getAllExpenseCategory.PATH = '/expenses/expenseCategory/getAll';
+getAllIncomeCategories.PATH = '/expenses/incomeCategory/getAllIncomeCategories';

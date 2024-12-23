@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ExpenseCategoryService {
 
-    void deleteExpenseCategory(Long id);
+    void deleteExpenseCategory(Long id, String userId);
 
     List<ExpenseCategoryResponse> findAllExpenseCategories(String userId);
 

@@ -1,7 +1,6 @@
 package pl.tkaczyk.expensesservice.serviceImpl;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.feign.GroupClient;
 import pl.tkaczyk.expensesservice.handler.ResourceNotFoundException;
@@ -25,19 +24,22 @@ public class ExpenseCategoryServiceImpl implements ExpenseCategoryService {
     private final GroupClient groupClient;
 
     @Override
-    public void deleteExpenseCategory(Long id) {
-        if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException("Income category with id " + id + " not found");
+    public void deleteExpenseCategory(Long id, String activeUserId) {
+        ExpenseCategory expenseCategory = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense category not found"));
+        if (!expenseCategory.getCreatedByUserId().equals(activeUserId)) {
+            throw new IllegalStateException("You are not authorized to delete this expense category");
         }
         repository.deleteById(id);
     }
 
     @Override
-    public List<ExpenseCategoryResponse> findAllExpenseCategories(String userId) {
-        //TODO: Sprawdzić czy jest w grupie i w zależności od tego zwrócić odpowiednią listę
-        ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
-        if(groupResponseResponseEntity.getBody().isInGroup()){
-           return
+    public List<ExpenseCategoryResponse> findAllExpenseCategories(String activeUserId) {
+        GroupResponse body = groupClient.checkIfUserInAnyGroup(Long.valueOf(activeUserId)).getBody();
+        if (body != null && body.isInGroup()) {
+            return repository.findBySharedWithUsers(Long.valueOf(activeUserId))
+                    .stream()
+                    .map(mapper::toExpenseCategoryResponse)
+                    .collect(Collectors.toList());
         }
 
         return repository.findAll()
@@ -47,9 +49,17 @@ public class ExpenseCategoryServiceImpl implements ExpenseCategoryService {
     }
 
     @Override
-    public ExpenseCategoryResponse saveExpenseCategory(ExpenseCategoryRequest expenseCategoryRequest, String userId) {
-        ExpenseCategory expenseCategory = mapper.toExpenseCategory(expenseCategoryRequest, userId);
-        expenseCategory.addSharedWithUser(Long.valueOf(userId));
+    public ExpenseCategoryResponse saveExpenseCategory(ExpenseCategoryRequest expenseCategoryRequest, String activeUserId) {
+        ExpenseCategory expenseCategory = mapper.toExpenseCategory(expenseCategoryRequest, activeUserId);
+        GroupResponse body = groupClient.checkIfUserInAnyGroup(Long.valueOf(activeUserId)).getBody();
+        if (body != null && body.isInGroup()) {
+            for (Long usersIdFromGroup : body.users()) {
+                expenseCategory.addSharedWithUser(usersIdFromGroup);
+            }
+        } else {
+            expenseCategory.addSharedWithUser(Long.valueOf(activeUserId));
+        }
         return mapper.toExpenseCategoryResponse(repository.save(expenseCategory));
+
     }
 }

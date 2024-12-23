@@ -301,6 +301,36 @@
         }
       }
     },
+    "/expenses/incomeCategory": {
+      "post": {
+        "tags": [
+          "IncomeCategory"
+        ],
+        "operationId": "createIncomeCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncomeCategoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncomeCategoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/income/incomeByMonth": {
       "post": {
         "tags": [
@@ -366,7 +396,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ExpenseCategory"
+                  "$ref": "#/components/schemas/ExpenseCategoryResponse"
                 }
               }
             }
@@ -417,6 +447,29 @@
         }
       }
     },
+    "/expenses/incomeCategory/getAllIncomeCategories": {
+      "get": {
+        "tags": [
+          "IncomeCategory"
+        ],
+        "operationId": "getAllIncomeCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncomeCategoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory/getAll": {
       "get": {
         "tags": [
@@ -431,11 +484,35 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExpenseCategory"
+                    "$ref": "#/components/schemas/ExpenseCategoryResponse"
                   }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/expenses/incomeCategory/{incomeCategoryId}": {
+      "delete": {
+        "tags": [
+          "IncomeCategory"
+        ],
+        "operationId": "deleteIncomeCategory",
+        "parameters": [
+          {
+            "name": "incomeCategoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -483,6 +560,18 @@
           },
           "name": {
             "type": "string"
+          },
+          "createdByUserId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sharedWithUsers": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         }
       },
@@ -557,6 +646,30 @@
           }
         }
       },
+      "IncomeCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdByUserId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sharedWithUsers": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
       "IncomeRequest": {
         "type": "object",
         "properties": {
@@ -566,6 +679,9 @@
           },
           "name": {
             "type": "string"
+          },
+          "incomeCategory": {
+            "$ref": "#/components/schemas/IncomeCategory"
           },
           "amount": {
             "type": "number",
@@ -628,6 +744,34 @@
           }
         }
       },
+      "IncomeCategoryRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "IncomeCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdByUserId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "ExpenseCategoryRequest": {
         "type": "object",
         "properties": {
@@ -637,6 +781,22 @@
           },
           "name": {
             "type": "string"
+          }
+        }
+      },
+      "ExpenseCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdByUserId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       }

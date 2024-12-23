@@ -26,6 +26,22 @@
               />
             </div>
             <div class="mb-3">
+              <label for="incomeCategory" class="form-label">Kategoria</label>
+              <select
+                id="incomeCategory"
+                class="form-control"
+                name="incomeCategory"
+                [(ngModel)]="incomeData.incomeCategory"
+                [compareWith]="compareCategories"
+                required
+              >
+                <option value="" disabled>Wybierz kategorię</option>
+                <option *ngFor="let category of incomeCategories" [ngValue]="category">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+            <div class="mb-3">
               <label for="amount" class="form-label">Kwota</label>
               <input
                 type="number"

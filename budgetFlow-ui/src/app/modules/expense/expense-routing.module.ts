@@ -8,6 +8,7 @@ import {GroupInvitationComponent} from "./pages/Group/group-invitation/group-inv
 import {IncomeMainComponent} from "./pages/Income/income-main/income-main.component";
 import {ExpenseMainComponent} from "./pages/Expense/expense-main/expense-main.component";
 import {MainViewComponent} from "./pages/MainPage/main-view/main-view.component";
+import {IncomeCategoryComponent} from "./pages/IncomeCategory/income-category/income-category.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       {path: 'groups', component: GroupsComponent, canActivate: [authGuard],},
       {path: 'expense', component: ExpenseMainComponent, canActivate: [authGuard],},
       {path: 'income', component: IncomeMainComponent, canActivate: [authGuard],},
+      {path: 'incomeCategory', component: IncomeCategoryComponent, canActivate: [authGuard],},
       {path: 'addExpenseCategory', component: AddExpenseCategoryComponent, canActivate: [authGuard],},
       {path: 'join-group', component: GroupInvitationComponent, canActivate: [authGuard],},
     ]

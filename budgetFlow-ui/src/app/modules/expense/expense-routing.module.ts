@@ -9,6 +9,7 @@ import {IncomeMainComponent} from "./pages/Income/income-main/income-main.compon
 import {ExpenseMainComponent} from "./pages/Expense/expense-main/expense-main.component";
 import {MainViewComponent} from "./pages/MainPage/main-view/main-view.component";
 import {IncomeCategoryComponent} from "./pages/IncomeCategory/income-category/income-category.component";
+import {CalendarComponent} from "./pages/Calendar/calendar/calendar.component";
 
 const routes: Routes = [
   {
@@ -22,6 +23,8 @@ const routes: Routes = [
       {path: 'incomeCategory', component: IncomeCategoryComponent, canActivate: [authGuard],},
       {path: 'addExpenseCategory', component: AddExpenseCategoryComponent, canActivate: [authGuard],},
       {path: 'join-group', component: GroupInvitationComponent, canActivate: [authGuard],},
+      {path: 'calendar', component: CalendarComponent, canActivate: [authGuard],},
+
     ]
   }
 ];

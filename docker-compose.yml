@@ -36,6 +36,47 @@ services:
     ports:
       - 1080:1080
       - 1025:1025
+  config-server:
+    container_name: config-server
+    image: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - budget-flow
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  eureka-server:
+    container_name: eureka-server
+    image: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - budget-flow
+    depends_on:
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  gateway:
+    container_name: gateway
+    image: gateway
+    ports:
+      - "8000:8000"
+    networks:
+      - budget-flow
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
 networks:
   budget-flow:
     driver: bridge

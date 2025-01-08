@@ -88,7 +88,7 @@ export class GroupsComponent implements OnInit {
   private checkIfGroupOwner() {
     const jwtHelper = new JwtHelperService();
     // Sprawdzenie czy zalogowany użytkownik jest właścicielem grupy
-    if (this.groupDetails.createdByUser?.email === jwtHelper.decodeToken(this.tokenService.token).sub) {
+    if (this.groupDetails.createdByUser?.email === jwtHelper.decodeToken(this.tokenService.accessToken).sub) {
       this.groupOwner = true;
     }
 

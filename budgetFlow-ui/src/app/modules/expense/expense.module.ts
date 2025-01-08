@@ -16,6 +16,8 @@ import {ExpenseFormComponent} from './pages/Expense/expense-form/expense-form.co
 import {ExpenseListComponent} from "./pages/Expense/expense-list/expense-list.component";
 import {MainViewComponent} from './pages/MainPage/main-view/main-view.component';
 import { IncomeCategoryComponent } from './pages/IncomeCategory/income-category/income-category.component';
+import { CalendarComponent } from './pages/Calendar/calendar/calendar.component';
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 registerLocaleData(localePl);
 
@@ -33,13 +35,15 @@ registerLocaleData(localePl);
     ExpenseMainComponent,
     ExpenseFormComponent,
     MainViewComponent,
-    IncomeCategoryComponent
+    IncomeCategoryComponent,
+    CalendarComponent
   ],
   imports: [
     CommonModule,
     ExpenseRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FullCalendarModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}

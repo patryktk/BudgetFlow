@@ -1,6 +1,6 @@
 services:
   postgres:
-    container_name: postgres-sql
+    container_name: postgres
     image: postgres
     environment:
       POSTGRES_USER: ptnaza
@@ -48,12 +48,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
   eureka-server:
     container_name: eureka-server
     image: eureka-server
     ports:
       - "8761:8761"
+    expose:
+      - "8761"
     networks:
       - budget-flow
     depends_on:
@@ -64,12 +65,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
   gateway:
     container_name: gateway
     image: gateway
     ports:
       - "8000:8000"
+    expose:
+      - "8000"
     networks:
       - budget-flow
     depends_on:
@@ -77,6 +79,49 @@ services:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
+  expenses-service:
+    container_name: expenses-service
+    image: expenses-service
+    ports:
+      - "8090:8090"
+    networks:
+      - budget-flow
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+  groups-service:
+    container_name: groups-service
+    image: groups-service
+    ports:
+      - "8070:8070"
+    networks:
+      - budget-flow
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+  users-service:
+    container_name: users-service
+    image: users-service
+    ports:
+      - "8080:8080"
+    networks:
+      - budget-flow
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+#  budget-flow-ui:
+#    image: budget-flow-ui
+#    container_name: budget-flow-ui
+#    ports:
+#      - "4200:80"  # Mapa portów (port hosta:port kontenera)
+#    networks:
+#      - budget-flow
 networks:
   budget-flow:
     driver: bridge

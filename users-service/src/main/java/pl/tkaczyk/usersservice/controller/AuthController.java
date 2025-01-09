@@ -23,6 +23,12 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
 
+    @GetMapping(value = "/test")
+    public String xd(){
+        System.out.println("NGAg");
+        return "test";
+    }
+
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
         authenticationService.register(registrationRequest);

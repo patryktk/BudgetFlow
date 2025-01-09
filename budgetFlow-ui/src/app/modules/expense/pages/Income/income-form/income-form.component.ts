@@ -1,7 +1,6 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {IncomeRequest} from "../../../../../services/models/income-request";
 import {IncomeService} from "../../../../../services/services/income.service";
-import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {IncomeCategory} from "../../../../../services/models/income-category";
 import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
 import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";

@@ -31,7 +31,7 @@ export class MenuComponent implements OnInit{
     });
 
     const jwtHelper = new JwtHelperService();
-    this.username = jwtHelper.decodeToken(this.tokenService.accessToken).fullName;
+    this.username = jwtHelper.decodeToken(this.tokenService.token).fullName;
   }
 
 

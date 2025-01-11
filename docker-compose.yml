@@ -30,12 +30,12 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
-  mail-dev:
-    container_name: mail-dev
-    image: maildev/maildev
-    ports:
-      - 1080:1080
-      - 1025:1025
+#  mail-dev:
+#    container_name: mail-dev
+#    image: maildev/maildev
+#    ports:
+#      - 1080:1080
+#      - 1025:1025
   config-server:
     container_name: config-server
     image: config-server

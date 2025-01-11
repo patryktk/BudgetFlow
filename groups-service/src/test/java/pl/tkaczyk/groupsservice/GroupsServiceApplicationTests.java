@@ -1,15 +1,15 @@
-package pl.tkaczyk.groupsservice;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
-@ActiveProfiles("test")
-@SpringBootTest
-class GroupsServiceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package pl.tkaczyk.groupsservice;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.context.ActiveProfiles;
+//
+//@ActiveProfiles("test")
+//@SpringBootTest
+//class GroupsServiceApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}

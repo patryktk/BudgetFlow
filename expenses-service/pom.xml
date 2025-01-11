@@ -92,6 +92,22 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.40.1</version>
+				<configuration>
+					<images>
+						<image>
+							<name>expenses-service</name>
+							<build>
+								<dockerFile>${project.basedir}/Dockerfile</dockerFile>
+								<contextDir>${project.basedir}</contextDir>
+							</build>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>

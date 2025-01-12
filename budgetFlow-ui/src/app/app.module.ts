@@ -12,6 +12,7 @@ import {FormsModule} from "@angular/forms";
 import {RegisterComponent} from './pages/register/register.component';
 import {AccountActivationComponent} from './pages/account-activation/account-activation.component';
 import {CodeInputModule} from "angular-code-input";
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {CodeInputModule} from "angular-code-input";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CodeInputModule
+    CodeInputModule,
+    FullCalendarModule
   ],
   providers: [
     provideHttpClient(withInterceptors([httpTokenInterceptor]))

@@ -15,6 +15,7 @@ import { addExpense } from '../fn/expense/add-expense';
 import { AddExpense$Params } from '../fn/expense/add-expense';
 import { deleteExpense } from '../fn/expense/delete-expense';
 import { DeleteExpense$Params } from '../fn/expense/delete-expense';
+import { ExpenseCalendarFieldInfo } from '../models/expense-calendar-field-info';
 import { ExpenseResponse } from '../models/expense-response';
 import { ExpenseResponseForStatistics } from '../models/expense-response-for-statistics';
 import { getAllExpenseByUserByMonth } from '../fn/expense/get-all-expense-by-user-by-month';
@@ -23,6 +24,8 @@ import { getAllExpensesByUser } from '../fn/expense/get-all-expenses-by-user';
 import { GetAllExpensesByUser$Params } from '../fn/expense/get-all-expenses-by-user';
 import { getAllExpenseStatistics } from '../fn/expense/get-all-expense-statistics';
 import { GetAllExpenseStatistics$Params } from '../fn/expense/get-all-expense-statistics';
+import { getExpensesToCalendarByCategory } from '../fn/expense/get-expenses-to-calendar-by-category';
+import { GetExpensesToCalendarByCategory$Params } from '../fn/expense/get-expenses-to-calendar-by-category';
 import { getStatisticsByMonth } from '../fn/expense/get-statistics-by-month';
 import { GetStatisticsByMonth$Params } from '../fn/expense/get-statistics-by-month';
 import { updateExpense } from '../fn/expense/update-expense';
@@ -206,6 +209,31 @@ export class ExpenseService extends BaseService {
   getAllExpenseByUserByMonth(params: GetAllExpenseByUserByMonth$Params, context?: HttpContext): Observable<Array<ExpenseResponse>> {
     return this.getAllExpenseByUserByMonth$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ExpenseResponse>>): Array<ExpenseResponse> => r.body)
+    );
+  }
+
+  /** Path part for operation `getExpensesToCalendarByCategory()` */
+  static readonly GetExpensesToCalendarByCategoryPath = '/expenses/expensesToCalendarByCategory';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getExpensesToCalendarByCategory()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getExpensesToCalendarByCategory$Response(params?: GetExpensesToCalendarByCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseCalendarFieldInfo>>> {
+    return getExpensesToCalendarByCategory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getExpensesToCalendarByCategory$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getExpensesToCalendarByCategory(params?: GetExpensesToCalendarByCategory$Params, context?: HttpContext): Observable<Array<ExpenseCalendarFieldInfo>> {
+    return this.getExpensesToCalendarByCategory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ExpenseCalendarFieldInfo>>): Array<ExpenseCalendarFieldInfo> => r.body)
     );
   }
 

@@ -21,7 +21,7 @@
       "description": "Local ENV"
     },
     {
-      "url": "https://testsuper.com/api/v1",
+      "url": "https://192.168.0.248:8000/api/v1",
       "description": "Prod ENV"
     }
   ],
@@ -470,6 +470,29 @@
         }
       }
     },
+    "/expenses/expensesToCalendarByCategory": {
+      "get": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "getExpensesToCalendarByCategory",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseCalendarFieldInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory/getAll": {
       "get": {
         "tags": [
@@ -797,6 +820,21 @@
           "createdByUserId": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "ExpenseCalendarFieldInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
           }
         }
       }

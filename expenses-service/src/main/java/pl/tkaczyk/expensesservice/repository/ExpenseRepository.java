@@ -1,13 +1,14 @@
 package pl.tkaczyk.expensesservice.repository;
 
+import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponsePartialProjection;
+import pl.tkaczyk.expensesservice.model.dto.ExpenseCalendarFieldInfo;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -53,5 +54,15 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             and expense.expenseDate <= :endDate
             and expense.userId in :userIds
             """)
-    List<Expense> findExpensesByUserIdAndMonth(LocalDate startDate, LocalDate endDate, Set<Long> userIds);
+    List<Expense> findExpensesByUserIdAndMonth(@Param("startDate") LocalDate startDate,
+                                               @Param("endDate") LocalDate endDate,
+                                               @Param("userIds") Set<Long> userIds);
+
+    @Query("""
+            select ec.name, sum(e.amount) as value, e.expenseDate as date from Expense e
+            left join ExpenseCategory ec on e.expenseCategory.id = ec.id
+            where e.userId =:userId
+            group by e.expenseDate, ec.id
+            """)
+    List<Tuple> findExpensesGroupByCategoryToCalendarFiled(@Param("userId") Long userId);
 }

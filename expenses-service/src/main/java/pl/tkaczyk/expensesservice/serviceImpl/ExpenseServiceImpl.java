@@ -116,4 +116,12 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .map(expenseMapper::toExpenseResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ExpenseCalendarFieldInfo> getExpensesToCalendarByCategory(String userId) {
+        return expenseRepository.findExpensesGroupByCategoryToCalendarFiled(Long.valueOf(userId))
+                .stream()
+                .map(expenseMapper::toExpenseCalendarFieldInfo)
+                .collect(Collectors.toList());
+    }
 }

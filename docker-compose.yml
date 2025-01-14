@@ -41,6 +41,8 @@ services:
     image: config-server
     ports:
       - "8888:8888"
+#    environment:
+#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8888"
     networks:
       - budget-flow
     healthcheck:
@@ -53,6 +55,8 @@ services:
     image: eureka-server
     ports:
       - "8761:8761"
+#    environment:
+#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8761"
     expose:
       - "8761"
     networks:
@@ -70,6 +74,8 @@ services:
     image: gateway
     ports:
       - "8000:8000"
+#    environment:
+#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
     expose:
       - "8000"
     networks:
@@ -84,6 +90,9 @@ services:
     image: expenses-service
     ports:
       - "8090:8090"
+      - "8091:8091"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8091"
     networks:
       - budget-flow
     depends_on:
@@ -96,6 +105,9 @@ services:
     image: groups-service
     ports:
       - "8070:8070"
+      - "8071:8071"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8071"
     networks:
       - budget-flow
     depends_on:
@@ -108,6 +120,9 @@ services:
     image: users-service
     ports:
       - "8080:8080"
+      - "8081:8081"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081"
     networks:
       - budget-flow
     depends_on:

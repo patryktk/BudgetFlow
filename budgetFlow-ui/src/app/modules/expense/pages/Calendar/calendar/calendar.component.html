@@ -1,7 +1,13 @@
 <full-calendar #fullCalendar [options]="calendarOptions"></full-calendar>
+
 <app-expense-form
-  *ngIf="showForm"
+  *ngIf="showAddExpenseForm"
   [expense]="selectedExpense"
   [selectedTab]="selectedTab"
-  (formClose)="closeForm()"
+  (formClose)="closeAddExpenseForm()"
 ></app-expense-form>
+
+<app-expense-list-calendar
+  *ngIf="showListExpenseForm"
+  (formClose)="closetListExpenseForm()"
+></app-expense-list-calendar>

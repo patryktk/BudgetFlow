@@ -18,6 +18,7 @@ import {MainViewComponent} from './pages/MainPage/main-view/main-view.component'
 import { IncomeCategoryComponent } from './pages/IncomeCategory/income-category/income-category.component';
 import { CalendarComponent } from './pages/Calendar/calendar/calendar.component';
 import {FullCalendarModule} from "@fullcalendar/angular";
+import { ExpenseListCalendarComponent } from './pages/Calendar/expense-list-calendar/expense-list-calendar.component';
 
 registerLocaleData(localePl);
 
@@ -36,7 +37,8 @@ registerLocaleData(localePl);
     ExpenseFormComponent,
     MainViewComponent,
     IncomeCategoryComponent,
-    CalendarComponent
+    CalendarComponent,
+    ExpenseListCalendarComponent
   ],
   imports: [
     CommonModule,

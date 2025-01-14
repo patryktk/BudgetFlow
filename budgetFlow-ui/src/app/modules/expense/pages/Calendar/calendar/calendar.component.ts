@@ -4,8 +4,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, {DateClickArg} from '@fullcalendar/interaction';
 import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {ExpenseService} from "../../../../../services/services/expense.service";
-import {ExpenseResponse} from "../../../../../services/models/expense-response";
 import {FullCalendarComponent} from "@fullcalendar/angular";
+import {ExpenseCalendarFieldInfo} from "../../../../../services/models/expense-calendar-field-info";
 
 
 @Component({
@@ -15,7 +15,8 @@ import {FullCalendarComponent} from "@fullcalendar/angular";
 })
 export class CalendarComponent implements OnInit {
   @ViewChild('fullCalendar') fullCalendarComponent!: FullCalendarComponent;
-  showForm = false;
+  showAddExpenseForm = false;
+  showListExpenseForm = false;
   selectedExpense: ExpenseRequest | null = null;
   @Input() selectedTab: 'all' | 'user' | 'group' = 'all';
   events: any[] = [];
@@ -44,16 +45,19 @@ export class CalendarComponent implements OnInit {
       name: '',
       expenseDate: arg.dateStr, // Ustawienie expenseDate
     }
-    this.showForm = true;
+    this.showAddExpenseForm = true;
   }
 
-  closeForm() {
-    this.fetchExpenses();
-    this.showForm = false;
+  closetListExpenseForm() {
+    this.showListExpenseForm = false;
+  }
+
+  closeAddExpenseForm() {
+    this.showAddExpenseForm = false;
   }
 
   private fetchExpenses() {
-    this.expenseService.getAllExpensesByUser().subscribe({
+    this.expenseService.getExpensesToCalendarByCategory().subscribe({
       next: response => {
         this.feedEvents(response);
       },
@@ -63,24 +67,23 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-  private feedEvents(response: Array<ExpenseResponse>) {
+  private feedEvents(response: Array<ExpenseCalendarFieldInfo>) {
     const calendarApi = this.fullCalendarComponent.getApi();
     calendarApi.removeAllEvents();
 
     this.events = response.map(expense => {
       return {
-        title: `${expense.expenseCategory?.name} - ${expense.amount} PLN`,
-        start: expense.expenseDate,
-        end: expense.expenseDate,
+        title: `${expense.name} - ${expense.value} PLN`,
+        start: expense.date,
+        end: expense.date,
         allDay: true,
-        expenseModel: expense
       };
     });
     calendarApi.addEventSource(this.events)
   }
 
   private handleEventClick(arg: EventClickArg) {
-    this.selectedExpense = arg.event.extendedProps['expenseModel'];
-    this.showForm = true;
+    // this.selectedExpense = arg.event.extendedProps['expenseModel'];
+    this.showListExpenseForm = true;
   }
 }

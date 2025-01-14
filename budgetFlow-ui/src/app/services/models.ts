@@ -4,6 +4,7 @@
 
 export { AuthenticationRequest } from './models/authentication-request';
 export { AuthenticationResponse } from './models/authentication-response';
+export { ExpenseCalendarFieldInfo } from './models/expense-calendar-field-info';
 export { ExpenseCategory } from './models/expense-category';
 export { ExpenseCategoryRequest } from './models/expense-category-request';
 export { ExpenseCategoryResponse } from './models/expense-category-response';

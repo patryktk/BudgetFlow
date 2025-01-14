@@ -1,9 +1,14 @@
 package pl.tkaczyk.expensesservice.mapper;
 
+import jakarta.persistence.Tuple;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.model.Expense;
+import pl.tkaczyk.expensesservice.model.dto.ExpenseCalendarFieldInfo;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 @Service
@@ -33,6 +38,14 @@ public class ExpenseMapper {
                 .userId(expense.getUserId())
                 .createdDate(expense.getCreatedDate())
                 .lastModifiedDate(expense.getLastModifiedDate())
+                .build();
+    }
+
+    public ExpenseCalendarFieldInfo toExpenseCalendarFieldInfo(Tuple tuple) {
+        return ExpenseCalendarFieldInfo.builder()
+                .name((String) tuple.get(0))
+                .value(BigDecimal.valueOf((Double) tuple.get(1)))
+                .date((LocalDate) tuple.get(2))
                 .build();
     }
 }

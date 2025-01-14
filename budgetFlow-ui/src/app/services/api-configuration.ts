@@ -11,7 +11,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  //TODO: Jak chce odpalić w sieci to zmienić na adres hosta
   rootUrl: string = 'http://localhost:8000/api/v1';
 }
 

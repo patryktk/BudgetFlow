@@ -7,11 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.tkaczyk.expensesservice.model.Expense;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseResponseForStatistics;
-import pl.tkaczyk.expensesservice.model.dto.StatisticsByMonthRequest;
+import pl.tkaczyk.expensesservice.model.dto.*;
 import pl.tkaczyk.expensesservice.service.ExpenseService;
 
 import java.util.List;
@@ -61,5 +57,10 @@ public class ExpensesController {
     public ResponseEntity<List<ExpenseResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                                                    @RequestBody StatisticsByMonthRequest request) {
         return ResponseEntity.ok().body(expenseService.getExpensesStatisticsByMonth(userId, request));
+    }
+
+    @GetMapping(value = "/expensesToCalendarByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ExpenseCalendarFieldInfo>> getExpensesToCalendarByCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
+        return ResponseEntity.ok().body(expenseService.getExpensesToCalendarByCategory(userId));
     }
 }

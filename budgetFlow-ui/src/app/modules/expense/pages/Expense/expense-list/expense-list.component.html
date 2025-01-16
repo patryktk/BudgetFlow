@@ -4,13 +4,16 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>Nazwa</th>
-      <th>Kwota</th>
-      <th>Data</th>
-      <th>Notatka</th>
-      <th>Kto stworzył</th>
-      <th>Data dodania</th>
-      <th>Data modyfikacji</th>
+      <th (click)="sort('name')">Nazwa
+        <i *ngIf="currentSortField === 'name'" [ngClass]="{'fa-solid fa-fw fa-arrow-up': currentSortDirection === 'asc', 'fa-solid fa-fw fa-arrow-down': currentSortDirection === 'desc'}"></i>
+      </th>
+      <th (click)="sort('amount')">Kwota
+      </th>
+      <th (click)="sort('expenseDate')">Data</th>
+      <th (click)="sort('note')">Notatka</th>
+      <th (click)="sort('userId')">Kto stworzył</th>
+      <th (click)="sort('createdDate')">Data dodania</th>
+      <th (click)="sort('lastModifiedDate')">Data modyfikacji</th>
       <th>Akcje</th>
     </tr>
     </thead>

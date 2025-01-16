@@ -18,6 +18,8 @@ export class ExpenseListComponent implements OnChanges {
   showForm = false;
   selectedExpense: ExpenseRequest | null = null;
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
+  currentSortField: string = '';
+  currentSortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private expenseService: ExpenseService,
@@ -111,5 +113,23 @@ export class ExpenseListComponent implements OnChanges {
         }
       })
     }
+  }
+
+  sort(field: string){
+    this.currentSortDirection = this.currentSortField === field && this.currentSortDirection === 'asc' ? 'desc' : 'asc';
+    this.currentSortField = field;
+
+    this.expenses.sort((a,b) => {
+      const aValue = a[field];
+      const bValue = b[field];
+
+      if (aValue < bValue) {
+        return this.currentSortDirection === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return this.currentSortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
   }
 }

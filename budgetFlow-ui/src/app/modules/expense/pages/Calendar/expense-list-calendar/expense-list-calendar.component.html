@@ -1,12 +1,47 @@
-<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">  <div class="modal d-block" tabindex="-1">
+<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        CHUJ
-
+        <h5 class="modal-title">Expense Details</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Expense Category</th>
+            <th>Amount</th>
+            <th>Expense Date</th>
+            <th>Note</th>
+            <th>User ID</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let expense of expenses;  let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ expense.name }}</td>
+            <td>{{ expense.expenseCategory?.name }}</td>
+            <td>{{ expense.amount | currency:'PLN' }}</td>
+            <td>{{ expense.expenseDate | date:'dd-MM-yyyy' }}</td>
+            <td>{{ expense.note }}</td>
+            <td>{{ expense.userId }}</td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteExpense(expense.id)">Usuń</button>
+              <button class="btn btn-primary" (click)="editExpense(expense.id)">Edytuj</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
-</div>
-
+<app-expense-form
+  *ngIf="showAddExpenseForm"
+  [expense]="selectedExpense"
+  [selectedTab]="selectedTab"
+  (formClose)="closeAddExpenseForm()"
+></app-expense-form>

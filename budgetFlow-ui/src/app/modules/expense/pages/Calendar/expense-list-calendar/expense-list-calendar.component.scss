@@ -14,4 +14,13 @@
 .modal-dialog {
   position: relative;
   z-index: 1051;
+  max-width: 60%; /* Ustaw maksymalną szerokość modalu */
+}
+
+.table-responsive {
+  overflow-x: auto; /* Dodaj przewijanie poziome, jeśli tabela jest zbyt szeroka */
+}
+
+.table {
+  width: 100%; /* Ustaw szerokość tabeli na 100% */
 }

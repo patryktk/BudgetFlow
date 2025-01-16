@@ -1,8 +1,5 @@
-1. Po kliknięciu w kafelek ma się pojawić lista z wydatkami z danego dnia.
 
-3. Nazwa wydatku / przychodu opcjonalna
 4. Sortowanie po dacie / zakres w widoku wszystkich wydatków
-5. Nagłówek w zakładce z wydatkami
 
 
 
@@ -12,4 +9,7 @@
 
 
 DONE:
+1. Po kliknięciu w kafelek ma się pojawić lista z wydatkami z danego dnia.
+3. Nazwa wydatku / przychodu opcjonalna
 2. Sumowanie się kategorii w widoku kalendarza.
+5. Nagłówek w zakładce z wydatkami

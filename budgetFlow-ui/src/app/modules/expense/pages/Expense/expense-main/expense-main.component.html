@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>Przychody</h2>
+  <h2>Wydatki</h2>
   <ul class="nav nav-tabs">
     <li class="nav-item">
       <a
@@ -7,7 +7,7 @@
         [class.active]="selectedTab === 'all'"
         (click)="selectTab('all')"
       >
-        Lista przychodów w tym miesiącu
+        Lista wydatków w tym miesiącu
       </a>
     </li>
     <li class="nav-item">
@@ -16,7 +16,7 @@
         [class.active]="selectedTab === 'user'"
         (click)="selectTab('user')"
       >
-        Lista wszystkich przychodów użytkownika
+        Lista wszystkich wydatków użytkownika
       </a>
     </li>
     <li *ngIf="inGroup" class="nav-item">
@@ -25,7 +25,7 @@
         [class.active]="selectedTab === 'group'"
         (click)="selectTab('group')"
       >
-        Lista wszystkich przychodów w grupie
+        Lista wszystkich wydatków w grupie
       </a>
     </li>
   </ul>

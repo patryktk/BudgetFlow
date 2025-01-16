@@ -53,6 +53,7 @@ export class ExpenseListComponent implements OnChanges {
 
   private fetchUserMonthlyExpenses(inGroup: boolean) {
     this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
+    console.log(this.requestStatistics)
 
     this.expenseService.getAllExpenseByUserByMonth({
       body: this.requestStatistics,
@@ -62,8 +63,8 @@ export class ExpenseListComponent implements OnChanges {
         this.expenses = result;
         console.log("Expenses loaded", result);
       },
-      error: error => {
-        console.log("Error during getting expenses data");
+      error: err => {
+        console.log("Error during getting expenses data", err);
       }
     })
   }
@@ -103,10 +104,10 @@ export class ExpenseListComponent implements OnChanges {
       this.expenseService.deleteExpense({expenseId: id}).subscribe({
         next: result => {
           this.loadExpenses();
-          console.log("Deleted expense", id);
+          console.log("Deleted expense", id, result);
         },
         error: err => {
-          console.log("Error deleting expense", id);
+          console.log("Error deleting expense", id, err);
         }
       })
     }

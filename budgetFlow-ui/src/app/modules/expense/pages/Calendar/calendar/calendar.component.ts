@@ -6,6 +6,7 @@ import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {ExpenseService} from "../../../../../services/services/expense.service";
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import {ExpenseCalendarFieldInfo} from "../../../../../services/models/expense-calendar-field-info";
+import {UtilsService} from "../../../../../services/utils/utils.service";
 
 
 @Component({
@@ -31,9 +32,11 @@ export class CalendarComponent implements OnInit {
     events: [],
     eventClick: arg => this.handleEventClick(arg),
   };
+  dateDay: string | undefined = "";
 
   constructor(
-    private expenseService: ExpenseService) {
+    private expenseService: ExpenseService,
+    private utilsService: UtilsService) {
   }
 
   ngOnInit(): void {
@@ -49,10 +52,12 @@ export class CalendarComponent implements OnInit {
   }
 
   closetListExpenseForm() {
+    this.fetchExpenses();
     this.showListExpenseForm = false;
   }
 
   closeAddExpenseForm() {
+    this.fetchExpenses();
     this.showAddExpenseForm = false;
   }
 
@@ -83,7 +88,7 @@ export class CalendarComponent implements OnInit {
   }
 
   private handleEventClick(arg: EventClickArg) {
-    // this.selectedExpense = arg.event.extendedProps['expenseModel'];
+    this.dateDay = this.utilsService.formatDateFromISOToNormal(arg.event.start?.toISOString() ?? '');
     this.showListExpenseForm = true;
   }
 }

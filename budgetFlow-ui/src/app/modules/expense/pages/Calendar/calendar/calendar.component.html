@@ -9,5 +9,6 @@
 
 <app-expense-list-calendar
   *ngIf="showListExpenseForm"
+  [dateDay] = "dateDay"
   (formClose)="closetListExpenseForm()"
 ></app-expense-list-calendar>

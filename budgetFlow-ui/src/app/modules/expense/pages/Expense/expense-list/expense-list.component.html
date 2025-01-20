@@ -4,13 +4,14 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>Nazwa</th>
-      <th>Kwota</th>
-      <th>Data</th>
-      <th>Notatka</th>
-      <th>Kto stworzył</th>
-      <th>Data dodania</th>
-      <th>Data modyfikacji</th>
+      <th *ngFor="let header of headers" (click)="sort(header.field)">
+        {{ header.label }}
+        <i *ngIf="currentSortField === header.field"
+           class="fa-solid fa-fw"
+           [class.fa-arrow-up]="currentSortDirection === 'asc'"
+           [class.fa-arrow-down]="currentSortDirection === 'desc'">
+        </i>
+      </th>
       <th>Akcje</th>
     </tr>
     </thead>
@@ -20,8 +21,8 @@
       <td>{{ expense.name }}</td>
       <td>{{ expense.amount | currency:'PLN' }}</td>
       <td>{{ expense.expenseDate | date:'dd-MM-yyyy' }}</td>
-      <td>{{ expense.note}}</td>
-      <td>{{ expense.userId}}</td>
+      <td>{{ expense.note }}</td>
+      <td>{{ expense.userId }}</td>
       <td>{{ expense.createdDate | date:'dd-MM-yyyy' }}</td>
       <td>{{ expense.lastModifiedDate | date:'dd-MM-yyyy' }}</td>
       <td>

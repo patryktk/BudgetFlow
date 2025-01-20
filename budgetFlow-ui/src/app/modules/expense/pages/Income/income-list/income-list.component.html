@@ -4,9 +4,14 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>Nazwa</th>
-      <th>Kwota</th>
-      <th>Data</th>
+      <th *ngFor="let header of headers" (click)="sort(header.field)">
+        {{ header.label }}
+        <i *ngIf="currentSortField === header.field"
+           class="fa-solid fa-fw"
+           [class.fa-arrow-up]="currentSortDirection === 'asc'"
+           [class.fa-arrow-down]="currentSortDirection === 'desc'">
+        </i>
+      </th>
       <th>Akcje</th>
     </tr>
     </thead>

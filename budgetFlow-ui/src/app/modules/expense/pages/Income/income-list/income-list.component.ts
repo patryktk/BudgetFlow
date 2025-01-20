@@ -19,13 +19,20 @@ export class IncomeListComponent implements OnChanges {
   showForm = false;
   selectedIncome: IncomeResponse | null = null;
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
-
+  currentSortField: string = '';
+  currentSortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private incomeService: IncomeService,
     private utilsService: UtilsService,
   ) {
   }
+
+  headers = [
+    { field: 'name', label: 'Nazwa' },
+    { field: 'amount', label: 'Kwota' },
+    { field: 'expenseDate', label: 'Data' }
+  ]
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedTab']) {
@@ -98,6 +105,24 @@ export class IncomeListComponent implements OnChanges {
         }
       })
     }
+  }
+
+  sort(field: string){
+    this.currentSortDirection = this.currentSortField === field && this.currentSortDirection === 'asc' ? 'desc' : 'asc';
+    this.currentSortField = field;
+
+    this.incomes.sort((a,b) => {
+      const aValue = a[field];
+      const bValue = b[field];
+
+      if (aValue < bValue) {
+        return this.currentSortDirection === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return this.currentSortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
   }
 
 }

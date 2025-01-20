@@ -33,6 +33,16 @@ export class ExpenseListComponent implements OnChanges {
     }
   }
 
+  headers = [
+    { field: 'name', label: 'Nazwa' },
+    { field: 'amount', label: 'Kwota' },
+    { field: 'expenseDate', label: 'Data' },
+    { field: 'note', label: 'Notatka' },
+    { field: 'userId', label: 'Kto stworzył' },
+    { field: 'createdDate', label: 'Data dodania' },
+    { field: 'lastModifiedDate', label: 'Data modyfikacji' },
+  ]
+
   private loadExpenses() {
     if (this.selectedTab === 'all') {
       this.fetchUserMonthlyExpenses(false);

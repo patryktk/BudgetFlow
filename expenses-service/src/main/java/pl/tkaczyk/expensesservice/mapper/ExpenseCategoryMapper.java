@@ -13,6 +13,7 @@ public class ExpenseCategoryMapper {
                 .id(request.id())
                 .name(request.name())
                 .createdByUserId(Long.valueOf(userId))
+                .hexColor(request.hexColor())
                 .build();
     }
 

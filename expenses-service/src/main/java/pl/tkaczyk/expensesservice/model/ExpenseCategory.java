@@ -22,6 +22,7 @@ public class ExpenseCategory {
     private Long id;
     private String name;
     private Long createdByUserId;
+    private String hexColor;
 
     @ElementCollection
     private Set<Long> sharedWithUsers;

@@ -667,6 +667,9 @@
             "type": "string",
             "format": "date-time"
           }
+        },
+        "additionalProperties": {
+          "type": "object"
         }
       },
       "IncomeCategory": {
@@ -738,6 +741,9 @@
             "type": "integer",
             "format": "int64"
           }
+        },
+        "additionalProperties": {
+          "type": "object"
         }
       },
       "StatisticsByMonthRequest": {

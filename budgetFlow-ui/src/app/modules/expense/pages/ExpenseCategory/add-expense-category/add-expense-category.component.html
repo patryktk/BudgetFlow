@@ -59,8 +59,19 @@
                 Nazwa jest wymagana i musi mieć co najmniej 3 znaki.
               </div>
             </div>
-            <div style="display: flex; align-items: center; justify-content: center; height: 10vh">
-              <input [(colorPicker)]="color" [style.background]="color"/>
+
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <label for="color" class="form-label">Wybierz Kolor</label>
+                <input
+                  [(colorPicker)]="color"
+                  [style.background]="color"
+                  [cpOutputFormat]="'hex'"
+                  class="form-control"
+                  name="color"
+                  id="color"
+                />
+              </div>
             </div>
             <!-- Przycisk Dodaj -->
             <button

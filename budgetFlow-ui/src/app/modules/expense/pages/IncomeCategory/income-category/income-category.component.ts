@@ -1,8 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
-import {ExpenseCategory} from "../../../../../services/models/expense-category";
-import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
-import {TokenService} from "../../../../../services/token/token.service";
 import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";
 import {IncomeCategoryRequest} from "../../../../../services/models/income-category-request";
 import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
@@ -15,7 +11,6 @@ import {IncomeCategoryService} from "../../../../../services/services/income-cat
 export class IncomeCategoryComponent implements OnInit{
 
   categories: IncomeCategoryResponse[] = [];
-
   newCategory: IncomeCategoryRequest = {name: ''}
 
   constructor(private incomeCategoryService: IncomeCategoryService) {

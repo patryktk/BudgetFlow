@@ -82,8 +82,10 @@ export class CalendarComponent implements OnInit {
         start: expense.date,
         end: expense.date,
         allDay: true,
+        // backgroundColor: '#FFFFF'
       };
     });
+
     calendarApi.addEventSource(this.events)
   }
 

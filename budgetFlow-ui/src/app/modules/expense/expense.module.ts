@@ -19,6 +19,7 @@ import { IncomeCategoryComponent } from './pages/IncomeCategory/income-category/
 import { CalendarComponent } from './pages/Calendar/calendar/calendar.component';
 import {FullCalendarModule} from "@fullcalendar/angular";
 import { ExpenseListCalendarComponent } from './pages/Calendar/expense-list-calendar/expense-list-calendar.component';
+import {ColorPickerModule} from "ngx-color-picker";
 
 registerLocaleData(localePl);
 
@@ -40,13 +41,14 @@ registerLocaleData(localePl);
     CalendarComponent,
     ExpenseListCalendarComponent
   ],
-  imports: [
-    CommonModule,
-    ExpenseRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FullCalendarModule
-  ],
+    imports: [
+        CommonModule,
+        ExpenseRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FullCalendarModule,
+        ColorPickerModule
+    ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}
   ]

@@ -40,11 +40,12 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl(returnUrl);
       },
       error: err => {
-        console.log(err);
-        if (err.error.validationErrors) {
+        if (err.error !== null && err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors;
-        } else {
-          this.errorMsg.push(err.error.businessErrorMessage || "Error. Try again later!");
+        } else if(err.error !== null) {
+          this.errorMsg.push(err.error.businessErrorMessage);
+        }else{
+          this.errorMsg.push("Error. Try again later!");
         }
       }
     })

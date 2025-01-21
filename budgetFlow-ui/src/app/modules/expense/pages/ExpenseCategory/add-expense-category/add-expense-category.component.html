@@ -59,7 +59,9 @@
                 Nazwa jest wymagana i musi mieć co najmniej 3 znaki.
               </div>
             </div>
-
+            <div style="display: flex; align-items: center; justify-content: center; height: 10vh">
+              <input [(colorPicker)]="color" [style.background]="color"/>
+            </div>
             <!-- Przycisk Dodaj -->
             <button
               type="submit"

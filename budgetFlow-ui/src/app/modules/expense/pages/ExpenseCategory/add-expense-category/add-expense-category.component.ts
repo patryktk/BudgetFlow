@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
-import {JwtHelperService} from "@auth0/angular-jwt";
 import {TokenService} from "../../../../../services/token/token.service";
 
 @Component({
@@ -15,6 +14,7 @@ export class AddExpenseCategoryComponent implements OnInit {
   categories: ExpenseCategoryResponse[] = [];
 
   newCategory: ExpenseCategory = {name: ''}
+  color: string = '#fff';
 
   constructor(private expensesCategoryService: ExpensesCategoryService,
               private tokenService: TokenService) {

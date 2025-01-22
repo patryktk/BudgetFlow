@@ -1078,6 +1078,9 @@
             "type": "integer",
             "format": "int64"
           },
+          "hexColor": {
+            "type": "string"
+          },
           "sharedWithUsers": {
             "uniqueItems": true,
             "type": "array",
@@ -1089,9 +1092,6 @@
         }
       },
       "ExpenseRequest": {
-        "required": [
-          "name"
-        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1158,9 +1158,7 @@
             "format": "date-time"
           }
         },
-        "additionalProperties": {
-          "type": "object"
-        }
+        "additionalProperties": true
       },
       "IncomeCategory": {
         "type": "object",
@@ -1232,9 +1230,7 @@
             "format": "int64"
           }
         },
-        "additionalProperties": {
-          "type": "object"
-        }
+        "additionalProperties": true
       },
       "StatisticsByMonthRequest": {
         "type": "object",
@@ -1300,6 +1296,9 @@
           },
           "name": {
             "type": "string"
+          },
+          "hexColor": {
+            "type": "string"
           }
         }
       },
@@ -1316,6 +1315,9 @@
           "createdByUserId": {
             "type": "integer",
             "format": "int64"
+          },
+          "hexColor": {
+            "type": "string"
           }
         }
       },

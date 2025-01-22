@@ -26,7 +26,7 @@ public class ExpenseCategoryServiceImpl implements ExpenseCategoryService {
     @Override
     public void deleteExpenseCategory(Long id, String activeUserId) {
         ExpenseCategory expenseCategory = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense category not found"));
-        if (!expenseCategory.getCreatedByUserId().equals(activeUserId)) {
+        if (!expenseCategory.getCreatedByUserId().equals(Long.valueOf(activeUserId))) {
             throw new IllegalStateException("You are not authorized to delete this expense category");
         }
         repository.deleteById(id);

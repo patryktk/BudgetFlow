@@ -4,6 +4,7 @@
 
 export interface ExpenseCategoryResponse {
   createdByUserId?: number;
+  hexColor?: string;
   id?: number;
   name?: string;
 }

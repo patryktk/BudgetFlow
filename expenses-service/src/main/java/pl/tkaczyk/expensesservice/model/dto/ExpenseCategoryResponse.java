@@ -6,6 +6,7 @@ import lombok.Builder;
 public record ExpenseCategoryResponse(
         Long id,
         String name,
-        Long createdByUserId
+        Long createdByUserId,
+        String hexColor
 ) {
 }

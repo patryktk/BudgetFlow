@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 import {TokenService} from "../../../../../services/token/token.service";
+import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
 
 @Component({
   selector: 'app-add-expense-category',
@@ -12,9 +12,9 @@ import {TokenService} from "../../../../../services/token/token.service";
 export class AddExpenseCategoryComponent implements OnInit {
 
   categories: ExpenseCategoryResponse[] = [];
-
-  newCategory: ExpenseCategory = {name: ''}
+  newCategory: ExpenseCategoryRequest = {name: '', hexColor: ''}
   color: string = '#fff';
+  isOwner = false;
 
   constructor(private expensesCategoryService: ExpensesCategoryService,
               private tokenService: TokenService) {
@@ -43,15 +43,16 @@ export class AddExpenseCategoryComponent implements OnInit {
           this.categories = this.categories.filter(category => category.id !== id);
         },
         error: err => {
-          console.log("Error deleting expense");
+          console.log("Error deleting expense", err);
         }
       })
     } else {
-      console.log("Error deleting expense");
+      console.log("Error deleting expense, id unidentified");
     }
   }
 
   addCategory() {
+    this.newCategory.hexColor = this.color;
     this.expensesCategoryService.saveExpenseCategory({
       body: this.newCategory
     }).subscribe({

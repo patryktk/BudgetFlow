@@ -14,4 +14,5 @@ public class ExpenseCalendarFieldInfo {
     String name;
     BigDecimal value;
     LocalDate date;
+    String hexColor;
 }

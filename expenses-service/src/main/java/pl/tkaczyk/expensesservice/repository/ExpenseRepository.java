@@ -59,7 +59,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                @Param("userIds") Set<Long> userIds);
 
     @Query("""
-            select ec.name, sum(e.amount) as value, e.expenseDate as date from Expense e
+            select ec.name, sum(e.amount) as value, e.expenseDate, ec.hexColor as date from Expense e
             left join ExpenseCategory ec on e.expenseCategory.id = ec.id
             where e.userId =:userId
             group by e.expenseDate, ec.id

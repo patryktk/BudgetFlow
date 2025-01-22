@@ -7,6 +7,7 @@ import {ExpenseService} from "../../../../../services/services/expense.service";
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import {ExpenseCalendarFieldInfo} from "../../../../../services/models/expense-calendar-field-info";
 import {UtilsService} from "../../../../../services/utils/utils.service";
+import tinycolor from "tinycolor2";
 
 
 @Component({
@@ -82,7 +83,9 @@ export class CalendarComponent implements OnInit {
         start: expense.date,
         end: expense.date,
         allDay: true,
-        // backgroundColor: '#FFFFF'
+        backgroundColor: expense.hexColor,
+        borderColor: expense.hexColor,
+        textColor: tinycolor(expense.hexColor).isLight() ? 'black' : 'white'
       };
     });
 

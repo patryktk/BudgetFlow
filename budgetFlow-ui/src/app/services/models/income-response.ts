@@ -8,5 +8,6 @@ export interface IncomeResponse {
   incomeDate?: string;
   name?: string;
   userId?: number;
-  [key: string]:any
+
+  [key: string]: any;
 }

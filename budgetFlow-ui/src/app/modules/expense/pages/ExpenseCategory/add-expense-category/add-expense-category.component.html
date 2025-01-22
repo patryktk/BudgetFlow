@@ -15,7 +15,10 @@
               <div>{{ category.name }}</div>
               <small class="text-muted">Założyciel: {{ category.createdByUserId }}</small>
             </div>
+            <div class="border rounded" [ngStyle]="{'background': category.hexColor}">
+            {{ category.hexColor }}</div>
             <button
+              [disabled]="!isOwner"
               class="btn btn-danger btn-sm"
               (click)="deleteCategory(category.id)"
             >

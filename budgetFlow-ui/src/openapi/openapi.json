@@ -1333,6 +1333,9 @@
           "date": {
             "type": "string",
             "format": "date"
+          },
+          "hexColor": {
+            "type": "string"
           }
         }
       },

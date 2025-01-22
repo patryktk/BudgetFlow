@@ -22,6 +22,7 @@ public class ExpenseCategoryMapper {
                 .id(expenseCategory.getId())
                 .name(expenseCategory.getName())
                 .createdByUserId(expenseCategory.getCreatedByUserId())
+                .hexColor(expenseCategory.getHexColor())
                 .build();
     }
 }

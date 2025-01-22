@@ -4,6 +4,7 @@
 
 export interface ExpenseCalendarFieldInfo {
   date?: string;
+  hexColor?: string;
   name?: string;
   value?: number;
 }

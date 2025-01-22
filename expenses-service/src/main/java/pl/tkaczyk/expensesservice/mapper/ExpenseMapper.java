@@ -46,6 +46,7 @@ public class ExpenseMapper {
                 .name((String) tuple.get(0))
                 .value(BigDecimal.valueOf((Double) tuple.get(1)))
                 .date((LocalDate) tuple.get(2))
+                .hexColor((String) tuple.get(3))
                 .build();
     }
 }

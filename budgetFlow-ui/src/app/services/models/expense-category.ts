@@ -4,6 +4,7 @@
 
 export interface ExpenseCategory {
   createdByUserId?: number;
+  hexColor?: string;
   id?: number;
   name?: string;
   sharedWithUsers?: Array<number>;

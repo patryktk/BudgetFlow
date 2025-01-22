@@ -17,5 +17,6 @@ export interface ExpenseResponse {
   name?: string;
   note?: string;
   userId?: number;
-  [key: string]:any
+
+  [key: string]: any;
 }

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
-import {TokenService} from "../../../../../services/token/token.service";
 import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
 
 @Component({
@@ -14,14 +13,14 @@ export class AddExpenseCategoryComponent implements OnInit {
   categories: ExpenseCategoryResponse[] = [];
   newCategory: ExpenseCategoryRequest = {name: '', hexColor: ''}
   color: string = '#fff';
-  isOwner = false;
+  activeUser = -1;
 
-  constructor(private expensesCategoryService: ExpensesCategoryService,
-              private tokenService: TokenService) {
+  constructor(private expensesCategoryService: ExpensesCategoryService) {
   }
 
   ngOnInit(): void {
     this.getAllExpenseCategory();
+    this.checkActiveUser();
   }
 
   getAllExpenseCategory() {
@@ -60,5 +59,15 @@ export class AddExpenseCategoryComponent implements OnInit {
         this.categories.push(result);
       }
     })
+  }
+
+  private checkActiveUser() {
+    const userIdString = sessionStorage.getItem("userId");
+    const userId = userIdString ? Number(userIdString) : null;
+    if (userId != null) this.activeUser = userId;
+  }
+
+  openDialog(): void {
+
   }
 }

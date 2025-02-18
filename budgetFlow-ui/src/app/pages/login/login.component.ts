@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   authRequest: AuthenticationRequest = {email: '', password: ''}
   errorMsg: Array<string> = [];
   successMsg = '';
+  token = "";
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && window.history) {
@@ -35,7 +36,9 @@ export class LoginComponent implements OnInit {
       body: this.authRequest
     }).subscribe({
       next: result => {
-        this.tokenService.token = result.token as string;
+        this.token = result.token as string;
+        this.tokenService.token = this.token;
+        this.getUserId();
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/expense';
         this.router.navigateByUrl(returnUrl);
       },
@@ -47,6 +50,21 @@ export class LoginComponent implements OnInit {
         }else{
           this.errorMsg.push("Error. Try again later!");
         }
+      }
+    })
+  }
+
+  getUserId(){
+    const params = {
+      Authorization: this.token  // Wstaw odpowiedni token
+    };
+
+    this.authService.validateToken(params).subscribe({
+      next: result => {
+          sessionStorage.setItem('userId', <string>result);
+      },
+      error: err => {
+        console.log("Error while getting user id", err)
       }
     })
   }

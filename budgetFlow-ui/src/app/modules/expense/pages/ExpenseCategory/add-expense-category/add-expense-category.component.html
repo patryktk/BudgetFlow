@@ -16,14 +16,16 @@
               <small class="text-muted">Założyciel: {{ category.createdByUserId }}</small>
             </div>
             <div class="border rounded" [ngStyle]="{'background': category.hexColor}">
-            {{ category.hexColor }}</div>
+              {{ category.hexColor }}
+            </div>
             <button
-              [disabled]="!isOwner"
+              [disabled]="category.createdByUserId !== activeUser"
               class="btn btn-danger btn-sm"
               (click)="deleteCategory(category.id)"
             >
               Usuń
             </button>
+            <button mat-raised-button (click)="openDialog()">Usuń 2</button>
           </li>
           <li *ngIf="categories.length === 0" class="list-group-item">
             Brak kategorii do wyświetlenia.

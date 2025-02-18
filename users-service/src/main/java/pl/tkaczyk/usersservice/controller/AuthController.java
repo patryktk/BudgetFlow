@@ -46,11 +46,11 @@ public class AuthController {
     }
 
     @GetMapping(value = "/validateToken", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token, Authentication authentication) {
+    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String token, Authentication authentication) {
         boolean isTokenValid = authenticationService.validateToken(token, authentication);
         var user = (User) authentication.getPrincipal();
         if (isTokenValid) {
-            return ResponseEntity.ok(user.getId());
+            return ResponseEntity.ok(String.valueOf(user.getId()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is not valid");
     }

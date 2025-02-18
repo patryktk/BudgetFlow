@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {GroupService} from "../../../../../services/services/group.service";
 
 @Component({
-  selector: 'app-expense-main',
-  templateUrl: './expense-main.component.html',
-  styleUrl: './expense-main.component.scss'
+    selector: 'app-expense-main',
+    templateUrl: './expense-main.component.html',
+    styleUrl: './expense-main.component.scss',
+    standalone: false
 })
 export class ExpenseMainComponent implements OnInit {
   selectedTab: 'all' | 'user' | 'group' = 'all';

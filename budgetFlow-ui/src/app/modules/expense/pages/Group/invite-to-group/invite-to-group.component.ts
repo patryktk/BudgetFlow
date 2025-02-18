@@ -3,9 +3,10 @@ import {GroupService} from "../../../../../services/services/group.service";
 import {GroupInviteRequest} from "../../../../../services/models/group-invite-request";
 
 @Component({
-  selector: 'app-invite-to-group',
-  templateUrl: './invite-to-group.component.html',
-  styleUrl: './invite-to-group.component.scss'
+    selector: 'app-invite-to-group',
+    templateUrl: './invite-to-group.component.html',
+    styleUrl: './invite-to-group.component.scss',
+    standalone: false
 })
 export class InviteToGroupComponent {
 

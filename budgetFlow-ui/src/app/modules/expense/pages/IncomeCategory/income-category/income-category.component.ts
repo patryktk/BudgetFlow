@@ -4,9 +4,10 @@ import {IncomeCategoryRequest} from "../../../../../services/models/income-categ
 import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
 
 @Component({
-  selector: 'app-income-category',
-  templateUrl: './income-category.component.html',
-  styleUrl: './income-category.component.scss'
+    selector: 'app-income-category',
+    templateUrl: './income-category.component.html',
+    styleUrl: './income-category.component.scss',
+    standalone: false
 })
 export class IncomeCategoryComponent implements OnInit{
 

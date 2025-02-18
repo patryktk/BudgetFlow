@@ -5,9 +5,10 @@ import {StatisticsByMonthRequest} from "../../../../../services/models/statistic
 import {UtilsService} from "../../../../../services/utils/utils.service";
 
 @Component({
-  selector: 'app-main-view',
-  templateUrl: './main-view.component.html',
-  styleUrl: './main-view.component.scss'
+    selector: 'app-main-view',
+    templateUrl: './main-view.component.html',
+    styleUrl: './main-view.component.scss',
+    standalone: false
 })
 export class MainViewComponent implements OnInit{
 

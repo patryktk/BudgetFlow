@@ -6,9 +6,10 @@ import {UtilsService} from "../../../../../services/utils/utils.service";
 import {GroupResponseWithUser} from "../../../../../services/models/group-response-with-user";
 
 @Component({
-  selector: 'app-income-list',
-  templateUrl: './income-list.component.html',
-  styleUrl: './income-list.component.scss'
+    selector: 'app-income-list',
+    templateUrl: './income-list.component.html',
+    styleUrl: './income-list.component.scss',
+    standalone: false
 })
 export class IncomeListComponent implements OnChanges {
 

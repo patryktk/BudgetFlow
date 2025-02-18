@@ -5,9 +5,10 @@ import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 
 @Component({
-  selector: 'app-expense-form',
-  templateUrl: './expense-form.component.html',
-  styleUrl: './expense-form.component.scss'
+    selector: 'app-expense-form',
+    templateUrl: './expense-form.component.html',
+    styleUrl: './expense-form.component.scss',
+    standalone: false
 })
 export class ExpenseFormComponent implements OnInit {
 

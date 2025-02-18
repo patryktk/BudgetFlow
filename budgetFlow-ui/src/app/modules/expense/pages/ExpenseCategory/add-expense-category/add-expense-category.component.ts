@@ -1,12 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogExpenseCategoryComponent} from "../dialog-expense-category/dialog-expense-category.component";
 
 @Component({
-  selector: 'app-add-expense-category',
-  templateUrl: './add-expense-category.component.html',
-  styleUrl: './add-expense-category.component.scss'
+    selector: 'app-add-expense-category',
+    templateUrl: './add-expense-category.component.html',
+    styleUrl: './add-expense-category.component.scss',
+    standalone: false
 })
 export class AddExpenseCategoryComponent implements OnInit {
 
@@ -14,6 +17,7 @@ export class AddExpenseCategoryComponent implements OnInit {
   newCategory: ExpenseCategoryRequest = {name: '', hexColor: ''}
   color: string = '#fff';
   activeUser = -1;
+  dialog = inject(MatDialog);
 
   constructor(private expensesCategoryService: ExpensesCategoryService) {
   }
@@ -68,6 +72,8 @@ export class AddExpenseCategoryComponent implements OnInit {
   }
 
   openDialog(): void {
+    const dialogRef = this.dialog.open(DialogExpenseCategoryComponent, {
 
+    });
   }
 }

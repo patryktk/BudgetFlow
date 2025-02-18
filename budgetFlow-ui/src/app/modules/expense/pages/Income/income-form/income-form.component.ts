@@ -6,9 +6,10 @@ import {IncomeCategoryService} from "../../../../../services/services/income-cat
 import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";
 
 @Component({
-  selector: 'app-income-form',
-  templateUrl: './income-form.component.html',
-  styleUrl: './income-form.component.scss'
+    selector: 'app-income-form',
+    templateUrl: './income-form.component.html',
+    styleUrl: './income-form.component.scss',
+    standalone: false
 })
 export class IncomeFormComponent implements OnInit {
   @Input() income: IncomeRequest | null = null;

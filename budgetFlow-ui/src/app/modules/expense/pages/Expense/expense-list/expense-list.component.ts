@@ -6,9 +6,10 @@ import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
 
 @Component({
-  selector: 'app-expense-list',
-  templateUrl: './expense-list.component.html',
-  styleUrl: './expense-list.component.scss'
+    selector: 'app-expense-list',
+    templateUrl: './expense-list.component.html',
+    styleUrl: './expense-list.component.scss',
+    standalone: false
 })
 export class ExpenseListComponent implements OnChanges {
 

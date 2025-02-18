@@ -15,11 +15,16 @@ import {ExpenseMainComponent} from './pages/Expense/expense-main/expense-main.co
 import {ExpenseFormComponent} from './pages/Expense/expense-form/expense-form.component';
 import {ExpenseListComponent} from "./pages/Expense/expense-list/expense-list.component";
 import {MainViewComponent} from './pages/MainPage/main-view/main-view.component';
-import { IncomeCategoryComponent } from './pages/IncomeCategory/income-category/income-category.component';
-import { CalendarComponent } from './pages/Calendar/calendar/calendar.component';
+import {IncomeCategoryComponent} from './pages/IncomeCategory/income-category/income-category.component';
+import {CalendarComponent} from './pages/Calendar/calendar/calendar.component';
 import {FullCalendarModule} from "@fullcalendar/angular";
-import { ExpenseListCalendarComponent } from './pages/Calendar/expense-list-calendar/expense-list-calendar.component';
+import {ExpenseListCalendarComponent} from './pages/Calendar/expense-list-calendar/expense-list-calendar.component';
 import {ColorPickerModule} from "ngx-color-picker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import { DialogExpenseCategoryComponent } from './pages/ExpenseCategory/dialog-expense-category/dialog-expense-category.component';
 
 registerLocaleData(localePl);
 
@@ -39,16 +44,25 @@ registerLocaleData(localePl);
     MainViewComponent,
     IncomeCategoryComponent,
     CalendarComponent,
-    ExpenseListCalendarComponent
+    ExpenseListCalendarComponent,
+    DialogExpenseCategoryComponent
   ],
-    imports: [
-        CommonModule,
-        ExpenseRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FullCalendarModule,
-        ColorPickerModule
-    ],
+  imports: [
+    CommonModule,
+    ExpenseRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FullCalendarModule,
+    ColorPickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose
+  ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}
   ]

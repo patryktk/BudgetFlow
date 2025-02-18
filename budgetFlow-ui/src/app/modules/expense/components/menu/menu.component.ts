@@ -3,9 +3,10 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {TokenService} from "../../../../services/token/token.service";
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrl: './menu.component.scss',
+    standalone: false
 })
 export class MenuComponent implements OnInit{
 

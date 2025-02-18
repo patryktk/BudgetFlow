@@ -11,9 +11,10 @@ import tinycolor from "tinycolor2";
 
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+    selector: 'app-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrl: './calendar.component.scss',
+    standalone: false
 })
 export class CalendarComponent implements OnInit {
   @ViewChild('fullCalendar') fullCalendarComponent!: FullCalendarComponent;

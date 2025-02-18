@@ -3,9 +3,10 @@ import {AuthenticationService} from "../../services/services/authentication.serv
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-account-activation',
-  templateUrl: './account-activation.component.html',
-  styleUrl: './account-activation.component.scss'
+    selector: 'app-account-activation',
+    templateUrl: './account-activation.component.html',
+    styleUrl: './account-activation.component.scss',
+    standalone: false
 })
 export class AccountActivationComponent {
 

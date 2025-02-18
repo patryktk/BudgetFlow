@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {GroupService} from "../../../../../services/services/group.service";
 
 @Component({
-  selector: 'app-income-main',
-  templateUrl: './income-main.component.html',
-  styleUrl: './income-main.component.scss'
+    selector: 'app-income-main',
+    templateUrl: './income-main.component.html',
+    styleUrl: './income-main.component.scss',
+    standalone: false
 })
 export class IncomeMainComponent implements OnInit {
   selectedTab: 'all' | 'user' | 'group' = 'all';

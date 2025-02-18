@@ -13,6 +13,10 @@ import {RegisterComponent} from './pages/register/register.component';
 import {AccountActivationComponent} from './pages/account-activation/account-activation.component';
 import {CodeInputModule} from "angular-code-input";
 import {FullCalendarModule} from "@fullcalendar/angular";
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle,} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,15 @@ import {FullCalendarModule} from "@fullcalendar/angular";
     AppRoutingModule,
     FormsModule,
     CodeInputModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
   ],
   providers: [
     provideHttpClient(withInterceptors([httpTokenInterceptor]))

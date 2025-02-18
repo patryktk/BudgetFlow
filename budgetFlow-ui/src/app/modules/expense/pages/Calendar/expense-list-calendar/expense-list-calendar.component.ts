@@ -6,9 +6,10 @@ import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
 
 @Component({
-  selector: 'app-expense-list-calendar',
-  templateUrl: './expense-list-calendar.component.html',
-  styleUrl: './expense-list-calendar.component.scss'
+    selector: 'app-expense-list-calendar',
+    templateUrl: './expense-list-calendar.component.html',
+    styleUrl: './expense-list-calendar.component.scss',
+    standalone: false
 })
 export class ExpenseListCalendarComponent implements OnInit{
 

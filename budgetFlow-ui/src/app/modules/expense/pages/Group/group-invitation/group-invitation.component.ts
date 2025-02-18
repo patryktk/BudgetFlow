@@ -4,9 +4,10 @@ import {GroupService} from "../../../../../services/services/group.service";
 import {AuthenticationService} from "../../../../../services/services/authentication.service";
 
 @Component({
-  selector: 'app-group-invitation',
-  templateUrl: './group-invitation.component.html',
-  styleUrl: './group-invitation.component.scss'
+    selector: 'app-group-invitation',
+    templateUrl: './group-invitation.component.html',
+    styleUrl: './group-invitation.component.scss',
+    standalone: false
 })
 export class GroupInvitationComponent implements OnInit {
   token: string | null = null;

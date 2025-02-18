@@ -6,9 +6,10 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {TokenService} from "../../../../../services/token/token.service";
 
 @Component({
-  selector: 'app-groups',
-  templateUrl: './groups.component.html',
-  styleUrl: './groups.component.scss'
+    selector: 'app-groups',
+    templateUrl: './groups.component.html',
+    styleUrl: './groups.component.scss',
+    standalone: false
 })
 export class GroupsComponent implements OnInit {
   inGroup = false;

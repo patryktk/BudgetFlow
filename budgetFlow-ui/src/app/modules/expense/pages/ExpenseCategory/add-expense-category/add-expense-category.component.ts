@@ -6,10 +6,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogExpenseCategoryComponent} from "../dialog-expense-category/dialog-expense-category.component";
 
 @Component({
-    selector: 'app-add-expense-category',
-    templateUrl: './add-expense-category.component.html',
-    styleUrl: './add-expense-category.component.scss',
-    standalone: false
+  selector: 'app-add-expense-category',
+  templateUrl: './add-expense-category.component.html',
+  styleUrl: './add-expense-category.component.scss',
+  standalone: false
 })
 export class AddExpenseCategoryComponent implements OnInit {
 
@@ -17,9 +17,11 @@ export class AddExpenseCategoryComponent implements OnInit {
   newCategory: ExpenseCategoryRequest = {name: '', hexColor: ''}
   color: string = '#fff';
   activeUser = -1;
-  dialog = inject(MatDialog);
 
-  constructor(private expensesCategoryService: ExpensesCategoryService) {
+  private dialog = inject(MatDialog);
+  private expensesCategoryService = inject(ExpensesCategoryService)
+
+  constructor() {
   }
 
   ngOnInit(): void {
@@ -36,22 +38,6 @@ export class AddExpenseCategoryComponent implements OnInit {
         console.log("Error loading expenses list", err);
       }
     })
-  }
-
-
-  deleteCategory(id: number | undefined) {
-    if (id !== undefined) {
-      this.expensesCategoryService.deleteExpenseCategory({expenseCategoryId: id}).subscribe({
-        next: result => {
-          this.categories = this.categories.filter(category => category.id !== id);
-        },
-        error: err => {
-          console.log("Error deleting expense", err);
-        }
-      })
-    } else {
-      console.log("Error deleting expense, id unidentified");
-    }
   }
 
   addCategory() {
@@ -71,9 +57,16 @@ export class AddExpenseCategoryComponent implements OnInit {
     if (userId != null) this.activeUser = userId;
   }
 
-  openDialog(): void {
+  openDialog(categoryId: number | undefined): void {
     const dialogRef = this.dialog.open(DialogExpenseCategoryComponent, {
-
+      data: {id: categoryId}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'deleted') {
+        console.log("Kategoria została usunięta");
+        this.categories = this.categories.filter(category => category.id !== categoryId);
+      }
+    })
   }
 }

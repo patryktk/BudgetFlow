@@ -15,17 +15,21 @@
               <div>{{ category.name }}</div>
               <small class="text-muted">Założyciel: {{ category.createdByUserId }}</small>
             </div>
-            <div class="border rounded" [ngStyle]="{'background': category.hexColor}">
+            <div [ngStyle]="{'background': category.hexColor}" class="border rounded">
               {{ category.hexColor }}
             </div>
-            <button
-              [disabled]="category.createdByUserId !== activeUser"
-              class="btn btn-danger btn-sm"
-              (click)="deleteCategory(category.id)"
-            >
-              Usuń
-            </button>
-            <button mat-raised-button color="warn" (click)="openDialog()">Usuń 2</button>
+            <span [matTooltipDisabled]="category.createdByUserId === activeUser"
+                  matTooltip="Nie możesz usunać tej kategorii, bo nie jesteś jej twórcą."
+                  matTooltipShowDelay="500">
+              <button (click)="openDialog(category.id)"
+                      [disabled]="category.createdByUserId !== activeUser"
+                      color="warn"
+                      mat-raised-button>
+                Usuń
+              </button>
+            </span>
+
+
           </li>
           <li *ngIf="categories.length === 0" class="list-group-item">
             Brak kategorii do wyświetlenia.
@@ -44,15 +48,15 @@
           <form #categoryForm="ngForm" (ngSubmit)="addCategory()">
             <!-- Nazwa kategorii -->
             <div class="mb-3">
-              <label for="name" class="form-label">Nazwa Kategorii</label>
+              <label class="form-label" for="name">Nazwa Kategorii</label>
               <input
-                id="name"
-                type="text"
-                class="form-control"
                 [(ngModel)]="newCategory.name"
+                class="form-control"
+                id="name"
+                minlength="3"
                 name="name"
                 required
-                minlength="3"
+                type="text"
               />
               <div
                 *ngIf="
@@ -67,22 +71,22 @@
 
             <div class="row mb-3">
               <div class="col-md-3">
-                <label for="color" class="form-label">Wybierz Kolor</label>
+                <label class="form-label" for="color">Wybierz Kolor</label>
                 <input
                   [(colorPicker)]="color"
-                  [style.background]="color"
                   [cpOutputFormat]="'hex'"
+                  [style.background]="color"
                   class="form-control"
-                  name="color"
                   id="color"
+                  name="color"
                 />
               </div>
             </div>
             <!-- Przycisk Dodaj -->
             <button
-              type="submit"
-              class="btn btn-primary"
               [disabled]="!categoryForm.valid"
+              class="btn btn-primary"
+              type="submit"
             >
               Dodaj
             </button>

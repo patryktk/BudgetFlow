@@ -1,6 +1,6 @@
-import {Component, inject} from '@angular/core';
-import {AddExpenseCategoryComponent} from "../add-expense-category/add-expense-category.component";
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, inject, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 
 @Component({
   selector: 'app-dialog-expense-category',
@@ -10,9 +10,21 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class DialogExpenseCategoryComponent {
 
-  dialogRef = inject(MatDialogRef<AddExpenseCategoryComponent>);
+  private expensesCategoryService = inject(ExpensesCategoryService);
+  private dialogRef = inject(MatDialogRef);
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { id: number | undefined }) {
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onYesClick(): void {
+    if (this.data.id !== undefined) {
+      this.expensesCategoryService.deleteExpenseCategory({expenseCategoryId: this.data.id}).subscribe(() => {
+        this.dialogRef.close('deleted');
+      })
+    }
   }
 }

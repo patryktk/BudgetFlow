@@ -14,9 +14,16 @@ import {AccountActivationComponent} from './pages/account-activation/account-act
 import {CodeInputModule} from "angular-code-input";
 import {FullCalendarModule} from "@fullcalendar/angular";
 import {MatButtonModule} from '@angular/material/button';
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle,} from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogModule,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatTooltip} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -41,6 +48,8 @@ import {MatInputModule} from '@angular/material/input';
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatDialogModule,
+    MatTooltip
   ],
   providers: [
     provideHttpClient(withInterceptors([httpTokenInterceptor]))

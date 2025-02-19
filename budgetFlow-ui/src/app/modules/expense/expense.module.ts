@@ -23,8 +23,15 @@ import {ColorPickerModule} from "ngx-color-picker";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogModule,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import { DialogExpenseCategoryComponent } from './pages/ExpenseCategory/dialog-expense-category/dialog-expense-category.component';
+import {MatTooltip} from "@angular/material/tooltip";
 
 registerLocaleData(localePl);
 
@@ -47,22 +54,24 @@ registerLocaleData(localePl);
     ExpenseListCalendarComponent,
     DialogExpenseCategoryComponent
   ],
-  imports: [
-    CommonModule,
-    ExpenseRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FullCalendarModule,
-    ColorPickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose
-  ],
+    imports: [
+        CommonModule,
+        ExpenseRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FullCalendarModule,
+        ColorPickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatButtonModule,
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogModule,
+        MatTooltip
+    ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}
   ]

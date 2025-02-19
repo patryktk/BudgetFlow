@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.usersservice.model.Token;
@@ -78,6 +79,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(@Valid AuthenticationRequest request) {
+        userRepository.findByEmail(request.email()).orElseThrow(() -> new UsernameNotFoundException("User not found with this email: " + request.email()));
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );

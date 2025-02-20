@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         if (err.error !== null && err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors;
         } else if(err.error !== null) {
-          this.errorMsg.push(err.error.businessErrorMessage);
+          this.errorMsg.push(err.error.businessErrorDescription || "Error. Try again later!");
         }else{
           this.errorMsg.push("Error. Try again later!");
         }

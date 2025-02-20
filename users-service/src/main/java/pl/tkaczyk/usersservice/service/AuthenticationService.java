@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.usersservice.model.Token;
@@ -79,7 +78,6 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(@Valid AuthenticationRequest request) {
-        userRepository.findByEmail(request.email()).orElseThrow(() -> new UsernameNotFoundException("User not found with this email: " + request.email()));
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );
@@ -106,7 +104,7 @@ public class AuthenticationService {
 
     public boolean validateToken(String token, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        if(token.startsWith("Bearer")){
+        if (token.startsWith("Bearer")) {
             token = token.substring(7);
         }
         return jwtService.isTokenValid(token, user);

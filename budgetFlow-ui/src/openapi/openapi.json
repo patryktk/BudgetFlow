@@ -529,6 +529,39 @@
         }
       }
     },
+    "/expenses/income/statistics": {
+      "post": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "getStatisticsByMonth_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseResponseForStatistics"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/income/incomeByMonth": {
       "post": {
         "tags": [

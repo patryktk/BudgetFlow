@@ -5,16 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.feign.GroupClient;
+import pl.tkaczyk.expensesservice.mapper.ExpenseStatisticsMapper;
 import pl.tkaczyk.expensesservice.mapper.IncomeMapper;
 import pl.tkaczyk.expensesservice.model.Income;
-import pl.tkaczyk.expensesservice.model.dto.GroupResponse;
-import pl.tkaczyk.expensesservice.model.dto.IncomeRequest;
-import pl.tkaczyk.expensesservice.model.dto.IncomeResponse;
-import pl.tkaczyk.expensesservice.model.dto.StatisticsByMonthRequest;
+import pl.tkaczyk.expensesservice.model.dto.*;
 import pl.tkaczyk.expensesservice.repository.IncomeRepository;
 import pl.tkaczyk.expensesservice.service.IncomeService;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +24,7 @@ public class IncomeServiceImpl implements IncomeService {
     private final IncomeRepository incomeRepository;
     private final IncomeMapper incomeMapper;
     private final GroupClient groupClient;
+    private final ExpenseStatisticsMapper expenseStatisticsMapper;
 
     @Override
     public IncomeResponse save(IncomeRequest incomeRequest, String userId) {
@@ -58,7 +58,7 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup) {
-        if(inGroup){
+        if (inGroup) {
             ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
             if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
                 return incomeRepository.findIncomesByUsersIdAndMonth(groupResponseResponseEntity.getBody().users(),
@@ -75,5 +75,23 @@ public class IncomeServiceImpl implements IncomeService {
                 .stream()
                 .map(incomeMapper::toIncomeResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ExpenseResponseForStatistics> getIncomStatisticByMonth(String userId, StatisticsByMonthRequest request) {
+        GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId)).getBody();
+        List<ExpenseResponsePartialProjection> expensesStatistics;
+        if (groupResponse.isInGroup()) {
+            expensesStatistics = incomeRepository.findExpensesStatistics(LocalDate.parse(request.startDate())
+                    , LocalDate.parse(request.endDate()),
+                    groupResponse.users());
+
+        } else {
+            expensesStatistics = incomeRepository.findExpensesStatistics(LocalDate.parse(request.startDate())
+                    , LocalDate.parse(request.endDate())
+                    , Collections.singleton(Long.valueOf(userId)));
+        }
+        //TODO: Wyliczyć to do średniej? Ale nie ma jeszcze, żadnej średniej wartości. Czyli zrobić to w przyszłości jak będą dane historyczne
+        return expensesStatistics.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());
     }
 }

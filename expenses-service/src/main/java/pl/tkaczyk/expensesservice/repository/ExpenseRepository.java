@@ -40,7 +40,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             where e.expenseDate >= :startDate
             and e.expenseDate <= :endDate
             and e.userId in :userIds
-            group by ec.name
+            group by ec.id
             """)
     List<ExpenseResponsePartialProjection> findPartialExpensesByUsersByStartDateAndEndDate(@Param("startDate") LocalDate startDate,
                                                                                            @Param("endDate") LocalDate endDate,

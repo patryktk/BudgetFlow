@@ -3,21 +3,23 @@ import {ExpenseService} from "../../../../../services/services/expense.service";
 import {ExpenseResponseForStatistics} from "../../../../../services/models/expense-response-for-statistics";
 import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
+import {IncomeService} from "../../../../../services/services/income.service";
 
 @Component({
-    selector: 'app-main-view',
-    templateUrl: './main-view.component.html',
-    styleUrl: './main-view.component.scss',
-    standalone: false
+  selector: 'app-main-view',
+  templateUrl: './main-view.component.html',
+  styleUrl: './main-view.component.scss',
+  standalone: false
 })
-export class MainViewComponent implements OnInit{
+export class MainViewComponent implements OnInit {
 
-  statistics: ExpenseResponseForStatistics[] = []
+  expensesStatistics: ExpenseResponseForStatistics[] = []
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
-
+  incomeStatistics: ExpenseResponseForStatistics[] = []
 
   constructor(private expenseService: ExpenseService,
-              private utilsService: UtilsService) {
+              private utilsService: UtilsService,
+              private incomeService: IncomeService) {
   }
 
 
@@ -33,10 +35,21 @@ export class MainViewComponent implements OnInit{
       body: this.requestStatistics
     }).subscribe({
       next: result => {
-        this.statistics = result;
+        this.expensesStatistics = result;
       },
       error: err => {
-        console.log("Error during getting statistics data")
+        console.log("Error during getting statistics data", err)
+      }
+    })
+
+    this.incomeService.getStatisticsByMonth1({
+      body: this.requestStatistics
+    }).subscribe({
+      next: result => {
+        this.incomeStatistics = result;
+      },
+      error: err => {
+        console.log("Error during getting statistics data", err)
       }
     })
   }

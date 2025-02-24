@@ -28,11 +28,12 @@ export class RegisterComponent {
         this.router.navigate(['login'], {state: {successMessage: 'Rejestracja udana. Sprawdź e-mail, aby potwierdzić konto.'}});
       },
       error: err => {
-        console.log(err);
-        if (err.error.validationErrors) {
-          this.errorMsg = err.error.validationErrors || 'Error. Try again later!';
-        } else {
-          this.errorMsg.push(err.error.businessErrorMessage || "Error. Try again later!");
+        if (err.error !== null && err.error.validationErrors) {
+          this.errorMsg = err.error.validationErrors;
+        } else if(err.error !== null) {
+          this.errorMsg.push(err.error.businessErrorDescription || "Error. Try again later!");
+        }else{
+          this.errorMsg.push("Error. Try again later!");
         }
       }
     })

@@ -22,11 +22,9 @@ export class MainViewComponent implements OnInit {
               private incomeService: IncomeService) {
   }
 
-
   ngOnInit(): void {
     this.loadStatistics();
   }
-
 
   private loadStatistics() {
     this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();

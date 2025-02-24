@@ -24,19 +24,19 @@ public class IncomeController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<IncomeResponse> addIncome(@RequestBody IncomeRequest request,
-                                    @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
+                                                    @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok(incomeService.save(request, userId));
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<IncomeResponse> updateIncome(@RequestBody IncomeRequest request,
-                                       @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
+                                                       @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok(incomeService.editIncome(request));
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deleteIncome(@RequestParam("id") Long id,
-                                       @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
+                                                @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok(incomeService.deleteIncome(id));
     }
 
@@ -55,7 +55,7 @@ public class IncomeController {
     @PostMapping(value = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                                                    @RequestBody StatisticsByMonthRequest request) {
-        return ResponseEntity.ok().body(incomeService.getIncomStatisticByMonth(userId, request));
+        return ResponseEntity.ok().body(incomeService.getIncomeStatisticByMonth(userId, request));
     }
 
 }

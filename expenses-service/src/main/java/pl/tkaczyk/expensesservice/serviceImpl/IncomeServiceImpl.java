@@ -78,7 +78,7 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<ExpenseResponseForStatistics> getIncomStatisticByMonth(String userId, StatisticsByMonthRequest request) {
+    public List<ExpenseResponseForStatistics> getIncomeStatisticByMonth(String userId, StatisticsByMonthRequest request) {
         GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId)).getBody();
         List<ExpenseResponsePartialProjection> expensesStatistics;
         if (groupResponse.isInGroup()) {
@@ -92,6 +92,15 @@ public class IncomeServiceImpl implements IncomeService {
                     , Collections.singleton(Long.valueOf(userId)));
         }
         //TODO: Wyliczyć to do średniej? Ale nie ma jeszcze, żadnej średniej wartości. Czyli zrobić to w przyszłości jak będą dane historyczne
-        return expensesStatistics.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());
+        List<ExpenseResponseForStatistics> collect = expensesStatistics.stream().map(expenseStatisticsMapper::toExpenseResponseForStatistics).collect(Collectors.toList());
+
+        calculateAverageIncome(LocalDate.parse(request.startDate()), collect, userId);
+        return collect;
+    }
+
+    private void calculateAverageIncome(LocalDate startDate, List<ExpenseResponseForStatistics> collect, String userId) {
+        List<IncomeAverage> averageIncomeValues = incomeRepository.findAverageIncomeValues(startDate, Long.valueOf(userId));
+
+
     }
 }

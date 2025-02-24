@@ -19,5 +19,5 @@ public interface IncomeService {
 
     List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest date, Boolean inGroup);
 
-    List<ExpenseResponseForStatistics> getIncomStatisticByMonth(String userId, StatisticsByMonthRequest request);
+    List<ExpenseResponseForStatistics> getIncomeStatisticByMonth(String userId, StatisticsByMonthRequest request);
 }

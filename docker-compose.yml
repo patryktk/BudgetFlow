@@ -74,10 +74,9 @@ services:
     image: gateway
     ports:
       - "8000:8000"
-#    environment:
-#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
-    expose:
-      - "8000"
+      - "8001:8001"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8001"
     networks:
       - budget-flow
     depends_on:

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Income;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponsePartialProjection;
-import pl.tkaczyk.expensesservice.model.dto.IncomeAverage;
+import pl.tkaczyk.expensesservice.model.dto.IncomeSumByMonthInCategory;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,18 +50,20 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
                                                                   @Param("endDate") LocalDate endDate,
                                                                   @Param("userIds") Set<Long> userIds);
 
-    @Query("""
-            select ic.id, ic.name, i.amount, avg_table.average
-                          from Income i
-                                   join IncomeCategory ic on ic = i.incomeCategory
-                          left join ( select ic.id as category_id, (sum(i.amount) / count(ic.id)) as average
-                                      from Income i
-                                               join IncomeCategory ic on ic = i.incomeCategory
-                                      where i.incomeDate < :date
-                                                  and i.userId = :userId
-                                      group by ic.id) avg_table on ic.id = avg_table.category_id
-                          where i.incomeDate >= :date
-            """)
-    List<IncomeAverage> findAverageIncomeValues(@Param("date") LocalDate date,
-                                                @Param("userId") Long userId);
+    @Query(value = """
+            select ic.id, ic.name, sum(i.amount) as amountIncomeInMonth,
+             date_trunc('month', i.incomeDate) as month,
+              AVG(SUM(i.amount)) OVER (
+                 PARTITION BY ic.id
+                 ORDER BY DATE_TRUNC('month', i.incomeDate)
+                 ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                 ) AS averageValue
+             from Income i
+             join IncomeCategory ic on i.incomeCategory = ic
+             where i.incomeDate < :date
+             and i.userId = :userId
+             group by month, ic.id
+             """, nativeQuery = true)
+    List<IncomeSumByMonthInCategory> findAverageIncomeValues(@Param("date") LocalDate date,
+                                                             @Param("userId") Long userId);
 }

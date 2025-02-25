@@ -5,7 +5,6 @@ import lombok.Builder;
 @Builder
 public record ExpenseResponseForStatistics(
     String name,
-    double amount,
-    double averageAmount
+    double amount
 ) {
 }

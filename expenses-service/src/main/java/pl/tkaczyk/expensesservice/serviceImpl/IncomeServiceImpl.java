@@ -99,7 +99,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     private void calculateAverageIncome(LocalDate startDate, List<ExpenseResponseForStatistics> collect, String userId) {
-        List<IncomeAverage> averageIncomeValues = incomeRepository.findAverageIncomeValues(startDate, Long.valueOf(userId));
+        List<IncomeSumByMonthInCategory> averageIncomeValues = incomeRepository.findAverageIncomeValues(startDate, Long.valueOf(userId));
+        //TODO: U góry w liście mam średnia dla danego miesiąca
 
 
     }

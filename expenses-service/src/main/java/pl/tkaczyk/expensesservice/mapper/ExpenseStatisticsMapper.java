@@ -11,7 +11,6 @@ public class ExpenseStatisticsMapper {
         return ExpenseResponseForStatistics.builder()
                 .name(projection.getName())
                 .amount(projection.getAmount())
-                .averageAmount(0.00)
                 .build();
     }
 }

@@ -8,14 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ExpenseResponseForStatistics } from '../../models/expense-response-for-statistics';
+import { ResponseForStatistics } from '../../models/response-for-statistics';
 import { StatisticsByMonthRequest } from '../../models/statistics-by-month-request';
 
 export interface GetStatisticsByMonth1$Params {
       body: StatisticsByMonthRequest
 }
 
-export function getStatisticsByMonth1(http: HttpClient, rootUrl: string, params: GetStatisticsByMonth1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponseForStatistics>>> {
+export function getStatisticsByMonth1(http: HttpClient, rootUrl: string, params: GetStatisticsByMonth1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ResponseForStatistics>>> {
   const rb = new RequestBuilder(rootUrl, getStatisticsByMonth1.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -26,7 +26,7 @@ export function getStatisticsByMonth1(http: HttpClient, rootUrl: string, params:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ExpenseResponseForStatistics>>;
+      return r as StrictHttpResponse<Array<ResponseForStatistics>>;
     })
   );
 }

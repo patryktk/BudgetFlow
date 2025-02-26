@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseResponseForStatistics;
+import pl.tkaczyk.expensesservice.model.dto.ResponseForStatistics;
 import pl.tkaczyk.expensesservice.model.dto.IncomeRequest;
 import pl.tkaczyk.expensesservice.model.dto.IncomeResponse;
 import pl.tkaczyk.expensesservice.model.dto.StatisticsByMonthRequest;
@@ -53,8 +53,8 @@ public class IncomeController {
     }
 
     @PostMapping(value = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ExpenseResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
-                                                                                   @RequestBody StatisticsByMonthRequest request) {
+    public ResponseEntity<List<ResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                                            @RequestBody StatisticsByMonthRequest request) {
         return ResponseEntity.ok().body(incomeService.getIncomeStatisticByMonth(userId, request));
     }
 

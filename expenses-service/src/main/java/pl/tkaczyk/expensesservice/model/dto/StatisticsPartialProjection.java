@@ -1,6 +1,7 @@
 package pl.tkaczyk.expensesservice.model.dto;
 
-public interface ExpenseResponsePartialProjection {
+public interface StatisticsPartialProjection {
     String getName();
     double getAmount();
+    Double getAverageValue();
 }

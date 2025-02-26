@@ -13,9 +13,7 @@ public interface ExpenseService {
 
     Boolean deleteExpenseById(Long expenseId);
 
-    List<ExpenseResponseForStatistics> getAllExpensesStatistics(String userId);
-
-    List<ExpenseResponseForStatistics> getExpensesStatisticsByMonth(String userId, StatisticsByMonthRequest request);
+    List<ResponseForStatistics> getExpensesStatisticsByMonth(String userId, StatisticsByMonthRequest request);
 
     ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId);
 

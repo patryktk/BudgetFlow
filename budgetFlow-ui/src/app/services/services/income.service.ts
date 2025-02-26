@@ -15,7 +15,6 @@ import { addIncome } from '../fn/income/add-income';
 import { AddIncome$Params } from '../fn/income/add-income';
 import { deleteIncome } from '../fn/income/delete-income';
 import { DeleteIncome$Params } from '../fn/income/delete-income';
-import { ExpenseResponseForStatistics } from '../models/expense-response-for-statistics';
 import { getAllIncomeByUser } from '../fn/income/get-all-income-by-user';
 import { GetAllIncomeByUser$Params } from '../fn/income/get-all-income-by-user';
 import { getIncomeByUserByMonth } from '../fn/income/get-income-by-user-by-month';
@@ -23,6 +22,7 @@ import { GetIncomeByUserByMonth$Params } from '../fn/income/get-income-by-user-b
 import { getStatisticsByMonth1 } from '../fn/income/get-statistics-by-month-1';
 import { GetStatisticsByMonth1$Params } from '../fn/income/get-statistics-by-month-1';
 import { IncomeResponse } from '../models/income-response';
+import { ResponseForStatistics } from '../models/response-for-statistics';
 import { updateIncome } from '../fn/income/update-income';
 import { UpdateIncome$Params } from '../fn/income/update-income';
 
@@ -141,7 +141,7 @@ export class IncomeService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getStatisticsByMonth1$Response(params: GetStatisticsByMonth1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseResponseForStatistics>>> {
+  getStatisticsByMonth1$Response(params: GetStatisticsByMonth1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ResponseForStatistics>>> {
     return getStatisticsByMonth1(this.http, this.rootUrl, params, context);
   }
 
@@ -151,9 +151,9 @@ export class IncomeService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getStatisticsByMonth1(params: GetStatisticsByMonth1$Params, context?: HttpContext): Observable<Array<ExpenseResponseForStatistics>> {
+  getStatisticsByMonth1(params: GetStatisticsByMonth1$Params, context?: HttpContext): Observable<Array<ResponseForStatistics>> {
     return this.getStatisticsByMonth1$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ExpenseResponseForStatistics>>): Array<ExpenseResponseForStatistics> => r.body)
+      map((r: StrictHttpResponse<Array<ResponseForStatistics>>): Array<ResponseForStatistics> => r.body)
     );
   }
 

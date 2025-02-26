@@ -25,10 +25,10 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.getAllExpenses(Long.parseLong(userId)));
     }
 
-    @PostMapping(value = "/expenseByMonth",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/expenseByMonth", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponse>> getAllExpenseByUserByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                                             @RequestBody StatisticsByMonthRequest request,
-                                                                            @RequestParam Boolean inGroup){
+                                                                            @RequestParam Boolean inGroup) {
         return ResponseEntity.ok().body(expenseService.getAllExpensesByUserByMonth(userId, request, inGroup));
     }
 
@@ -39,28 +39,23 @@ public class ExpensesController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExpenseResponse> addExpense(@RequestBody @Valid ExpenseRequest request, @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
+    public ResponseEntity<ExpenseResponse> addExpense(@RequestBody @Valid ExpenseRequest request, @Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok().body(expenseService.saveExpense(request, userId));
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> deleteExpense(@RequestParam Long expenseId){
+    public ResponseEntity<Boolean> deleteExpense(@RequestParam Long expenseId) {
         return ResponseEntity.ok().body(expenseService.deleteExpenseById(expenseId));
     }
 
-    @GetMapping(value = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ExpenseResponseForStatistics>> getAllExpenseStatistics(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
-        return ResponseEntity.ok().body(expenseService.getAllExpensesStatistics(userId));
-    }
-
     @PostMapping(value = "/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ExpenseResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
-                                                                                   @RequestBody StatisticsByMonthRequest request) {
+    public ResponseEntity<List<ResponseForStatistics>> getStatisticsByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                                            @RequestBody StatisticsByMonthRequest request) {
         return ResponseEntity.ok().body(expenseService.getExpensesStatisticsByMonth(userId, request));
     }
 
     @GetMapping(value = "/expensesToCalendarByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ExpenseCalendarFieldInfo>> getExpensesToCalendarByCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId){
+    public ResponseEntity<List<ExpenseCalendarFieldInfo>> getExpensesToCalendarByCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok().body(expenseService.getExpensesToCalendarByCategory(userId));
     }
 }

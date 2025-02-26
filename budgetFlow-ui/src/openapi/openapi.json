@@ -446,27 +446,6 @@
       }
     },
     "/expenses/statistics": {
-      "get": {
-        "tags": [
-          "Expense"
-        ],
-        "operationId": "getAllExpenseStatistics",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExpenseResponseForStatistics"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "post": {
         "tags": [
           "Expense"
@@ -490,7 +469,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExpenseResponseForStatistics"
+                    "$ref": "#/components/schemas/ResponseForStatistics"
                   }
                 }
               }
@@ -553,7 +532,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExpenseResponseForStatistics"
+                    "$ref": "#/components/schemas/ResponseForStatistics"
                   }
                 }
               }
@@ -1276,7 +1255,7 @@
           }
         }
       },
-      "ExpenseResponseForStatistics": {
+      "ResponseForStatistics": {
         "type": "object",
         "properties": {
           "name": {
@@ -1286,7 +1265,7 @@
             "type": "number",
             "format": "double"
           },
-          "averageAmount": {
+          "averageValue": {
             "type": "number",
             "format": "double"
           }

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../../../services/services/expense.service";
-import {ExpenseResponseForStatistics} from "../../../../../services/models/expense-response-for-statistics";
 import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
 import {IncomeService} from "../../../../../services/services/income.service";
+import {ResponseForStatistics} from "../../../../../services/models/response-for-statistics";
 
 @Component({
   selector: 'app-main-view',
@@ -13,9 +13,9 @@ import {IncomeService} from "../../../../../services/services/income.service";
 })
 export class MainViewComponent implements OnInit {
 
-  expensesStatistics: ExpenseResponseForStatistics[] = []
+  expensesStatistics: ResponseForStatistics[] = []
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
-  incomeStatistics: ExpenseResponseForStatistics[] = []
+  incomeStatistics: ResponseForStatistics[] = []
 
   constructor(private expenseService: ExpenseService,
               private utilsService: UtilsService,

@@ -17,7 +17,7 @@
           <tr *ngFor="let stat of expensesStatistics">
             <td>{{ stat.name }}</td>
             <td>{{ stat.amount | currency:'PLN' }}</td>
-            <td>{{ stat.averageAmount }}%</td>
+            <td>{{ stat.averageValue }}%</td>
           </tr>
           </tbody>
         </table>
@@ -44,7 +44,7 @@
           <tr *ngFor="let stat of incomeStatistics">
             <td>{{ stat.name }}</td>
             <td>{{ stat.amount | currency:'PLN' }}</td>
-            <td>{{ stat.averageAmount }}%</td>
+            <td>{{ stat.averageValue }}%</td>
           </tr>
           </tbody>
         </table>

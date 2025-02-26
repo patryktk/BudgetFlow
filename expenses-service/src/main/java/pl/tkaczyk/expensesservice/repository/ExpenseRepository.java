@@ -5,8 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Expense;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseResponsePartialProjection;
-import pl.tkaczyk.expensesservice.model.dto.ExpenseCalendarFieldInfo;
+import pl.tkaczyk.expensesservice.model.dto.StatisticsPartialProjection;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,27 +23,34 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
         """)
     List<Expense> findExpenseByUserIds(@Param("userIds") Set<Long> userIds);
 
-    @Query("""
-            select ec.name as name, sum(e.amount) as amount
-            from Expense e
-            join ExpenseCategory ec on ec = e.expenseCategory
-            where e.userId in :userIds
-            group by ec.name
-            """)
-    List<ExpenseResponsePartialProjection> findExpensesStatistics(@Param("userIds") Set<Long> userIds);
 
-    @Query("""
-            select ec.name as name, sum(e.amount) as amount
-            from Expense e
-            join ExpenseCategory ec on ec = e.expenseCategory
-            where e.expenseDate >= :startDate
-            and e.expenseDate <= :endDate
-            and e.userId in :userIds
-            group by ec.id
-            """)
-    List<ExpenseResponsePartialProjection> findPartialExpensesByUsersByStartDateAndEndDate(@Param("startDate") LocalDate startDate,
-                                                                                           @Param("endDate") LocalDate endDate,
-                                                                                           @Param("userIds") Set<Long> users);
+    @Query(value = """
+            select ec.name as name, sum(e.amount) as amount, coalesce(avg_table.averageValue,0) as averageValue
+                          from expense e
+                                   join expense_category ec on ec.id = e.expense_category_id
+                                   left join (SELECT DISTINCT ON (ec.id) ec.id                               as category_id,
+                                                                         ec.name,
+                                                                         sum(e.amount)                       AS amountIncomeInMonth,
+                                                                         date_trunc('month', e.expense_date) AS month,
+                                                                         AVG(SUM(e.amount)) OVER (
+                                                                             PARTITION BY ec.id
+                                                                             ORDER BY DATE_TRUNC('month', e.expense_date)
+                                                                             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                                                                             )                               AS averageValue
+                                              FROM expense e
+                                                       JOIN public.expense_category ec ON e.expense_category_id = ec.id
+                                              WHERE e.expense_date < '2025-02-01'
+                                                AND e.user_id = '1'
+                                              GROUP BY month, ec.id
+                                              ORDER BY ec.id, month DESC) avg_table on ec.id = avg_table.category_id
+                          where e.expense_date >= '2025-02-01'
+                            and e.expense_date <= '2025-02-28'
+                            and e.user_id = '1'
+                          group by ec.id, avg_table.averageValue
+            """, nativeQuery = true)
+    List<StatisticsPartialProjection> findPartialExpensesByUsersByStartDateAndEndDate(@Param("startDate") LocalDate startDate,
+                                                                                      @Param("endDate") LocalDate endDate,
+                                                                                      @Param("userIds") Set<Long> users);
 
 
     @Query("""

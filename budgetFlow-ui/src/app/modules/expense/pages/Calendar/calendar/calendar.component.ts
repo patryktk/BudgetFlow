@@ -29,6 +29,11 @@ export class CalendarComponent implements OnInit {
     plugins: [dayGridPlugin, interactionPlugin],
     locale: "pl",
     firstDay: 1,
+    height: 'auto',
+    headerToolbar: {
+      start: '',
+      center: 'title'
+    },
     selectable: true,
     dateClick: (arg) => this.handleDateClick(arg),
     events: [],

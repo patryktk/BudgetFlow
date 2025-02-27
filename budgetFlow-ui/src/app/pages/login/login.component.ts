@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.errorMsg = [];
+
+    this.tokenService.isTokenNotValid();
+
     this.authService.authentication({
       body: this.authRequest
     }).subscribe({

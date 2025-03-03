@@ -25,6 +25,7 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.getAllExpenses(Long.parseLong(userId)));
     }
 
+    //Widok kalendarza
     @PostMapping(value = "/expenseByMonth", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponse>> getAllExpenseByUserByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                                             @RequestBody StatisticsByMonthRequest request,

@@ -1,0 +1,30 @@
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  color: white;
+  font-size: 18px;
+}
+
+.custom-button {
+  background-color: #c4a347 !important;
+  color: white !important;
+}
+
+.custom-button .icon {
+  font-size: 19px; /* Rozmiar ikony */
+}
+
+.username-item {
+  font-size: 14px; /* Ustawienie rozmiaru czcionki */
+  padding: 8px 16px; /* Dodanie paddingu dla lepszego wyglądu */
+  cursor: default; /* Usunięcie kursora wskazującego */
+}

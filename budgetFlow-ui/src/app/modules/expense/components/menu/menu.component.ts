@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {TokenService} from "../../../../services/token/token.service";
+import { MatMenuTrigger } from '@angular/material/menu';
+
 
 @Component({
     selector: 'app-menu',
@@ -10,11 +12,14 @@ import {TokenService} from "../../../../services/token/token.service";
 })
 export class MenuComponent implements OnInit{
 
+  username: String = '';
+
+  @ViewChild(MatMenuTrigger, { static: false }) trigger: MatMenuTrigger | null = null;
+
   constructor(
     private tokenService: TokenService,) {
   }
 
-  username: String | null = '';
 
   ngOnInit(): void {
     const linkColor = document.querySelectorAll('.nav-link');
@@ -34,7 +39,6 @@ export class MenuComponent implements OnInit{
     const jwtHelper = new JwtHelperService();
     this.username = jwtHelper.decodeToken(this.tokenService.token).fullName;
   }
-
 
   logout() {
     localStorage.removeItem('token');

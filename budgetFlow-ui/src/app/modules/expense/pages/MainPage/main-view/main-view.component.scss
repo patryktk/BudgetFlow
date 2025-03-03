@@ -1,0 +1,43 @@
+.chart-box {
+  margin-top: 10px;
+}
+.categories-list {
+  list-style: none; /* Usunięto punkty listy */
+  padding: 0; /* Usunięto wewnętrzne odstępy */
+  margin: 0; /* Usunięto zewnętrzne odstępy */
+}
+
+.categories-list li {
+  display: flex; /* Wyświetlanie w jednej linii */
+  justify-content: space-between; /* Rozłożenie elementów na całą szerokość */
+  padding: 10px; /* Dodano wewnętrzne odstępy */
+  border-bottom: 1px solid #ccc; /* Dodano dolną granicę */
+}
+
+.category-name {
+  //font-weight: bold; /* Pogrubienie nazwy kategorii */
+}
+
+.category-amount {
+  color: #666; /* Kolor kwoty */
+}
+
+.category-box{
+  margin-top: 10px;
+}
+
+.box .card-body {
+  text-align: left; /* Wyrównanie do lewej strony */
+  padding: 20px; /* Dodano wewnętrzne odstępy */
+}
+
+.main-text {
+  font-size: 18px; /* Rozmiar czcionki */
+  font-weight: bold; /* Pogrubienie tekstu */
+}
+
+.sub-text {
+  font-size: 14px; /* Rozmiar czcionki */
+  color: #666; /* Kolor tekstu */
+  margin-top: 5px; /* Odstęp od górnego tekstu */
+}

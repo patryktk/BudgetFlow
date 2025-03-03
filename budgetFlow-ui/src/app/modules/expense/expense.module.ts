@@ -30,8 +30,11 @@ import {
   MatDialogModule,
   MatDialogTitle
 } from "@angular/material/dialog";
-import { DialogExpenseCategoryComponent } from './pages/ExpenseCategory/dialog-expense-category/dialog-expense-category.component';
+import {
+  DialogExpenseCategoryComponent
+} from './pages/ExpenseCategory/dialog-expense-category/dialog-expense-category.component';
 import {MatTooltip} from "@angular/material/tooltip";
+import {BaseChartDirective} from "ng2-charts";
 
 registerLocaleData(localePl);
 
@@ -70,7 +73,8 @@ registerLocaleData(localePl);
         MatDialogActions,
         MatDialogClose,
         MatDialogModule,
-        MatTooltip
+        MatTooltip,
+        BaseChartDirective
     ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}

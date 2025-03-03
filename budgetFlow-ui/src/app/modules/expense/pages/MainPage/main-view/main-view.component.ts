@@ -4,6 +4,8 @@ import {StatisticsByMonthRequest} from "../../../../../services/models/statistic
 import {UtilsService} from "../../../../../services/utils/utils.service";
 import {IncomeService} from "../../../../../services/services/income.service";
 import {ResponseForStatistics} from "../../../../../services/models/response-for-statistics";
+import {TokenService} from "../../../../../services/token/token.service";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-main-view',
@@ -16,14 +18,19 @@ export class MainViewComponent implements OnInit {
   expensesStatistics: ResponseForStatistics[] = []
   requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
   incomeStatistics: ResponseForStatistics[] = []
+  username: string | null = "";
+
 
   constructor(private expenseService: ExpenseService,
               private utilsService: UtilsService,
-              private incomeService: IncomeService) {
+              private incomeService: IncomeService,
+              private tokenService: TokenService) {
   }
 
   ngOnInit(): void {
     this.loadStatistics();
+    this.loadUsername();
+    this.loadChart();
   }
 
   private loadStatistics() {
@@ -51,4 +58,14 @@ export class MainViewComponent implements OnInit {
       }
     })
   }
+
+  private loadUsername() {
+    const jwtHelper = new JwtHelperService();
+    this.username = jwtHelper.decodeToken(this.tokenService.token).fullName;
+  }
+
+  private loadChart() {
+
+  }
+
 }

@@ -1,9 +1,6 @@
 package pl.tkaczyk.expensesservice.service;
 
-import pl.tkaczyk.expensesservice.model.dto.ResponseForStatistics;
-import pl.tkaczyk.expensesservice.model.dto.IncomeRequest;
-import pl.tkaczyk.expensesservice.model.dto.IncomeResponse;
-import pl.tkaczyk.expensesservice.model.dto.StatisticsByMonthRequest;
+import pl.tkaczyk.expensesservice.model.dto.*;
 
 import java.util.List;
 
@@ -20,4 +17,6 @@ public interface IncomeService {
     List<IncomeResponse> getIncomeByUserByMonth(String userId, StatisticsByMonthRequest date, Boolean inGroup);
 
     List<ResponseForStatistics> getIncomeStatisticByMonth(String userId, StatisticsByMonthRequest request);
+
+    SumResponse getSumOfIncomes(String userId, StatisticsByMonthRequest request);
 }

@@ -59,4 +59,10 @@ public class ExpensesController {
     public ResponseEntity<List<ExpenseCalendarFieldInfo>> getExpensesToCalendarByCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok().body(expenseService.getExpensesToCalendarByCategory(userId));
     }
+
+    @PostMapping(value = "/getSumOfExpenses", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SumResponse> getSumOfExpensesByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                               @RequestBody StatisticsByMonthRequest request) {
+        return ResponseEntity.ok().body(expenseService.getExpensesSumByMonth(userId,request));
+    }
 }

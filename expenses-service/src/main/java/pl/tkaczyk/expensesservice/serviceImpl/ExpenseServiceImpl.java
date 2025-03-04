@@ -109,4 +109,11 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .map(expenseMapper::toExpenseCalendarFieldInfo)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public SumResponse getExpensesSumByMonth(String userId, StatisticsByMonthRequest request) {
+        return expenseRepository.findSumOfExpenseByUserIdAndDate(Long.valueOf(userId),
+                LocalDate.parse(request.startDate()),
+                LocalDate.parse(request.endDate()));
+    }
 }

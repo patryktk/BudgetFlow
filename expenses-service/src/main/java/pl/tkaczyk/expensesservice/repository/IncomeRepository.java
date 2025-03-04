@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Income;
 import pl.tkaczyk.expensesservice.model.dto.StatisticsPartialProjection;
+import pl.tkaczyk.expensesservice.model.dto.SumResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -63,4 +64,15 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
     List<StatisticsPartialProjection> findExpensesStatistics(@Param("startDate") LocalDate startDate,
                                                              @Param("endDate") LocalDate endDate,
                                                              @Param("userIds") Set<Long> userIds);
+
+    @Query("""
+            select sum(i.amount)
+            from Income i
+            where i.incomeDate >= :startDate
+            and i.incomeDate <= :endDate
+            and i.userId =:userIds
+            """)
+    SumResponse findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
+                                                @Param("startDate") LocalDate startDate,
+                                                @Param("endDate") LocalDate endDate);
 }

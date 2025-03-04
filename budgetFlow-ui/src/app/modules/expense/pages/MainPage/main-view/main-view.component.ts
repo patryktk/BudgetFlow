@@ -21,6 +21,7 @@ export class MainViewComponent implements OnInit {
   username: string | null = "";
 
 
+
   constructor(private expenseService: ExpenseService,
               private utilsService: UtilsService,
               private incomeService: IncomeService,
@@ -67,5 +68,7 @@ export class MainViewComponent implements OnInit {
   private loadChart() {
 
   }
+
+
 
 }

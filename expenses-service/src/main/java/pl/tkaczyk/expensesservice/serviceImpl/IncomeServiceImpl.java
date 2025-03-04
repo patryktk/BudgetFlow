@@ -94,4 +94,9 @@ public class IncomeServiceImpl implements IncomeService {
 
         return expensesStatistics.stream().map(statisticsPartialMapper::toStatisticsResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public SumResponse getSumOfIncomes(String userId, StatisticsByMonthRequest request) {
+        return null;
+    }
 }

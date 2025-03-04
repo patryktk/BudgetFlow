@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Expense;
+import pl.tkaczyk.expensesservice.model.dto.SumResponse;
 import pl.tkaczyk.expensesservice.model.dto.StatisticsPartialProjection;
 
 import java.time.LocalDate;
@@ -71,4 +72,15 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             group by e.expenseDate, ec.id
             """)
     List<Tuple> findExpensesGroupByCategoryToCalendarFiled(@Param("userId") Long userId);
+
+    @Query("""
+            select sum(e.amount)
+            from Expense e
+            where e.expenseDate >= :startDate
+            and e.expenseDate <= :endDate
+            and e.userId =:userIds
+            """)
+    SumResponse findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
+                                                @Param("startDate") LocalDate startDate,
+                                                @Param("endDate") LocalDate endDate);
 }

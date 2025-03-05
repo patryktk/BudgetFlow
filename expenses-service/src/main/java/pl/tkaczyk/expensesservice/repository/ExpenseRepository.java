@@ -44,9 +44,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                 AND e.user_id = '1'
                                               GROUP BY month, ec.id
                                               ORDER BY ec.id, month DESC) avg_table on ec.id = avg_table.category_id
-                          where e.expense_date >= '2025-02-01'
-                            and e.expense_date <= '2025-02-28'
-                            and e.user_id = '1'
+                          where e.expense_date >= :startDate
+                            and e.expense_date <= :endDate
+                            and e.user_id in :userIds
                           group by ec.id, avg_table.averageValue
             """, nativeQuery = true)
     List<StatisticsPartialProjection> findPartialExpensesByUsersByStartDateAndEndDate(@Param("startDate") LocalDate startDate,
@@ -78,7 +78,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             from Expense e
             where e.expenseDate >= :startDate
             and e.expenseDate <= :endDate
-            and e.userId =:userIds
+            and e.userId =:userId
             """)
     SumResponse findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
                                                 @Param("startDate") LocalDate startDate,

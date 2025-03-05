@@ -22,4 +22,5 @@ export { IncomeResponse } from './models/income-response';
 export { RegistrationRequest } from './models/registration-request';
 export { ResponseForStatistics } from './models/response-for-statistics';
 export { StatisticsByMonthRequest } from './models/statistics-by-month-request';
+export { SumResponse } from './models/sum-response';
 export { UserResponse } from './models/user-response';

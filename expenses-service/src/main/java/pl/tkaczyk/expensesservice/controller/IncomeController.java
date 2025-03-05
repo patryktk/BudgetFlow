@@ -56,7 +56,7 @@ public class IncomeController {
     }
 
     @PostMapping(value = "/getSumOfIncomes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SumResponse> getSumOfExpensesByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+    public ResponseEntity<SumResponse> getSumOfIncomesByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                                @RequestBody StatisticsByMonthRequest request) {
         return ResponseEntity.ok().body(incomeService.getSumOfIncomes(userId,request));
     }

@@ -1,0 +1,16 @@
+<div class="col-12">
+  <h4>{{ title }}</h4>
+  <div *ngIf="statistics.length > 0; else brakDanych">
+    <ul *ngFor="let stat of statistics" class="categories-list">
+      <li>
+        <span class="category-name">{{ stat.name }}</span>
+        <span class="category-amount">{{ stat.averageValue }} %</span>
+        <span class="category-amount">{{ stat.amount | currency: 'PLN' }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #brakDanych>
+  <div>Brak danych</div>
+</ng-template>

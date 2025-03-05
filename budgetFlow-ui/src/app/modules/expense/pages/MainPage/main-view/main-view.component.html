@@ -4,87 +4,35 @@
   </div>
   <div class="row">
     <div class="col-sm-3 box">
-      <div class="card border">
-        <div class="card-body">
-          <div class="main-text">
-            Pole 1
-          </div>
-          <div class="sub-text">
-            Przychód
-          </div>
-        </div>
-      </div>
+      <app-summary-card [value]="sumOfIncome.sum" title="Przychód"></app-summary-card>
     </div>
     <div class="col-sm-3 box">
-      <div class="card border">
-        <div class="card-body">
-          <div class="main-text">
-            Pole 1
-          </div>
-          <div class="sub-text">
-            Wydatki
-          </div>
-        </div>
-      </div>
+      <app-summary-card [value]="sumOfExpense.sum" title="Wydatki"></app-summary-card>
     </div>
     <div class="col-sm-3 box">
-      <div class="card border">
-        <div class="card-body">
-          <div class="main-text">
-            Soon...
-          </div>
-          <div class="sub-text">
-            Balans
-          </div>
-        </div>
-      </div>
+      <app-summary-card title="Bilans"></app-summary-card>
     </div>
     <div class="col-sm-3 box">
-      <div class="card border">
-        <div class="card-body">
-          <div class="main-text">
-            Soon...
-          </div>
-          <div class="sub-text">
-            Oszczędności
-          </div>
-        </div>
-      </div>
+      <app-summary-card title="Oszczędności"></app-summary-card>
     </div>
+
   </div>
   <div class="row">
     <div class="col-12 chart-box">
-      <div class="card border">
-        <div class="card-body text-center">
-          Wykres
-        </div>
-      </div>
+      <app-chart-main [chartData]="doughnutChartData"
+                      [chartOptions]="doughnutChartOptions"
+                      [chartType]="doughnutChartType"
+                      [isDataLoaded]="isDataLoaded"
+                      [statistics]="expensesStatistics">
+      </app-chart-main>
     </div>
   </div>
   <div class="row category-box">
-    <div class="col-12">
-      <h4>Kategorie Wydatków</h4>
-      <ul class="categories-list" *ngFor="let stat of expensesStatistics">
-        <li>
-          <span class="category-name">{{ stat.name }}</span>
-          <span class="category-amount">{{ stat.averageValue }} %</span>
-          <span class="category-amount">{{ stat.amount | currency: 'PLN' }}</span>
-        </li>
-
-      </ul>
-    </div>
+    <app-category-list [statistics]="expensesStatistics" title="Kategoria Wydatków">
+    </app-category-list>
   </div>
   <div class="row category-box">
-    <div class="col-12">
-      <h4>Kategorie Przychodów</h4>
-      <ul class="categories-list" *ngFor="let stat of incomeStatistics">
-        <li>
-          <span class="category-name">{{ stat.name }}</span>
-          <span class="category-amount">{{ stat.averageValue }} %</span>
-          <span class="category-amount">{{ stat.amount | currency: 'PLN' }}</span>
-        </li>
-
-      </ul>
-    </div>
+    <app-category-list [statistics]="incomeStatistics" title="Kategoria Przychodów">
+    </app-category-list>
   </div>
 </div>

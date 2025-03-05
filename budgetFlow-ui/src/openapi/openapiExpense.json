@@ -386,6 +386,66 @@
         }
       }
     },
+    "/expenses/income/getSumOfIncomes": {
+      "post": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "getSumOfExpensesByMonth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SumResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/getSumOfExpenses": {
+      "post": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "getSumOfExpensesByMonth_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SumResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory": {
       "post": {
         "tags": [
@@ -806,6 +866,15 @@
           "createdByUserId": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "SumResponse": {
+        "type": "object",
+        "properties": {
+          "sum": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

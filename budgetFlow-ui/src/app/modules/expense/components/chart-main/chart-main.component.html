@@ -1,0 +1,26 @@
+<div class="card border">
+  <div class="card-body text-center">
+    <div class="chart-container">
+      <div class="chart-wrapper">
+        <ng-container [ngSwitch]="isDataLoaded">
+          <div *ngSwitchCase="false">Ładowanie...</div>
+          <ng-container *ngSwitchCase="true">
+            <ng-container *ngIf="statistics.length > 0; else brakDanych">
+              <canvas
+                *ngIf="isDataLoaded && statistics.length > 0"
+                [data]="chartData"
+                [options]="chartOptions"
+                [type]="chartType"
+                baseChart>
+              </canvas>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #brakDanych>
+  <div>Brak danych</div>
+</ng-template>

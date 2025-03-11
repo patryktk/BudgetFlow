@@ -1,12 +1,11 @@
 package pl.tkaczyk.expensesservice.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,6 +23,13 @@ public class ExpenseCategory {
     private Long createdByUserId;
     private String hexColor;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_category_id")
+    private ExpenseCategory parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
+    private List<ExpenseCategory> subCategories = new ArrayList<>();
+
     @ElementCollection
     private Set<Long> sharedWithUsers;
 
@@ -32,5 +38,10 @@ public class ExpenseCategory {
             this.sharedWithUsers = new HashSet<>();
         }
         this.sharedWithUsers.add(userId);
+    }
+
+    public void addSubCategory(ExpenseCategory subCategory) {
+        subCategories.add(subCategory);
+        subCategory.setParentCategory(this);
     }
 }

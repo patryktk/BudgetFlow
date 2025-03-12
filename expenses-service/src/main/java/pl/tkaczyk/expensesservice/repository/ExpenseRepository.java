@@ -80,7 +80,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             and e.expenseDate <= :endDate
             and e.userId =:userId
             """)
-    SumResponse findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
+    Tuple findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
                                                 @Param("startDate") LocalDate startDate,
                                                 @Param("endDate") LocalDate endDate);
 }

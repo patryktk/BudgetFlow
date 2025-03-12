@@ -6,39 +6,54 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
-        <table class="table">
-          <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Expense Category</th>
-            <th>Amount</th>
-            <th>Expense Date</th>
-            <th>Note</th>
-            <th>User ID</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let expense of expenses;  let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ expense.name }}</td>
-            <td>{{ expense.expenseCategory?.name }}</td>
-            <td>{{ expense.amount | currency:'PLN' }}</td>
-            <td>{{ expense.expenseDate | date:'dd-MM-yyyy' }}</td>
-            <td>{{ expense.note }}</td>
-            <td>{{ expense.userId }}</td>
-            <td>
-              <button class="btn btn-danger" (click)="deleteExpense(expense.id)">Usuń</button>
-              <button class="btn btn-primary" (click)="editExpense(expense.id)">Edytuj</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Expense Category</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Expense Date</th>
+              <th scope="col">Note</th>
+              <th scope="col">User ID</th>
+              <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let expense of expenses; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ expense.name }}</td>
+              <td>{{ expense.expenseCategory?.name }}</td>
+              <td class="text-end">{{ expense.amount | currency:'PLN' }}</td>
+              <td>{{ expense.expenseDate | date:'dd-MM-yyyy' }}</td>
+              <td>{{ expense.note }}</td>
+              <td>{{ expense.userId }}</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Expense actions">
+                  <button class="btn btn-sm btn-outline-primary" (click)="editExpense(expense.id)">
+                    <i class="bi bi-pencil"></i> Edytuj
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger ms-1" (click)="deleteExpense(expense.id)">
+                    <i class="bi bi-trash"></i> Usuń
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!expenses || expenses.length === 0">
+              <td colspan="8" class="text-center py-3">Brak wydatków do wyświetlenia</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Zamknij</button>
       </div>
     </div>
   </div>
 </div>
+
 <app-expense-form
   *ngIf="showAddExpenseForm"
   [expense]="selectedExpense"

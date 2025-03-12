@@ -1,61 +1,68 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">BudgetFlow</a>
+    <!-- Dodana ikona obok nazwy aplikacji -->
+    <a class="navbar-brand d-flex align-items-center" href="javascript:void(0)">
+      <i class="fas fa-wallet me-2"></i> BudgetFlow
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="#navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation"
-    >
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" aria-current="page" routerLink="/expense">
-            <i class="fas fa-home-alt"></i> Home
+            <i class="fas fa-home"></i> Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/calendar">
-            <i class="fas fa-home-alt"></i>&nbsp;Calendar
+          <a class="nav-link" routerLink="/expense/calendar">
+            <i class="fas fa-calendar"></i> Calendar
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/expense">
-            <i class="fas fa-book"></i>&nbsp;Expense
+          <a class="nav-link" routerLink="/expense/expense">
+            <i class="fas fa-receipt"></i> Expense
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/addExpenseCategory">
-            <i class="fas fa-book"></i>&nbsp;Expense Category
+          <a class="nav-link" routerLink="/expense/addExpenseCategory">
+            <i class="fas fa-tags"></i> Expense Category
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/groups">
-            <i class="fas fa-book"></i>&nbsp;My Groups
+          <a class="nav-link" routerLink="/expense/groups">
+            <i class="fas fa-users"></i> My Groups
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/income">
-            <i class="fas fa-book"></i>&nbsp;Income
+          <a class="nav-link" routerLink="/expense/income">
+            <i class="fas fa-money-bill"></i> Income
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/incomeCategory">
-            <i class="fas fa-book"></i>&nbsp;Income Category
+          <a class="nav-link" routerLink="/expense/incomeCategory">
+            <i class="fas fa-folder"></i> Income Category
           </a>
         </li>
       </ul>
-<!--      <span class="username-item">{{ username }}</span>-->
-      <button mat-button class="custom-button" [matMenuTriggerFor]="menu">
-        <span class="icon">{{ username.charAt(0) }}</span>
+      <button mat-button class="user-avatar-button ms-3" [matMenuTriggerFor]="menu">
+        <span class="user-initial">{{ username.charAt(0) }}</span>
       </button>
     </div>
   </div>
 </nav>
 
-
 <mat-menu #menu="matMenu" [xPosition]="'before'" [yPosition]="'below'">
+  <!-- Element z nazwą użytkownika (bez możliwości kliknięcia) -->
+  <div class="username-display">
+    <small>{{ username }}</small>
+  </div>
+  <!-- Separator -->
+  <mat-divider></mat-divider>
+  <!-- Przycisk wylogowania -->
   <button mat-menu-item (click)="logout()">
-    Wyloguj się
+    <i class="fas fa-sign-out-alt me-2"></i> Wyloguj się
   </button>
 </mat-menu>

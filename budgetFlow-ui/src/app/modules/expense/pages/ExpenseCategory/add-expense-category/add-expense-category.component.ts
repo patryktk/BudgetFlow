@@ -3,7 +3,6 @@ import {ExpensesCategoryService} from "../../../../../services/services/expenses
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogExpenseCategoryComponent} from "../dialog-expense-category/dialog-expense-category.component";
 
 @Component({
   selector: 'app-add-expense-category',
@@ -58,15 +57,15 @@ export class AddExpenseCategoryComponent implements OnInit {
   }
 
   openDialog(categoryId: number | undefined): void {
-    const dialogRef = this.dialog.open(DialogExpenseCategoryComponent, {
-      data: {id: categoryId}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'deleted') {
-        console.log("Kategoria została usunięta");
-        this.categories = this.categories.filter(category => category.id !== categoryId);
-      }
-    })
+    // const dialogRef = this.dialog.open(DialogExpenseCategoryComponent, {
+    //   data: {id: categoryId}
+    // });
+    //
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === 'deleted') {
+    //     console.log("Kategoria została usunięta");
+    //     this.categories = this.categories.filter(category => category.id !== categoryId);
+    //   }
+    // })
   }
 }

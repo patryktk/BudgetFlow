@@ -26,6 +26,8 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MenuComponent} from "./modules/expense/components/menu/menu.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NgOptimizedImage} from "@angular/common";
+import {MatDivider} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatMenu,
     MatMenuItem,
     MatMenuTrigger,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgOptimizedImage,
+    MatDivider
   ],
   providers: [
     provideHttpClient(withInterceptors([httpTokenInterceptor]))

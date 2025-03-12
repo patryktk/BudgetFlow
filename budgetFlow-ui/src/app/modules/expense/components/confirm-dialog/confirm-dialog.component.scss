@@ -1,0 +1,106 @@
+.dialog-container {
+  min-width: 320px;
+  padding: 16px 0 8px;
+}
+
+.dialog-content {
+  padding: 0 24px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.dialog-custom-content {
+  padding: 0 24px;
+  margin-bottom: 16px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 24px 16px;
+  margin-bottom: 0;
+}
+
+// Domyślne klasy dla przycisków
+.btn-cancel {
+  background-color: #f44336;
+  color: white;
+
+  &:hover {
+    background-color: darken(#f44336, 10%);
+  }
+}
+
+.btn-confirm {
+  background-color: #4caf50;
+  color: white;
+
+  &:hover {
+    background-color: darken(#4caf50, 10%);
+  }
+}
+
+// Style dla różnych typów alertów
+.btn-primary {
+  background-color: #2196f3;
+  color: white;
+
+  &:hover {
+    background-color: darken(#2196f3, 10%);
+  }
+}
+
+.btn-warning {
+  background-color: #ff9800;
+  color: white;
+
+  &:hover {
+    background-color: darken(#ff9800, 10%);
+  }
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+
+  &:hover {
+    background-color: darken(#f44336, 10%);
+  }
+}
+
+.btn-success {
+  background-color: #4caf50;
+  color: white;
+
+  &:hover {
+    background-color: darken(#4caf50, 10%);
+  }
+}
+
+// Dodaj styl dla wskaźnika ładowania
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+// Styl dla komunikatu o błędzie
+.error-message {
+  color: #f44336;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+// Responsywność na małych ekranach
+@media (max-width: 599px) {
+  .dialog-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  button {
+    width: 100%;
+  }
+}

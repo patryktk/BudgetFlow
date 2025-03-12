@@ -1,101 +1,135 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {ExpenseService} from "../../../../../services/services/expense.service";
-import {ExpenseResponse} from "../../../../../services/models/expense-response";
-import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
-import {ExpenseRequest} from "../../../../../services/models/expense-request";
-import {UtilsService} from "../../../../../services/utils/utils.service";
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
+import { ExpenseService } from "../../../../../services/services/expense.service";
+import { ExpenseResponse } from "../../../../../services/models/expense-response";
+import { StatisticsByMonthRequest } from "../../../../../services/models/statistics-by-month-request";
+import { ExpenseRequest } from "../../../../../services/models/expense-request";
+import { UtilsService } from "../../../../../services/utils/utils.service";
 
 @Component({
-    selector: 'app-expense-list-calendar',
-    templateUrl: './expense-list-calendar.component.html',
-    styleUrl: './expense-list-calendar.component.scss',
-    standalone: false
+  selector: 'app-expense-list-calendar',
+  templateUrl: './expense-list-calendar.component.html',
+  styleUrl: './expense-list-calendar.component.scss',
+  standalone: false
 })
-export class ExpenseListCalendarComponent implements OnInit{
-
+export class ExpenseListCalendarComponent implements OnInit, OnDestroy {
   @Output() formClose = new EventEmitter<void>();
-  expenses: ExpenseResponse[] | null = null;
   @Input() dateDay: string | undefined = "";
-  requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''}
-  showAddExpenseForm = false;
-  selectedExpense: ExpenseRequest | null = null;
   @Input() selectedTab: 'all' | 'user' | 'group' = 'all';
+
+  expenses: ExpenseResponse[] = [];
+  isLoading: boolean = false;
+  errorMessage: string = '';
+  requestStatistics: StatisticsByMonthRequest = { startDate: '', endDate: '' };
+  showAddExpenseForm: boolean = false;
+  selectedExpense: ExpenseRequest | null = null;
+
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private expenseService: ExpenseService,
-    private utilsService: UtilsService,) {
-  }
+    private utilsService: UtilsService
+  ) {}
 
   ngOnInit(): void {
-    this.requestStatistics = {startDate: this.dateDay, endDate: this.dateDay};
-
+    this.requestStatistics = {
+      startDate: this.dateDay,
+      endDate: this.dateDay
+    };
     this.loadExpenses();
   }
 
-  private loadExpenses() {
-    this.expenseService.getAllExpenseByUserByMonth({
-      body: this.requestStatistics,
-      inGroup: false
-    }).subscribe({
-      next: result => {
-        this.expenses = result;
-      },
-      error: err => {
-        console.log("Error loading expenses list", err);
-
-      }
-    })
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
-  deleteExpense(id: number | undefined) {
-    if (id !== undefined) {
-      this.expenseService.deleteExpense({expenseId: id}).subscribe({
-        next: result => {
-          this.loadExpenses();
-          console.log(result);
-        },
-        error: err => {
-          console.log("Error deleting expense", err);
-        }
-      })
+  deleteExpense(id: number | undefined): void {
+    if (id === undefined) {
+      console.error('Cannot delete expense with undefined ID');
+      return;
+    }
+
+    if (confirm('Czy na pewno chcesz usunąć ten wydatek?')) {
+      this.isLoading = true;
+      const subscription = this.expenseService.deleteExpense({ expenseId: id })
+        .pipe(finalize(() => this.isLoading = false))
+        .subscribe({
+          next: () => {
+            this.loadExpenses();
+          },
+          error: (err) => {
+            this.errorMessage = 'Błąd podczas usuwania wydatku';
+            console.error("Error deleting expense", err);
+          }
+        });
+
+      this.subscriptions.add(subscription);
     }
   }
 
-  editExpense(id: number | undefined) {
+  editExpense(id: number | undefined): void {
     if (id === undefined) {
       console.error('ID cannot be undefined');
       return;
     }
 
-    // Sprawdź, czy expenses są zainicjowane
     if (!this.expenses) {
       console.error('Expenses are not initialized');
       return;
     }
-    const find = this.expenses?.find(expense => expense.id === id);
-    this.selectedExpense = this.utilsService.mapFormExpenseResponseToExpenseRequest(find)
-    this.showAddExpenseForm = true;
-  }
 
-  closeAddExpenseForm() {
-    this.loadExpenses();
-    this.showAddExpenseForm = false;
-  }
-
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent) {
-    this.closeModal();
-  }
-
-  onBackdropClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (target.classList.contains('modal')) {
-      this.closeModal();
-      this.loadExpenses();
+    const expense = this.expenses.find(expense => expense.id === id);
+    if (expense) {
+      this.selectedExpense = this.utilsService.mapFormExpenseResponseToExpenseRequest(expense);
+      this.showAddExpenseForm = true;
+    } else {
+      console.error(`Expense with ID ${id} not found`);
     }
   }
 
-  closeModal() {
-    this.formClose.emit()
+  closeAddExpenseForm(): void {
+    this.loadExpenses();
+    this.showAddExpenseForm = false;
+    this.selectedExpense = null;
+  }
+
+  @HostListener('document:keydown.escape')
+  handleEscapeKey(): void {
+    this.closeModal();
+  }
+
+  onBackdropClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('modal')) {
+      this.closeModal();
+    }
+  }
+
+  closeModal(): void {
+    this.formClose.emit();
+  }
+
+  private loadExpenses(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const subscription = this.expenseService.getAllExpenseByUserByMonth({
+      body: this.requestStatistics,
+      inGroup: false
+    })
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (result) => {
+          this.expenses = result || [];
+        },
+        error: (err) => {
+          this.errorMessage = 'Błąd podczas ładowania wydatków';
+          console.error("Error loading expenses list", err);
+        }
+      });
+
+    this.subscriptions.add(subscription);
   }
 }

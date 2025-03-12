@@ -1,17 +1,46 @@
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
+// Style dla przycisków
+.btn-primary.save-button {
+  background-color: #c4a347;
+  border-color: #c4a347;
+
+  &:hover, &:focus {
+    background-color: #b59339;
+    border-color: #b59339;
+  }
+
+  &:disabled {
+    background-color: #d9c38a;
+    border-color: #d9c38a;
+  }
 }
 
-.modal-dialog {
-  position: relative;
-  z-index: 1051;
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+
+  &:hover, &:focus {
+    background-color: #6c757d;
+    color: white;
+  }
+}
+
+// Animacja
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Responsywność
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 10px;
+  }
+
+  .modal-body {
+    padding: 15px;
+  }
 }

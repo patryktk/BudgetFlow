@@ -1,30 +1,39 @@
-.icon-container {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #007bff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+.navbar-brand i {
+  color: #c4a347;
 }
 
-.icon {
-  color: white;
-  font-size: 18px;
-}
-
-.custom-button {
+.user-avatar-button {
   background-color: #c4a347 !important;
+  min-width: 40px !important; /* Zapobiega rozciąganiu */
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  line-height: 40px !important; /* Zapewnia równomierne wycentrowanie pionowe */
+  overflow: hidden !important; /* Zapobiega przekraczaniu granic przycisku */
+}
+
+.user-initial {
   color: white !important;
+  font-size: 19px;
+  font-weight: 500;
 }
 
-.custom-button .icon {
-  font-size: 19px; /* Rozmiar ikony */
+/* Stylizacja sekcji wyświetlającej nazwę użytkownika w menu */
+.username-display {
+  padding: 8px 16px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
-.username-item {
-  font-size: 14px; /* Ustawienie rozmiaru czcionki */
-  padding: 8px 16px; /* Dodanie paddingu dla lepszego wyglądu */
-  cursor: default; /* Usunięcie kursora wskazującego */
+/* Zapewnienie odstępu dla separatora */
+mat-divider {
+  margin: 4px 0;
 }

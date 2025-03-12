@@ -1,8 +1,9 @@
-<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">  <div class="modal d-block" tabindex="-1">
+<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
+          <i class="fas fa-money-bill-wave me-2"></i>
           {{ expense?.id ? 'Edytuj Wydatek' : 'Dodaj Wydatek' }}
         </h5>
         <button
@@ -13,72 +14,113 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="submitForm()">
+        <form (ngSubmit)="submitForm()" #expenseForm="ngForm">
           <div class="mb-3">
             <label for="name" class="form-label">Nazwa</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              [(ngModel)]="expenseData.name"
-              name="name"
-              required
-            />
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-tag"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                [(ngModel)]="expenseData.name"
+                name="name"
+                placeholder="Opcjonalna nazwa wydatku"
+              />
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="amount" class="form-label">Kwota</label>
-            <input
-              type="number"
-              class="form-control"
-              id="amount"
-              [(ngModel)]="expenseData.amount"
-              name="amount"
-              required
-            />
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-coins"></i></span>
+              <input
+                type="number"
+                class="form-control"
+                id="amount"
+                [(ngModel)]="expenseData.amount"
+                name="amount"
+                required
+                #amountInput="ngModel"
+                placeholder="0.00"
+                step="0.01"
+                min="0.01"
+              />
+              <span class="input-group-text">PLN</span>
+            </div>
+            <div *ngIf="amountInput.invalid && (amountInput.dirty || amountInput.touched)" class="text-danger mt-1 small">
+              Kwota jest wymagana i musi być większa od 0
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="expenseDate" class="form-label">Data</label>
-            <input
-              type="date"
-              class="form-control"
-              id="expenseDate"
-              [(ngModel)]="expenseData.expenseDate"
-              name="expenseDate"
-              required
-            />
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+              <input
+                type="date"
+                class="form-control"
+                id="expenseDate"
+                [(ngModel)]="expenseData.expenseDate"
+                name="expenseDate"
+                required
+                #dateInput="ngModel"
+              />
+            </div>
+            <div *ngIf="dateInput.invalid && (dateInput.dirty || dateInput.touched)" class="text-danger mt-1 small">
+              Data jest wymagana
+            </div>
           </div>
+
           <div class="mb-3">
             <label for="expenseCategory" class="form-label">Kategoria</label>
-            <select
-              id="expenseCategory"
-              class="form-control"
-              name="expenseCategory"
-              [(ngModel)]="expenseData.expenseCategory"
-              [compareWith]="compareCategories"
-              required
-            >
-              <option value="" disabled>Wybierz kategorię</option>
-              <option *ngFor="let category of expenseCategories" [ngValue]="category">
-                {{ category.name }}
-              </option>
-            </select>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-folder"></i></span>
+              <select
+                id="expenseCategory"
+                class="form-control form-select"
+                name="expenseCategory"
+                [(ngModel)]="expenseData.expenseCategory"
+                [compareWith]="compareCategories"
+                required
+                #categoryInput="ngModel"
+              >
+                <option value="" disabled>Wybierz kategorię</option>
+                <option *ngFor="let category of expenseCategories" [ngValue]="category">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="categoryInput.invalid && (categoryInput.dirty || categoryInput.touched)" class="text-danger mt-1 small">
+              Kategoria jest wymagana
+            </div>
           </div>
-          <div class="mb-3">
+
+          <div class="mb-4">
             <label for="note" class="form-label">Notatka</label>
-            <input
-              type="text"
-              class="form-control"
-              id="note"
-              [(ngModel)]="expenseData.note"
-              name="note"
-              required
-            />
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-comment"></i></span>
+              <textarea
+                class="form-control"
+                id="note"
+                [(ngModel)]="expenseData.note"
+                name="note"
+                rows="2"
+                placeholder="Opcjonalny komentarz do wydatku"
+              ></textarea>
+            </div>
           </div>
-          <button type="submit" class="btn btn-success">Zapisz</button>
-          <button type="button" class="btn btn-secondary" (click)="formClose.emit()">Anuluj</button>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="formClose.emit()">
+              <i class="fas fa-times me-1"></i> Anuluj
+            </button>
+            <button type="submit" class="btn btn-primary save-button" [disabled]="expenseForm.invalid">
+              <i class="fas fa-save me-1"></i> Zapisz
+            </button>
+          </div>
         </form>
       </div>
     </div>
   </div>
-</div>
 </div>

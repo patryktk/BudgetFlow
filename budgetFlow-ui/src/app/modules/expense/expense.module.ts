@@ -38,6 +38,12 @@ import {BaseChartDirective} from "ng2-charts";
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { ChartMainComponent } from './components/chart-main/chart-main.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader} from "@angular/material/card";
+import {MatTable} from "@angular/material/table";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatSort} from "@angular/material/sort";
+import {MatIcon} from "@angular/material/icon";
+import {MatPaginator} from "@angular/material/paginator";
 
 registerLocaleData(localePl);
 
@@ -63,25 +69,34 @@ registerLocaleData(localePl);
     ChartMainComponent,
     CategoryListComponent
   ],
-    imports: [
-        CommonModule,
-        ExpenseRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FullCalendarModule,
-        ColorPickerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatButtonModule,
-        MatDialogTitle,
-        MatDialogContent,
-        MatDialogActions,
-        MatDialogClose,
-        MatDialogModule,
-        MatTooltip,
-        BaseChartDirective
-    ],
+  imports: [
+    CommonModule,
+    ExpenseRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FullCalendarModule,
+    ColorPickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogModule,
+    MatTooltip,
+    BaseChartDirective,
+    MatCardActions,
+    MatTable,
+    MatProgressSpinner,
+    MatSort,
+    MatIcon,
+    MatPaginator,
+    MatCard,
+    MatCardHeader,
+    MatCardContent
+  ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}
   ]

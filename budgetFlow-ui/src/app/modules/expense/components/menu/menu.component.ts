@@ -1,20 +1,20 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {TokenService} from "../../../../services/token/token.service";
-import { MatMenuTrigger } from '@angular/material/menu';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 
 @Component({
-    selector: 'app-menu',
-    templateUrl: './menu.component.html',
-    styleUrl: './menu.component.scss',
-    standalone: false
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrl: './menu.component.scss',
+  standalone: false
 })
-export class MenuComponent implements OnInit{
+export class MenuComponent implements OnInit {
 
   username: String = '';
 
-  @ViewChild(MatMenuTrigger, { static: false }) trigger: MatMenuTrigger | null = null;
+  @ViewChild(MatMenuTrigger, {static: false}) trigger: MatMenuTrigger | null = null;
 
   constructor(
     private tokenService: TokenService,) {

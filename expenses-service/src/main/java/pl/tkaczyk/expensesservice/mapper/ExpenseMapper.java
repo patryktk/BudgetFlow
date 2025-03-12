@@ -6,6 +6,7 @@ import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseCalendarFieldInfo;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
+import pl.tkaczyk.expensesservice.model.dto.SumResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,6 +48,12 @@ public class ExpenseMapper {
                 .value(BigDecimal.valueOf((Double) tuple.get(1)))
                 .date((LocalDate) tuple.get(2))
                 .hexColor((String) tuple.get(3))
+                .build();
+    }
+
+    public SumResponse toSumResponse(Tuple tuple) {
+        return SumResponse.builder()
+                .sum((Double) tuple.get(0))
                 .build();
     }
 }

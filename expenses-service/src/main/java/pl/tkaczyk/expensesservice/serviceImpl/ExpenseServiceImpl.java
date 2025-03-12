@@ -59,11 +59,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         List<StatisticsPartialProjection> expensesByStartDateAndEndDate;
         if (groupResponse.isInGroup()) {
             expensesByStartDateAndEndDate = expenseRepository.findPartialExpensesByUsersByStartDateAndEndDate(LocalDate.parse(request.startDate())
-                    ,LocalDate.parse(request.endDate()),
+                    , LocalDate.parse(request.endDate()),
                     groupResponse.users());
         } else {
             expensesByStartDateAndEndDate = expenseRepository.findPartialExpensesByUsersByStartDateAndEndDate(LocalDate.parse(request.startDate())
-                    ,LocalDate.parse(request.endDate())
+                    , LocalDate.parse(request.endDate())
                     , Collections.singleton(Long.valueOf(userId)));
         }
         return expensesByStartDateAndEndDate.stream().map(statisticsPartialMapper::toStatisticsResponse).collect(Collectors.toList());
@@ -83,7 +83,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup) {
-        if(inGroup){
+        if (inGroup) {
             ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
             if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
                 return expenseRepository.findExpensesByUserIdAndMonth(LocalDate.parse(request.startDate()),
@@ -112,8 +112,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public SumResponse getExpensesSumByMonth(String userId, StatisticsByMonthRequest request) {
-        return expenseRepository.findSumOfExpenseByUserIdAndDate(Long.valueOf(userId),
-                LocalDate.parse(request.startDate()),
-                LocalDate.parse(request.endDate()));
+        return expenseMapper.toSumResponse(
+                expenseRepository.findSumOfExpenseByUserIdAndDate(Long.valueOf(userId),
+                        LocalDate.parse(request.startDate()),
+                        LocalDate.parse(request.endDate())));
     }
 }

@@ -7,5 +7,7 @@ export interface ExpenseCategory {
   hexColor?: string;
   id?: number;
   name?: string;
+  parentCategory?: ExpenseCategory;
   sharedWithUsers?: Array<number>;
+  subCategories?: Array<ExpenseCategory>;
 }

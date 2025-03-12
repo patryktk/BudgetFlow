@@ -7,4 +7,6 @@ export interface ExpenseCategoryResponse {
   hexColor?: string;
   id?: number;
   name?: string;
+  parentId?: number;
+  subCategories?: Array<number>;
 }

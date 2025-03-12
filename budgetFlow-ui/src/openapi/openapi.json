@@ -1093,6 +1093,15 @@
           "hexColor": {
             "type": "string"
           },
+          "parentCategory": {
+            "$ref": "#/components/schemas/ExpenseCategory"
+          },
+          "subCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseCategory"
+            }
+          },
           "sharedWithUsers": {
             "uniqueItems": true,
             "type": "array",
@@ -1311,6 +1320,10 @@
           },
           "hexColor": {
             "type": "string"
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -1330,6 +1343,17 @@
           },
           "hexColor": {
             "type": "string"
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subCategories": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         }
       },

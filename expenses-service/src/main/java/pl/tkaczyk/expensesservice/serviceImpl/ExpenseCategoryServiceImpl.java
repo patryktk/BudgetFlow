@@ -49,8 +49,21 @@ public class ExpenseCategoryServiceImpl implements ExpenseCategoryService {
     }
 
     @Override
-    public ExpenseCategoryResponse saveExpenseCategory(ExpenseCategoryRequest expenseCategoryRequest, String activeUserId) {
-        ExpenseCategory expenseCategory = mapper.toExpenseCategory(expenseCategoryRequest, activeUserId);
+    public ExpenseCategoryResponse saveExpenseCategory(ExpenseCategoryRequest request, String activeUserId) {
+        ExpenseCategory parentCategory = null;
+        if (request.parentId() != null) {
+            parentCategory = repository.findById(request.parentId()).orElseThrow(() -> new ResourceNotFoundException("Parent expense category not found"));
+        }
+        ExpenseCategory expenseCategory = mapper.toExpenseCategory(request, activeUserId, parentCategory);
+
+        if (parentCategory != null) {
+            if(parentCategory.getParentCategory() != null) {
+                throw new IllegalStateException("Maximum number of expense categories in parent category is " + parentCategory.getParentCategory().getName());
+            }
+            parentCategory.addSubCategory(expenseCategory);
+            repository.save(parentCategory);
+        }
+
         GroupResponse body = groupClient.checkIfUserInAnyGroup(Long.valueOf(activeUserId)).getBody();
         if (body != null && body.isInGroup()) {
             for (Long usersIdFromGroup : body.users()) {

@@ -3,6 +3,7 @@ import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {ExpenseService} from "../../../../../services/services/expense.service";
 import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
+import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 
 @Component({
     selector: 'app-expense-form',
@@ -17,7 +18,7 @@ export class ExpenseFormComponent implements OnInit {
   @Output() formClose = new EventEmitter<void>();
 
   expenseData: ExpenseRequest = {name: ""}
-  expenseCategories: ExpenseCategory[] = [];
+  expenseCategories: ExpenseCategoryResponse[] = [];
 
 
   constructor(private expenseService: ExpenseService,

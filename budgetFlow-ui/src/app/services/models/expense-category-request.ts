@@ -6,4 +6,5 @@ export interface ExpenseCategoryRequest {
   hexColor?: string;
   id?: number;
   name?: string;
+  parentId?: number;
 }

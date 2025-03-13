@@ -39,6 +39,16 @@ export class AddExpenseCategoryComponent implements OnInit {
     })
   }
 
+// Pobierz tylko kategorie główne (bez parentId)
+  getRootCategories(): ExpenseCategoryResponse[] {
+    return this.categories.filter(category => !category.parentId);
+  }
+
+// Pobierz podkategorie dla danej kategorii nadrzędnej
+  getSubCategories(parentId: number | undefined): ExpenseCategoryResponse[] {
+    return this.categories.filter(category => category.parentId === parentId);
+  }
+
   addCategory() {
     this.newCategory.hexColor = this.color;
     this.expensesCategoryService.saveExpenseCategory({
@@ -46,6 +56,13 @@ export class AddExpenseCategoryComponent implements OnInit {
     }).subscribe({
       next: result => {
         this.categories.push(result);
+      },
+      error: err => {
+        if (err.error.error) {
+          console.log("Error adding Category: ", err.error.error);
+        } else {
+          console.log("Error adding Category: ", err);
+        }
       }
     })
   }

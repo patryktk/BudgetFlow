@@ -5,6 +5,7 @@ import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {NgForm} from "@angular/forms";
 import {finalize} from "rxjs/operators";
+import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 
 @Component({
   selector: 'app-expense-form',
@@ -26,9 +27,10 @@ export class ExpenseFormComponent implements OnInit {
     note: ""
   };
 
-  expenseCategories: ExpenseCategory[] = [];
   isSubmitting = false;
   errorMessage: string | null = null;
+  expenseData: ExpenseRequest = {name: ""}
+  expenseCategories: ExpenseCategoryResponse[] = [];
 
   constructor(
     private expenseService: ExpenseService,

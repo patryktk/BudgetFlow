@@ -65,7 +65,7 @@ export class MainViewComponent implements OnInit {
   private loadStatistics() {
     this.requestStatistics = this.utilsService.prepareRequestDatesActiveMonth();
 
-    this.expenseService.getSumOfExpensesByMonth1({
+    this.expenseService.getSumOfExpensesByMonth({
       body: this.requestStatistics
     }).subscribe({
       next: result => {
@@ -77,7 +77,7 @@ export class MainViewComponent implements OnInit {
       }
     });
 
-    this.incomeService.getSumOfExpensesByMonth({
+    this.incomeService.getSumOfIncomesByMonth({
       body: this.requestStatistics
     }).subscribe({
       next: result => {

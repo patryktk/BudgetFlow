@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
@@ -17,10 +17,8 @@ export class AddExpenseCategoryComponent implements OnInit {
   color: string = '#fff';
   activeUser = -1;
 
-  private dialog = inject(MatDialog);
-  private expensesCategoryService = inject(ExpensesCategoryService)
-
-  constructor() {
+  constructor(private dialog: MatDialog,
+              private expensesCategoryService: ExpensesCategoryService) {
   }
 
   ngOnInit(): void {
@@ -71,18 +69,5 @@ export class AddExpenseCategoryComponent implements OnInit {
     const userIdString = sessionStorage.getItem("userId");
     const userId = userIdString ? Number(userIdString) : null;
     if (userId != null) this.activeUser = userId;
-  }
-
-  openDialog(categoryId: number | undefined): void {
-    // const dialogRef = this.dialog.open(DialogExpenseCategoryComponent, {
-    //   data: {id: categoryId}
-    // });
-    //
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === 'deleted') {
-    //     console.log("Kategoria została usunięta");
-    //     this.categories = this.categories.filter(category => category.id !== categoryId);
-    //   }
-    // })
   }
 }

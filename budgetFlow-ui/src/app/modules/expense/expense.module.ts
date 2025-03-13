@@ -30,9 +30,6 @@ import {
   MatDialogModule,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {
-  DialogExpenseCategoryComponent
-} from './pages/ExpenseCategory/dialog-expense-category/dialog-expense-category.component';
 import {MatTooltip} from "@angular/material/tooltip";
 import {BaseChartDirective} from "ng2-charts";
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
@@ -64,7 +61,6 @@ registerLocaleData(localePl);
     IncomeCategoryComponent,
     CalendarComponent,
     ExpenseListCalendarComponent,
-    DialogExpenseCategoryComponent,
     SummaryCardComponent,
     ChartMainComponent,
     CategoryListComponent

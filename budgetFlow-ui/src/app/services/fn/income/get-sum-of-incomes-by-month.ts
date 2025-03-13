@@ -11,12 +11,12 @@ import { RequestBuilder } from '../../request-builder';
 import { StatisticsByMonthRequest } from '../../models/statistics-by-month-request';
 import { SumResponse } from '../../models/sum-response';
 
-export interface GetSumOfExpensesByMonth1$Params {
+export interface GetSumOfIncomesByMonth$Params {
       body: StatisticsByMonthRequest
 }
 
-export function getSumOfExpensesByMonth1(http: HttpClient, rootUrl: string, params: GetSumOfExpensesByMonth1$Params, context?: HttpContext): Observable<StrictHttpResponse<SumResponse>> {
-  const rb = new RequestBuilder(rootUrl, getSumOfExpensesByMonth1.PATH, 'post');
+export function getSumOfIncomesByMonth(http: HttpClient, rootUrl: string, params: GetSumOfIncomesByMonth$Params, context?: HttpContext): Observable<StrictHttpResponse<SumResponse>> {
+  const rb = new RequestBuilder(rootUrl, getSumOfIncomesByMonth.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -31,4 +31,4 @@ export function getSumOfExpensesByMonth1(http: HttpClient, rootUrl: string, para
   );
 }
 
-getSumOfExpensesByMonth1.PATH = '/expenses/getSumOfExpenses';
+getSumOfIncomesByMonth.PATH = '/expenses/income/getSumOfIncomes';

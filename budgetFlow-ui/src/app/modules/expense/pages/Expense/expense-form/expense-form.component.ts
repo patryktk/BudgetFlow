@@ -1,11 +1,11 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {ExpenseService} from "../../../../../services/services/expense.service";
-import {ExpenseCategory} from "../../../../../services/models/expense-category";
 import {ExpensesCategoryService} from "../../../../../services/services/expenses-category.service";
 import {NgForm} from "@angular/forms";
 import {finalize} from "rxjs/operators";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
+import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
 
 @Component({
   selector: 'app-expense-form',
@@ -20,16 +20,11 @@ export class ExpenseFormComponent implements OnInit {
   @Output() formClose = new EventEmitter<void>();
 
   expenseData: ExpenseRequest = {
-    name: "",
-    amount: undefined,
     expenseDate: this.getCurrentDate(),
-    expenseCategory: undefined,
-    note: ""
   };
 
   isSubmitting = false;
   errorMessage: string | null = null;
-  expenseData: ExpenseRequest = {name: ""}
   expenseCategories: ExpenseCategoryResponse[] = [];
 
   constructor(
@@ -48,7 +43,7 @@ export class ExpenseFormComponent implements OnInit {
   /**
    * Porównuje dwie kategorie wydatków na podstawie ich identyfikatorów
    */
-  compareCategories(cat1: ExpenseCategory, cat2: ExpenseCategory): boolean {
+  compareCategories(cat1: ExpenseCategoryRequest, cat2: ExpenseCategoryRequest): boolean {
     return cat1 && cat2 ? cat1.id === cat2.id : cat1 === cat2;
   }
 
@@ -61,13 +56,13 @@ export class ExpenseFormComponent implements OnInit {
         this.expenseCategories = categories;
 
         // Jeśli edytujemy wydatek, upewnij się, że kategoria jest poprawnie wybrana
-        if (this.expense?.expenseCategory && this.expense.expenseCategory.id) {
+        if (this.expense?.expenseCategoryRequest && this.expense.expenseCategoryRequest.id) {
           const matchingCategory = this.expenseCategories.find(
-            category => category.id === this.expense?.expenseCategory?.id
+            category => category.id === this.expense?.expenseCategoryRequest?.id
           );
 
           if (matchingCategory) {
-            this.expenseData.expenseCategory = matchingCategory;
+            this.expenseData.expenseCategoryRequest = matchingCategory;
           }
         }
       },

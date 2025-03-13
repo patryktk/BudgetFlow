@@ -1,12 +1,12 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {finalize} from 'rxjs/operators';
 
-import { ExpenseService } from "../../../../../services/services/expense.service";
-import { ExpenseResponse } from "../../../../../services/models/expense-response";
-import { StatisticsByMonthRequest } from "../../../../../services/models/statistics-by-month-request";
-import { ExpenseRequest } from "../../../../../services/models/expense-request";
-import { UtilsService } from "../../../../../services/utils/utils.service";
+import {ExpenseService} from "../../../../../services/services/expense.service";
+import {ExpenseResponse} from "../../../../../services/models/expense-response";
+import {StatisticsByMonthRequest} from "../../../../../services/models/statistics-by-month-request";
+import {ExpenseRequest} from "../../../../../services/models/expense-request";
+import {MapperUtilsService} from "../../../../../services/mapper/mapper-utils.service";
 
 @Component({
   selector: 'app-expense-list-calendar',
@@ -22,7 +22,7 @@ export class ExpenseListCalendarComponent implements OnInit, OnDestroy {
   expenses: ExpenseResponse[] = [];
   isLoading: boolean = false;
   errorMessage: string = '';
-  requestStatistics: StatisticsByMonthRequest = { startDate: '', endDate: '' };
+  requestStatistics: StatisticsByMonthRequest = {startDate: '', endDate: ''};
   showAddExpenseForm: boolean = false;
   selectedExpense: ExpenseRequest | null = null;
 
@@ -30,8 +30,9 @@ export class ExpenseListCalendarComponent implements OnInit, OnDestroy {
 
   constructor(
     private expenseService: ExpenseService,
-    private utilsService: UtilsService
-  ) {}
+    private mapperUtilsService: MapperUtilsService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.requestStatistics = {
@@ -53,7 +54,7 @@ export class ExpenseListCalendarComponent implements OnInit, OnDestroy {
 
     if (confirm('Czy na pewno chcesz usunąć ten wydatek?')) {
       this.isLoading = true;
-      const subscription = this.expenseService.deleteExpense({ expenseId: id })
+      const subscription = this.expenseService.deleteExpense({expenseId: id})
         .pipe(finalize(() => this.isLoading = false))
         .subscribe({
           next: () => {
@@ -82,7 +83,7 @@ export class ExpenseListCalendarComponent implements OnInit, OnDestroy {
 
     const expense = this.expenses.find(expense => expense.id === id);
     if (expense) {
-      this.selectedExpense = this.utilsService.mapFormExpenseResponseToExpenseRequest(expense);
+      this.selectedExpense = this.mapperUtilsService.mapFromExpenseResponseToExpenseRequest(expense);
       this.showAddExpenseForm = true;
     } else {
       console.error(`Expense with ID ${id} not found`);

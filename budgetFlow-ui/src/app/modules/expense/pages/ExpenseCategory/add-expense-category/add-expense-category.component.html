@@ -22,8 +22,7 @@
                   <span [matTooltipDisabled]="category.createdByUserId === activeUser"
                         matTooltip="Nie możesz usunać tej kategorii, bo nie jesteś jej twórcą."
                         matTooltipShowDelay="500">
-                <button (click)="openDialog(category.id)"
-                        [disabled]="category.createdByUserId !== activeUser"
+                <button [disabled]="category.createdByUserId !== activeUser"
                         color="warn"
                         mat-raised-button>
                   Usuń
@@ -48,8 +47,7 @@
                     <span [matTooltipDisabled]="subCategory.createdByUserId === activeUser"
                           matTooltip="Nie możesz usunać tej kategorii, bo nie jesteś jej twórcą."
                           matTooltipShowDelay="500">
-                  <button (click)="openDialog(subCategory.id)"
-                          [disabled]="subCategory.createdByUserId !== activeUser"
+                  <button [disabled]="subCategory.createdByUserId !== activeUser"
                           color="warn"
                           mat-raised-button>
                     Usuń

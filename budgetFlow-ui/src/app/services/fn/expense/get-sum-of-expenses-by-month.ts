@@ -31,4 +31,4 @@ export function getSumOfExpensesByMonth(http: HttpClient, rootUrl: string, param
   );
 }
 
-getSumOfExpensesByMonth.PATH = '/expenses/income/getSumOfIncomes';
+getSumOfExpensesByMonth.PATH = '/expenses/getSumOfExpenses';

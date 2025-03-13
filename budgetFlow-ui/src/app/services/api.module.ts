@@ -13,6 +13,7 @@ import { IncomeCategoryService } from './services/income-category.service';
 import { ExpensesCategoryService } from './services/expenses-category.service';
 import { UsersService } from './services/users.service';
 import { AuthenticationService } from './services/authentication.service';
+import { MapperUtilsComponent } from './mapper/mapper-utils/mapper-utils.component';
 
 /**
  * Module that provides all services and configuration.
@@ -20,7 +21,9 @@ import { AuthenticationService } from './services/authentication.service';
 @NgModule({
   imports: [],
   exports: [],
-  declarations: [],
+  declarations: [
+    MapperUtilsComponent
+  ],
   providers: [
     GroupService,
     ExpenseService,

@@ -25,8 +25,8 @@ import { getExpensesToCalendarByCategory } from '../fn/expense/get-expenses-to-c
 import { GetExpensesToCalendarByCategory$Params } from '../fn/expense/get-expenses-to-calendar-by-category';
 import { getStatisticsByMonth } from '../fn/expense/get-statistics-by-month';
 import { GetStatisticsByMonth$Params } from '../fn/expense/get-statistics-by-month';
-import { getSumOfExpensesByMonth1 } from '../fn/expense/get-sum-of-expenses-by-month-1';
-import { GetSumOfExpensesByMonth1$Params } from '../fn/expense/get-sum-of-expenses-by-month-1';
+import { getSumOfExpensesByMonth } from '../fn/expense/get-sum-of-expenses-by-month';
+import { GetSumOfExpensesByMonth$Params } from '../fn/expense/get-sum-of-expenses-by-month';
 import { ResponseForStatistics } from '../models/response-for-statistics';
 import { SumResponse } from '../models/sum-response';
 import { updateExpense } from '../fn/expense/update-expense';
@@ -163,27 +163,27 @@ export class ExpenseService extends BaseService {
     );
   }
 
-  /** Path part for operation `getSumOfExpensesByMonth1()` */
-  static readonly GetSumOfExpensesByMonth1Path = '/expenses/getSumOfExpenses';
+  /** Path part for operation `getSumOfExpensesByMonth()` */
+  static readonly GetSumOfExpensesByMonthPath = '/expenses/getSumOfExpenses';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getSumOfExpensesByMonth1()` instead.
+   * To access only the response body, use `getSumOfExpensesByMonth()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getSumOfExpensesByMonth1$Response(params: GetSumOfExpensesByMonth1$Params, context?: HttpContext): Observable<StrictHttpResponse<SumResponse>> {
-    return getSumOfExpensesByMonth1(this.http, this.rootUrl, params, context);
+  getSumOfExpensesByMonth$Response(params: GetSumOfExpensesByMonth$Params, context?: HttpContext): Observable<StrictHttpResponse<SumResponse>> {
+    return getSumOfExpensesByMonth(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getSumOfExpensesByMonth1$Response()` instead.
+   * To access the full response (for headers, for example), `getSumOfExpensesByMonth$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getSumOfExpensesByMonth1(params: GetSumOfExpensesByMonth1$Params, context?: HttpContext): Observable<SumResponse> {
-    return this.getSumOfExpensesByMonth1$Response(params, context).pipe(
+  getSumOfExpensesByMonth(params: GetSumOfExpensesByMonth$Params, context?: HttpContext): Observable<SumResponse> {
+    return this.getSumOfExpensesByMonth$Response(params, context).pipe(
       map((r: StrictHttpResponse<SumResponse>): SumResponse => r.body)
     );
   }

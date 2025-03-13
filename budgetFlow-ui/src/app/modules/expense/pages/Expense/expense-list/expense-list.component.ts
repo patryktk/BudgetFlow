@@ -4,12 +4,13 @@ import {StatisticsByMonthRequest} from "../../../../../services/models/statistic
 import {ExpenseService} from "../../../../../services/services/expense.service";
 import {ExpenseRequest} from "../../../../../services/models/expense-request";
 import {UtilsService} from "../../../../../services/utils/utils.service";
+import {MapperUtilsService} from "../../../../../services/mapper/mapper-utils.service";
 
 @Component({
-    selector: 'app-expense-list',
-    templateUrl: './expense-list.component.html',
-    styleUrl: './expense-list.component.scss',
-    standalone: false
+  selector: 'app-expense-list',
+  templateUrl: './expense-list.component.html',
+  styleUrl: './expense-list.component.scss',
+  standalone: false
 })
 export class ExpenseListComponent implements OnChanges {
 
@@ -25,6 +26,7 @@ export class ExpenseListComponent implements OnChanges {
   constructor(
     private expenseService: ExpenseService,
     private utilsService: UtilsService,
+    private mapperUtilsService: MapperUtilsService,
   ) {
   }
 
@@ -35,13 +37,13 @@ export class ExpenseListComponent implements OnChanges {
   }
 
   headers = [
-    { field: 'name', label: 'Nazwa' },
-    { field: 'amount', label: 'Kwota' },
-    { field: 'expenseDate', label: 'Data' },
-    { field: 'note', label: 'Notatka' },
-    { field: 'userId', label: 'Kto stworzył' },
-    { field: 'createdDate', label: 'Data dodania' },
-    { field: 'lastModifiedDate', label: 'Data modyfikacji' },
+    {field: 'name', label: 'Nazwa'},
+    {field: 'amount', label: 'Kwota'},
+    {field: 'expenseDate', label: 'Data'},
+    {field: 'note', label: 'Notatka'},
+    {field: 'userId', label: 'Kto stworzył'},
+    {field: 'createdDate', label: 'Data dodania'},
+    {field: 'lastModifiedDate', label: 'Data modyfikacji'},
   ]
 
   private loadExpenses() {
@@ -93,22 +95,8 @@ export class ExpenseListComponent implements OnChanges {
     })
   }
 
-  mapToExpenseRequest(expense: any): ExpenseRequest {
-    return {
-      id: expense.id,  // Możesz pominąć id, jeśli jest opcjonalne w ExpenseRequest
-      name: expense.name,
-      expenseCategory: expense.expenseCategory ? {
-        id: expense.expenseCategory.id,
-        name: expense.expenseCategory.name
-      } : undefined, // Jeśli expenseCategory jest dostępne, przypisuje go, w przeciwnym razie undefined
-      amount: expense.amount,
-      expenseDate: expense.expenseDate,
-      note: expense.note
-    };
-  }
-
-  editExpense(expense: ExpenseResponse) {
-    this.selectedExpense = {...this.mapToExpenseRequest(expense)} //kopiowanie obiektu expense do nowego obiektu
+  editExpense(expenseResponse: ExpenseResponse) {
+    this.selectedExpense = {...this.mapperUtilsService.mapFromExpenseResponseToExpenseRequest(expenseResponse)} //kopiowanie obiektu expense do nowego obiektu
     this.showForm = true;
   }
 
@@ -126,11 +114,11 @@ export class ExpenseListComponent implements OnChanges {
     }
   }
 
-  sort(field: string){
+  sort(field: string) {
     this.currentSortDirection = this.currentSortField === field && this.currentSortDirection === 'asc' ? 'desc' : 'asc';
     this.currentSortField = field;
 
-    this.expenses.sort((a,b) => {
+    this.expenses.sort((a, b) => {
       const aValue = a[field];
       const bValue = b[field];
 

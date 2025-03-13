@@ -1,27 +1,34 @@
 package pl.tkaczyk.expensesservice.mapper;
 
 import jakarta.persistence.Tuple;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseCalendarFieldInfo;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
 import pl.tkaczyk.expensesservice.model.dto.SumResponse;
+import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
 @Service
+@RequiredArgsConstructor
 public class ExpenseMapper {
 
-    public Expense toExpense(ExpenseRequest request){
+    private final ExpenseCategoryMapper expenseCategoryMapper;
+    private final ExpenseCategoryRepository expenseCategoryRepository;
+
+    public Expense toExpense(ExpenseRequest request, String userId){
         if(request == null) return null;
         return Expense.builder()
                 .id(request.id())
                 .name(request.name())
                 .amount(request.amount())
-                .expenseCategory(request.expenseCategory())
+                .userId(Long.valueOf(userId))
+                .expenseCategory(expenseCategoryRepository.findById(request.expenseCategoryRequest().id()).orElseThrow(() -> new IllegalArgumentException("Expense category not found")))
                 .expenseDate(request.expenseDate())
                 .note(request.note())
                 .build();
@@ -33,7 +40,7 @@ public class ExpenseMapper {
                 .id(expense.getId())
                 .name(expense.getName())
                 .amount(expense.getAmount())
-                .expenseCategory(expense.getExpenseCategory())
+                .expenseCategoryResponse(expenseCategoryMapper.toExpenseCategoryResponse(expense.getExpenseCategory()))
                 .expenseDate(expense.getExpenseDate())
                 .note(expense.getNote())
                 .userId(expense.getUserId())

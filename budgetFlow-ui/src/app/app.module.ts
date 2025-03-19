@@ -28,6 +28,8 @@ import {MenuComponent} from "./modules/expense/components/menu/menu.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgOptimizedImage} from "@angular/common";
 import {MatDivider} from "@angular/material/divider";
+import {ApiModule} from "./services/api.module";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import {MatDivider} from "@angular/material/divider";
     MatMenuTrigger,
     BrowserAnimationsModule,
     NgOptimizedImage,
-    MatDivider
+    MatDivider,
+    ApiModule.forRoot({ rootUrl: environment.apiUrl })
   ],
   providers: [
     provideHttpClient(withInterceptors([httpTokenInterceptor]))

@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - "192.168.0.248:5432:5432"
+      - "5432:5432"
     networks:
       - budget-flow
     restart: unless-stopped
@@ -24,7 +24,7 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - "192.168.0.248:5050:80"
+      - "5050:80"
     networks:
       - budget-flow
     restart: unless-stopped
@@ -40,11 +40,13 @@ services:
     container_name: config-server
     image: config-server
     ports:
-      - "192.168.0.248:8888:8888"
+      - "8888:8888"
+#    environment:
+#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8888"
     networks:
       - budget-flow
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://192.168.0.248:8888/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -52,7 +54,9 @@ services:
     container_name: eureka-server
     image: eureka-server
     ports:
-      - "192.168.0.248:8761:8761"
+      - "8761:8761"
+#    environment:
+#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8761"
     expose:
       - "8761"
     networks:
@@ -61,7 +65,7 @@ services:
       config-server:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http:/192.168.0.248:8761/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -69,9 +73,10 @@ services:
     container_name: gateway
     image: gateway
     ports:
-      - "192.168.0.248:8000:8000"
-    expose:
-      - "8000"
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8001"
     networks:
       - budget-flow
     depends_on:
@@ -83,7 +88,10 @@ services:
     container_name: expenses-service
     image: expenses-service
     ports:
-      - "192.168.0.248:8090:8090"
+      - "8090:8090"
+      - "8091:8091"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8091"
     networks:
       - budget-flow
     depends_on:
@@ -95,7 +103,10 @@ services:
     container_name: groups-service
     image: groups-service
     ports:
-      - "192.168.0.248:8070:8070"
+      - "8070:8070"
+      - "8071:8071"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8071"
     networks:
       - budget-flow
     depends_on:
@@ -107,7 +118,10 @@ services:
     container_name: users-service
     image: users-service
     ports:
-      - "192.168.0.248:8080:8080"
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081"
     networks:
       - budget-flow
     depends_on:

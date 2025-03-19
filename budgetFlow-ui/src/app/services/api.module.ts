@@ -13,7 +13,6 @@ import { IncomeCategoryService } from './services/income-category.service';
 import { ExpensesCategoryService } from './services/expenses-category.service';
 import { UsersService } from './services/users.service';
 import { AuthenticationService } from './services/authentication.service';
-import { MapperUtilsComponent } from './mapper/mapper-utils/mapper-utils.component';
 
 /**
  * Module that provides all services and configuration.
@@ -22,7 +21,6 @@ import { MapperUtilsComponent } from './mapper/mapper-utils/mapper-utils.compone
   imports: [],
   exports: [],
   declarations: [
-    MapperUtilsComponent
   ],
   providers: [
     GroupService,
@@ -48,7 +46,7 @@ export class ApiModule {
     }
   }
 
-  constructor( 
+  constructor(
     @Optional() @SkipSelf() parentModule: ApiModule,
     @Optional() http: HttpClient
   ) {

@@ -30,3 +30,7 @@ export class UtilsService {
     return `${year}-${month}-${day}`;
   }
 }
+export enum CategoryType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
+}

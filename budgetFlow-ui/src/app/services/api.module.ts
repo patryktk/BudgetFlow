@@ -11,6 +11,7 @@ import { ExpenseService } from './services/expense.service';
 import { IncomeService } from './services/income.service';
 import { IncomeCategoryService } from './services/income-category.service';
 import { ExpensesCategoryService } from './services/expenses-category.service';
+import { CategoryService } from './services/category.service';
 import { UsersService } from './services/users.service';
 import { AuthenticationService } from './services/authentication.service';
 
@@ -20,14 +21,14 @@ import { AuthenticationService } from './services/authentication.service';
 @NgModule({
   imports: [],
   exports: [],
-  declarations: [
-  ],
+  declarations: [],
   providers: [
     GroupService,
     ExpenseService,
     IncomeService,
     IncomeCategoryService,
     ExpensesCategoryService,
+    CategoryService,
     UsersService,
     AuthenticationService,
     ApiConfiguration
@@ -46,7 +47,7 @@ export class ApiModule {
     }
   }
 
-  constructor(
+  constructor( 
     @Optional() @SkipSelf() parentModule: ApiModule,
     @Optional() http: HttpClient
   ) {

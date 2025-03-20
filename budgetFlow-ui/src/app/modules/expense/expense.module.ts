@@ -32,15 +32,20 @@ import {
 } from "@angular/material/dialog";
 import {MatTooltip} from "@angular/material/tooltip";
 import {BaseChartDirective} from "ng2-charts";
-import { SummaryCardComponent } from './components/summary-card/summary-card.component';
-import { ChartMainComponent } from './components/chart-main/chart-main.component';
-import { CategoryListComponent } from './components/category-list/category-list.component';
+import {SummaryCardComponent} from './components/summary-card/summary-card.component';
+import {ChartMainComponent} from './components/chart-main/chart-main.component';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatTable} from "@angular/material/table";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatSort} from "@angular/material/sort";
 import {MatIcon} from "@angular/material/icon";
 import {MatPaginator} from "@angular/material/paginator";
+import {CategoryMainComponent} from './pages/Category/category-main/category-main.component';
+import {CategoryFormComponent} from './pages/Category/category-form/category-form.component';
+import {MatOption, MatSelect} from "@angular/material/select";
+import {CategoryListMainComponent} from './pages/Category/category-list-main/category-list-main.component';
+import {CategoryListComponent} from "./components/category-list/category-list.component";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 registerLocaleData(localePl);
 
@@ -63,7 +68,10 @@ registerLocaleData(localePl);
     ExpenseListCalendarComponent,
     SummaryCardComponent,
     ChartMainComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    CategoryMainComponent,
+    CategoryFormComponent,
+    CategoryListMainComponent
   ],
   imports: [
     CommonModule,
@@ -91,7 +99,11 @@ registerLocaleData(localePl);
     MatPaginator,
     MatCard,
     MatCardHeader,
-    MatCardContent
+    MatCardContent,
+    MatSelect,
+    MatOption,
+    MatTabGroup,
+    MatTab
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}

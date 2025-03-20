@@ -30,19 +30,12 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
-#  mail-dev:
-#    container_name: mail-dev
-#    image: maildev/maildev
-#    ports:
-#      - 1080:1080
-#      - 1025:1025
+
   config-server:
     container_name: config-server
     image: config-server
     ports:
       - "8888:8888"
-#    environment:
-#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8888"
     networks:
       - budget-flow
     healthcheck:
@@ -55,8 +48,6 @@ services:
     image: eureka-server
     ports:
       - "8761:8761"
-#    environment:
-#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8761"
     expose:
       - "8761"
     networks:
@@ -129,13 +120,7 @@ services:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
-#  budget-flow-ui:
-#    image: budget-flow-ui
-#    container_name: budget-flow-ui
-#    ports:
-#      - "4200:80"  # Mapa portów (port hosta:port kontenera)
-#    networks:
-#      - budget-flow
+
 networks:
   budget-flow:
     driver: bridge

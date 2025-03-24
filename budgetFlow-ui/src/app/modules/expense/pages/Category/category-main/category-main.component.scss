@@ -1,0 +1,46 @@
+//@import '~@angular/material/theming';
+@use "sass:color";
+
+$themeColor: #c4a347;
+$blackToolbarColor: #1a1b1c;
+
+.category-management-container {
+  padding: 20px 0;
+
+  .page-header {
+    margin-bottom: 20px;
+
+    h2 {
+      color: $blackToolbarColor;
+      margin-bottom: 5px;
+    }
+  }
+
+  .mat-tab-group {
+    ::ng-deep .mat-tab-label-active {
+      color: $themeColor;
+      opacity: 1;
+    }
+
+    ::ng-deep .mat-ink-bar {
+      background-color: $themeColor !important;
+    }
+  }
+
+  .tab-content-container {
+    padding: 20px 0;
+  }
+
+  .add-button {
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: color.adjust($themeColor, $lightness: -10%) !important;
+    }
+
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}

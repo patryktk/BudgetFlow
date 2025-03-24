@@ -1,0 +1,45 @@
+//@import '~@angular/material/theming';
+
+$themeColor: #c4a347;
+$blackToolbarColor: #1a1b1c;
+
+.card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  .card-header {
+    font-weight: 500;
+    border-bottom: none;
+    padding: 15px 20px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+}
+
+.color-preview {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: $themeColor;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: $themeColor;
+}
+
+::ng-deep .color-picker {
+  .hex-text {
+    .box {
+      padding: 0 8px;
+    }
+  }
+}

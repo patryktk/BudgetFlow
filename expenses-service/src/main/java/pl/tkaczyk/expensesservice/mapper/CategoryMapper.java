@@ -27,6 +27,7 @@ public class CategoryMapper {
                 .id(category.getId())
                 .name(category.getName())
                 .hexColor(category.getHexColor())
+                .createdByUserId(category.getCreatedByUserId())
                 .categoryType(category.getCategoryType())
                 .parentId(category.getParentCategory() != null ? category.getParentCategory().getId() : null)
                 .subCategories(Optional.ofNullable(category.getSubCategories())

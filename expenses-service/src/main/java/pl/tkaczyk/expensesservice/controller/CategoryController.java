@@ -27,7 +27,7 @@ public class CategoryController {
         return ResponseEntity.ok(service.saveCategory(request, activeUserId));
     }
 
-    @GetMapping(value = "/getCategoriesByType", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getCategoriesByType", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CategoryResponse>> getAllCategory(@RequestBody CategoryRequest request,
                                                                  @Parameter(hidden = true) @RequestHeader("X-User-Id") String activeUserId) {
         return ResponseEntity.ok(service.getCategoriesByType(request, activeUserId));
@@ -38,5 +38,11 @@ public class CategoryController {
                                                   @Parameter(hidden = true) @RequestHeader("X-User-Id") String activeUserId) {
         service.deleteCategory(categoryId, activeUserId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/editCategory", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CategoryResponse> editCategory(@RequestBody CategoryRequest request,
+                                                         @Parameter(hidden = true) @RequestHeader("X-User-Id") String activeUserId) {
+        return ResponseEntity.ok(service.editCategory(request, activeUserId));
     }
 }

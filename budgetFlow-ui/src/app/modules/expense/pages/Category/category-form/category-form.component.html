@@ -1,1 +1,89 @@
-<p>XDD</p>
+<div class="modal d-block" tabindex="-1" (click)="onBackdropClick($event)">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-folder me-2"></i>
+          {{ isEditing ? 'Edytuj' : 'Dodaj' }} Kategorię {{ type === 'EXPENSE' ? 'Wydatków' : 'Przychodów' }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="onCancel()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+          <!-- Nazwa kategorii -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Nazwa Kategorii</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-tag"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                required
+                minlength="3"
+                placeholder="Wprowadź nazwę kategorii"
+              />
+            </div>
+            <div *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched" class="text-danger mt-1 small">
+              Nazwa jest wymagana i musi mieć co najmniej 3 znaki.
+            </div>
+          </div>
+
+          <!-- Kolor (tylko dla wydatków) -->
+          <div class="mb-3" *ngIf="type === 'EXPENSE'">
+            <label for="color" class="form-label">Wybierz Kolor</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-palette"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="color"
+                [(colorPicker)]="color"
+                [cpOutputFormat]="'hex'"
+                [style.background]="color"
+                [value]="color"
+                readonly
+              />
+              <span class="input-group-text">
+                <div class="color-preview" [style.background]="color" style="width: 20px; height: 20px; border-radius: 3px;"></div>
+              </span>
+            </div>
+          </div>
+
+          <!-- Kategoria nadrzędna -->
+          <div class="mb-3">
+            <label for="parentCategory" class="form-label">Kategoria nadrzędna</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
+              <select
+                id="parentCategory"
+                class="form-control form-select"
+                formControlName="parentId"
+              >
+                <option [value]="">Brak kategorii nadrzędnej</option>
+                <option *ngFor="let category of rootCategories" [value]="category.id">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+              <i class="fas fa-times me-1"></i> Anuluj
+            </button>
+            <button type="submit" class="btn btn-primary save-button" [disabled]="categoryForm.invalid">
+              <i class="fas fa-save me-1"></i> {{ isEditing ? 'Zapisz zmiany' : 'Dodaj' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -46,6 +46,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {CategoryListMainComponent} from './pages/Category/category-list-main/category-list-main.component';
 import {CategoryListComponent} from "./components/category-list/category-list.component";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import { ConfirmDialogCategoryComponent } from './pages/Category/confirm-dialog-category/confirm-dialog-category.component';
 
 registerLocaleData(localePl);
 
@@ -71,7 +72,8 @@ registerLocaleData(localePl);
     CategoryListComponent,
     CategoryMainComponent,
     CategoryFormComponent,
-    CategoryListMainComponent
+    CategoryListMainComponent,
+    ConfirmDialogCategoryComponent
   ],
   imports: [
     CommonModule,

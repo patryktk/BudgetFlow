@@ -118,7 +118,7 @@ services:
   budget-flow-ui:
     build:
       context: ./budgetFlow-ui  # Ścieżka do katalogu z aplikacją Angular
-#      dockerfile: budgetFlow-ui/Dockerfile
+      dockerfile: budgetFlow-ui/Dockerfile
     container_name: budget-flow-ui
     ports:
       - "80:80"

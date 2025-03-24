@@ -14,6 +14,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { CategoryResponse } from '../models/category-response';
 import { deleteCategory } from '../fn/category/delete-category';
 import { DeleteCategory$Params } from '../fn/category/delete-category';
+import { editCategory } from '../fn/category/edit-category';
+import { EditCategory$Params } from '../fn/category/edit-category';
 import { getAllCategory } from '../fn/category/get-all-category';
 import { GetAllCategory$Params } from '../fn/category/get-all-category';
 import { saveCategory } from '../fn/category/save-category';
@@ -57,7 +59,7 @@ export class CategoryService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `getAllCategory()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   getAllCategory$Response(params: GetAllCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
     return getAllCategory(this.http, this.rootUrl, params, context);
@@ -67,11 +69,36 @@ export class CategoryService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `getAllCategory$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   getAllCategory(params: GetAllCategory$Params, context?: HttpContext): Observable<Array<CategoryResponse>> {
     return this.getAllCategory$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<CategoryResponse>>): Array<CategoryResponse> => r.body)
+    );
+  }
+
+  /** Path part for operation `editCategory()` */
+  static readonly EditCategoryPath = '/expenses/category/editCategory';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `editCategory()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  editCategory$Response(params: EditCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
+    return editCategory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `editCategory$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  editCategory(params: EditCategory$Params, context?: HttpContext): Observable<CategoryResponse> {
+    return this.editCategory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<CategoryResponse>): CategoryResponse => r.body)
     );
   }
 

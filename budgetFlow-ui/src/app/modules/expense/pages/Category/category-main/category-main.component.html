@@ -1,1 +1,94 @@
-<p>main category</p>
+<div class="category-management-container">
+  <div class="container-fluid">
+    <div class="page-header">
+      <h2>Zarządzanie kategoriami</h2>
+      <p class="text-muted">Zarządzaj kategoriami wydatków i przychodów w swoim budżecie</p>
+    </div>
+
+    <mat-tab-group (selectedTabChange)="onTabChange($event)" animationDuration="300ms">
+      <!-- Zakładka kategorii wydatków -->
+      <mat-tab label="Kategorie wydatków">
+        <div class="tab-content-container">
+          <div class="row">
+            <div class="col-md-12 mb-3 d-flex justify-content-end">
+              <button mat-raised-button color="primary" (click)="toggleExpenseForm()"
+                      [ngStyle]="{'background-color': '#c4a347'}" class="add-button">
+                <mat-icon>{{ showExpenseForm ? 'close' : 'add' }}</mat-icon>
+                {{ showExpenseForm ? 'Anuluj' : 'Dodaj nową kategorię' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Formularz dodawania/edytowania kategorii wydatków -->
+            <div class="col-md-12 mb-4" *ngIf="showExpenseForm">
+              <app-category-form
+                [rootCategories]="getExpenseRootCategories()"
+                [editingCategory]="editingExpenseCategory"
+                [type]="categoryType.EXPENSE"
+                [isVisible]="true"
+                (formSubmit)="submitExpenseCategory($event)"
+                (formCancel)="onFormCancel()">
+              </app-category-form>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Lista kategorii wydatków -->
+            <div class="col-md-12">
+              <app-category-list-main
+                [categories]="expenseCategories"
+                [activeUser]="activeUser"
+                [type]="categoryType.EXPENSE"
+                (deleteCategory)="deleteExpenseCategory($event)"
+                (editCategory)="editExpenseCategory($event)">
+              </app-category-list-main>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Zakładka kategorii przychodów -->
+      <mat-tab label="Kategorie przychodów">
+        <div class="tab-content-container">
+          <div class="row">
+            <div class="col-md-12 mb-3 d-flex justify-content-end">
+              <button mat-raised-button color="primary" (click)="toggleIncomeForm()"
+                      [ngStyle]="{'background-color': '#c4a347'}" class="add-button">
+                <mat-icon>{{ showIncomeForm ? 'close' : 'add' }}</mat-icon>
+                {{ showIncomeForm ? 'Anuluj' : 'Dodaj nową kategorię' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Formularz dodawania/edytowania kategorii przychodów -->
+            <div class="col-md-12 mb-4" *ngIf="showIncomeForm">
+              <app-category-form
+                [rootCategories]="getIncomeRootCategories()"
+                [editingCategory]="editingIncomeCategory"
+                [type]="categoryType.INCOME"
+                [isVisible]="true"
+                (formSubmit)="submitExpenseCategory($event)"
+                (formCancel)="onFormCancel()">
+              </app-category-form>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Lista kategorii przychodów -->
+            <div class="col-md-12">
+              <app-category-list-main
+                [categories]="incomeCategories"
+                [activeUser]="activeUser"
+                [type]="categoryType.INCOME"
+                (deleteCategory)="deleteIncomeCategory($event)"
+                (editCategory)="editIncomeCategory($event)">
+              </app-category-list-main>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

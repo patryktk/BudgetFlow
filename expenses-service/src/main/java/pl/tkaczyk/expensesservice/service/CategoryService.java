@@ -11,4 +11,6 @@ public interface CategoryService {
     List<CategoryResponse> getCategoriesByType(CategoryRequest request, String activeUserId);
 
     void deleteCategory(Long categoryId, String activeUserId);
+
+    CategoryResponse editCategory(CategoryRequest request, String activeUserId);
 }

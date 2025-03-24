@@ -12,13 +12,13 @@ import { CategoryRequest } from '../../models/category-request';
 import { CategoryResponse } from '../../models/category-response';
 
 export interface GetAllCategory$Params {
-  request: CategoryRequest;
+      body: CategoryRequest
 }
 
 export function getAllCategory(http: HttpClient, rootUrl: string, params: GetAllCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getAllCategory.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, getAllCategory.PATH, 'post');
   if (params) {
-    rb.query('request', params.request, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(

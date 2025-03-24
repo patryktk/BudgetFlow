@@ -40,7 +40,6 @@ public class CategoryServiceImpl implements CategoryService {
                 throw new IllegalStateException("Maximum number of categories in parent category is " + parentCategory.getParentCategory().getId());
             }
             parentCategory.addSubCategory(category);
-            categoryRepository.save(parentCategory);
         }
         GroupResponse groupResponse = groupClient.checkIfUserInAnyGroup(Long.valueOf(activeUserId)).getBody();
 
@@ -71,9 +70,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(Long categoryId, String activeUserId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-        if (category.getCreatedByUserId().equals(Long.valueOf(activeUserId))) {
+        if (!category.getCreatedByUserId().equals(Long.valueOf(activeUserId))) {
             throw new IllegalStateException("You are not authorized to delete this category");
         }
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public CategoryResponse editCategory(CategoryRequest request, String activeUserId) {
+        Category categoryToEdit = categoryRepository.findById(request.id()).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        if(request.parentId() != null) {
+            categoryToEdit.setParentCategory(categoryRepository.findById(request.parentId()).orElseThrow(() -> new ResourceNotFoundException("Parent category not found")));
+        }
+        categoryToEdit.setName(request.name());
+        categoryToEdit.setHexColor(request.hexColor());
+
+        return categoryMapper.toCategoryResponse(categoryRepository.save(categoryToEdit));
     }
 }

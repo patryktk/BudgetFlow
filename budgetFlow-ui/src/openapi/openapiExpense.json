@@ -549,6 +549,69 @@
         }
       }
     },
+    "/expenses/category/getCategoriesByType": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "getAllCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/category/editCategory": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "editCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/incomeCategory/getAllIncomeCategories": {
       "get": {
         "tags": [
@@ -610,39 +673,6 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ExpenseCategoryResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/expenses/category/getCategoriesByType": {
-      "get": {
-        "tags": [
-          "Category"
-        ],
-        "operationId": "getAllCategory",
-        "parameters": [
-          {
-            "name": "request",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/CategoryRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CategoryResponse"
                   }
                 }
               }

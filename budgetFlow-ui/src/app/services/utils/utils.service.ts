@@ -31,6 +31,6 @@ export class UtilsService {
   }
 }
 export enum CategoryType {
-  EXPENSE = 'expense',
-  INCOME = 'income'
+  EXPENSE = 'EXPENSE',
+  INCOME = 'INCOME'
 }

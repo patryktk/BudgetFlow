@@ -9,6 +9,7 @@ import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
 import pl.tkaczyk.expensesservice.mapper.StatisticsPartialMapper;
 import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.*;
+import pl.tkaczyk.expensesservice.repository.CategoryRepository;
 import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
 import pl.tkaczyk.expensesservice.repository.ExpenseRepository;
 import pl.tkaczyk.expensesservice.service.ExpenseCategoryService;
@@ -30,6 +31,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseCategoryMapper expenseCategoryMapper;
     private final ExpenseCategoryService expenseCategoryService;
     private final ExpenseCategoryRepository expenseCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<ExpenseResponse> getAllExpenses(Long userId) {
@@ -78,7 +80,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId) {
         Expense expenseToEdit = expenseRepository.findById(expenseRequest.id()).orElseThrow(() -> new IllegalArgumentException("Expense does not exist"));
         expenseToEdit.setName(expenseRequest.name());
-        expenseToEdit.setExpenseCategory(expenseCategoryRepository.findById(expenseRequest.expenseCategoryRequest().id()).orElseThrow(() -> new IllegalArgumentException("Expense does not exist")));
+        expenseToEdit.setCategory(categoryRepository.findById(expenseRequest.categoryRequest().id()).orElseThrow(() -> new IllegalArgumentException("Expense does not exist")));
         expenseToEdit.setAmount(expenseRequest.amount());
         expenseToEdit.setExpenseDate(expenseRequest.expenseDate());
         expenseToEdit.setNote(expenseRequest.note());

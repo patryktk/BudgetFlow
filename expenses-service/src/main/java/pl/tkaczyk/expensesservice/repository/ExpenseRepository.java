@@ -26,28 +26,30 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 
     @Query(value = """
-            select ec.name as name, sum(e.amount) as amount, coalesce(avg_table.averageValue,0) as averageValue
+            select cat.name as name, sum(e.amount) as amount, coalesce(avg_table.averageValue,0) as averageValue
                           from expense e
-                                   join expense_category ec on ec.id = e.expense_category_id
-                                   left join (SELECT DISTINCT ON (ec.id) ec.id                               as category_id,
-                                                                         ec.name,
+                                   join category cat on cat.id = e.category_id
+                                   left join (SELECT DISTINCT ON (cat.id) cat.id                               as category_id,
+                                                                         cat.name,
                                                                          sum(e.amount)                       AS amountIncomeInMonth,
                                                                          date_trunc('month', e.expense_date) AS month,
                                                                          AVG(SUM(e.amount)) OVER (
-                                                                             PARTITION BY ec.id
+                                                                             PARTITION BY cat.id
                                                                              ORDER BY DATE_TRUNC('month', e.expense_date)
                                                                              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
                                                                              )                               AS averageValue
                                               FROM expense e
-                                                       JOIN public.expense_category ec ON e.expense_category_id = ec.id
+                                                       JOIN public.category cat ON e.category_id = cat.id
                                               WHERE e.expense_date < '2025-02-01'
                                                 AND e.user_id = '1'
-                                              GROUP BY month, ec.id
-                                              ORDER BY ec.id, month DESC) avg_table on ec.id = avg_table.category_id
+                                              and cat.category_type = 'EXPENSE'
+                                              GROUP BY month, cat.id
+                                              ORDER BY cat.id, month DESC) avg_table on cat.id = avg_table.category_id
                           where e.expense_date >= :startDate
                             and e.expense_date <= :endDate
                             and e.user_id in :userIds
-                          group by ec.id, avg_table.averageValue
+                            and cat.category_type = 'EXPENSE'
+                          group by cat.id, avg_table.averageValue
             """, nativeQuery = true)
     List<StatisticsPartialProjection> findPartialExpensesByUsersByStartDateAndEndDate(@Param("startDate") LocalDate startDate,
                                                                                       @Param("endDate") LocalDate endDate,
@@ -66,10 +68,11 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                @Param("userIds") Set<Long> userIds);
 
     @Query("""
-            select ec.name, sum(e.amount) as value, e.expenseDate, ec.hexColor as date from Expense e
-            left join ExpenseCategory ec on e.expenseCategory.id = ec.id
+            select cat.name, sum(e.amount) as value, e.expenseDate, cat.hexColor as date from Expense e
+            left join Category cat on e.category.id = cat.id
             where e.userId =:userId
-            group by e.expenseDate, ec.id
+            and cat.categoryType = "EXPENSE"
+            group by e.expenseDate, cat.id
             """)
     List<Tuple> findExpensesGroupByCategoryToCalendarFiled(@Param("userId") Long userId);
 

@@ -23,7 +23,7 @@ public class Category {
     private String name;
     private Long createdByUserId;
     private String hexColor;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private CategoryType categoryType;
 
     @ManyToOne

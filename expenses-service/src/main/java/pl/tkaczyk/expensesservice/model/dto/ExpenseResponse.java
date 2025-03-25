@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public record ExpenseResponse(
         Long id,
         String name,
-        ExpenseCategoryResponse expenseCategoryResponse,
+        CategoryResponse categoryResponse,
         @Schema(description = "Kwota wydatku", required = true)
         @NotNull(message = "Kwota nie może być pusta")
         double amount,

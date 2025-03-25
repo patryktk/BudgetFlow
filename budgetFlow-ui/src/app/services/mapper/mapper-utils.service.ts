@@ -3,6 +3,8 @@ import {ExpenseResponse} from "../models/expense-response";
 import {ExpenseRequest} from "../models/expense-request";
 import {ExpenseCategoryResponse} from "../models/expense-category-response";
 import {ExpenseCategoryRequest} from "../models/expense-category-request";
+import {CategoryResponse} from "../models/category-response";
+import {CategoryRequest} from "../models/category-request";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class MapperUtilsService {
   mapFromExpenseResponseToExpenseRequest(expenseResponse: ExpenseResponse | undefined) {
     const mappedExpenseRequest: ExpenseRequest = {
       amount: expenseResponse?.amount,
-      expenseCategoryRequest: this.mapFromExpenseCategoryResponseToExpenseCategoryRequest(expenseResponse?.expenseCategoryResponse),
+      categoryRequest: this.mapFromExpenseCategoryResponseToExpenseCategoryRequest(expenseResponse?.categoryResponse),
       expenseDate: expenseResponse?.expenseDate,
       id: expenseResponse?.id,
       name: expenseResponse?.name,
@@ -23,14 +25,14 @@ export class MapperUtilsService {
     return mappedExpenseRequest;
   }
 
-  mapFromExpenseCategoryResponseToExpenseCategoryRequest(response: ExpenseCategoryResponse | undefined) {
-    const mappedExpenseCategoryRequest: ExpenseCategoryRequest = {
+  mapFromExpenseCategoryResponseToExpenseCategoryRequest(response: CategoryResponse | undefined) {
+    const mappedCategoryRequest: CategoryRequest = {
       hexColor: response?.hexColor,
       id: response?.id,
       name: response?.name,
       parentId: response?.parentId
     }
-    return mappedExpenseCategoryRequest;
+    return mappedCategoryRequest;
   }
 
 

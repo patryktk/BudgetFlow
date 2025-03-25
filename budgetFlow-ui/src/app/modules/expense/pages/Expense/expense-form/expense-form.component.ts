@@ -6,6 +6,10 @@ import {NgForm} from "@angular/forms";
 import {finalize} from "rxjs/operators";
 import {ExpenseCategoryResponse} from "../../../../../services/models/expense-category-response";
 import {ExpenseCategoryRequest} from "../../../../../services/models/expense-category-request";
+import {CategoryService} from "../../../../../services/services/category.service";
+import {CategoryType} from "../../../../../services/utils/utils.service";
+import {CategoryRequest} from "../../../../../services/models/category-request";
+import {CategoryResponse} from "../../../../../services/models/category-response";
 
 @Component({
   selector: 'app-expense-form',
@@ -26,11 +30,15 @@ export class ExpenseFormComponent implements OnInit {
   isSubmitting = false;
   errorMessage: string | null = null;
   expenseCategories: ExpenseCategoryResponse[] = [];
+  categoryRequest: CategoryRequest = {};
+  categories: CategoryResponse[] = [];
 
   constructor(
     private expenseService: ExpenseService,
-    private expenseCategoryService: ExpensesCategoryService
-  ) {}
+    private expenseCategoryService: ExpensesCategoryService,
+    private categoryService: CategoryService
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadExpenseCategories();
@@ -43,7 +51,7 @@ export class ExpenseFormComponent implements OnInit {
   /**
    * Porównuje dwie kategorie wydatków na podstawie ich identyfikatorów
    */
-  compareCategories(cat1: ExpenseCategoryRequest, cat2: ExpenseCategoryRequest): boolean {
+  compareCategories(cat1: CategoryRequest, cat2: CategoryRequest): boolean {
     return cat1 && cat2 ? cat1.id === cat2.id : cat1 === cat2;
   }
 
@@ -51,18 +59,42 @@ export class ExpenseFormComponent implements OnInit {
    * Pobiera listę wszystkich kategorii wydatków
    */
   private loadExpenseCategories(): void {
-    this.expenseCategoryService.getAllExpenseCategory().subscribe({
+    // this.expenseCategoryService.getAllExpenseCategory().subscribe({
+    //   next: (categories) => {
+    //     this.expenseCategories = categories;
+    //
+    //     // Jeśli edytujemy wydatek, upewnij się, że kategoria jest poprawnie wybrana
+    //     if (this.expense?.expenseCategoryRequest && this.expense.expenseCategoryRequest.id) {
+    //       const matchingCategory = this.expenseCategories.find(
+    //         category => category.id === this.expense?.expenseCategoryRequest?.id
+    //       );
+    //
+    //       if (matchingCategory) {
+    //         this.expenseData.expenseCategoryRequest = matchingCategory;
+    //       }
+    //     }
+    //   },
+    //   error: (error) => {
+    //     console.error("Błąd podczas pobierania kategorii wydatków:", error);
+    //     this.errorMessage = "Nie udało się załadować kategorii wydatków. Spróbuj ponownie później.";
+    //   }
+    // });
+
+    this.categoryRequest.categoryType = CategoryType.EXPENSE;
+    this.categoryService.getAllCategory({
+      body: this.categoryRequest
+    }).subscribe({
       next: (categories) => {
-        this.expenseCategories = categories;
+        this.categories = categories;
 
         // Jeśli edytujemy wydatek, upewnij się, że kategoria jest poprawnie wybrana
-        if (this.expense?.expenseCategoryRequest && this.expense.expenseCategoryRequest.id) {
+        if (this.expense?.categoryRequest && this.expense.categoryRequest.id) {
           const matchingCategory = this.expenseCategories.find(
-            category => category.id === this.expense?.expenseCategoryRequest?.id
+            category => category.id === this.expense?.categoryRequest?.id
           );
 
           if (matchingCategory) {
-            this.expenseData.expenseCategoryRequest = matchingCategory;
+            this.expenseData.categoryRequest = matchingCategory;
           }
         }
       },
@@ -70,7 +102,7 @@ export class ExpenseFormComponent implements OnInit {
         console.error("Błąd podczas pobierania kategorii wydatków:", error);
         this.errorMessage = "Nie udało się załadować kategorii wydatków. Spróbuj ponownie później.";
       }
-    });
+    })
   }
 
   /**
@@ -89,8 +121,8 @@ export class ExpenseFormComponent implements OnInit {
     this.errorMessage = null;
 
     const operation = this.expense?.id
-      ? this.expenseService.updateExpense({ body: this.expenseData })
-      : this.expenseService.addExpense({ body: this.expenseData });
+      ? this.expenseService.updateExpense({body: this.expenseData})
+      : this.expenseService.addExpense({body: this.expenseData});
 
     operation
       .pipe(finalize(() => this.isSubmitting = false))

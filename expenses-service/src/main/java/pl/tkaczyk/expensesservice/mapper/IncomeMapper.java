@@ -1,10 +1,12 @@
 package pl.tkaczyk.expensesservice.mapper;
 
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.model.Income;
 import pl.tkaczyk.expensesservice.model.dto.IncomeRequest;
 import pl.tkaczyk.expensesservice.model.dto.IncomeResponse;
+import pl.tkaczyk.expensesservice.model.dto.SumResponse;
 import pl.tkaczyk.expensesservice.repository.CategoryRepository;
 
 @Service
@@ -32,6 +34,12 @@ public class IncomeMapper {
                 .incomeDate(income.getIncomeDate())
                 .userId(income.getUserId())
                 .categoryResponse(categoryMapper.toCategoryResponse(income.getCategory()))
+                .build();
+    }
+
+    public SumResponse toSumResponse(Tuple tuple) {
+        return SumResponse.builder()
+                .sum((Double) tuple.get(0))
                 .build();
     }
 }

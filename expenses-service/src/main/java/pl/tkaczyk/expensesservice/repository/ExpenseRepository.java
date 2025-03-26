@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Expense;
-import pl.tkaczyk.expensesservice.model.dto.SumResponse;
 import pl.tkaczyk.expensesservice.model.dto.StatisticsPartialProjection;
 
 import java.time.LocalDate;
@@ -18,10 +17,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 
     @Query("""
-        select e
-        from Expense e
-        where e.userId in :userIds
-        """)
+            select e
+            from Expense e
+            where e.userId in :userIds
+            """)
     List<Expense> findExpenseByUserIds(@Param("userIds") Set<Long> userIds);
 
 
@@ -40,8 +39,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                                              )                               AS averageValue
                                               FROM expense e
                                                        JOIN public.category cat ON e.category_id = cat.id
-                                              WHERE e.expense_date < '2025-02-01'
-                                                AND e.user_id = '1'
+                                              WHERE e.expense_date < :startDate
+                                                AND e.user_id in :userIds
                                               and cat.category_type = 'EXPENSE'
                                               GROUP BY month, cat.id
                                               ORDER BY cat.id, month DESC) avg_table on cat.id = avg_table.category_id
@@ -84,6 +83,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             and e.userId =:userId
             """)
     Tuple findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
-                                                @Param("startDate") LocalDate startDate,
-                                                @Param("endDate") LocalDate endDate);
+                                          @Param("startDate") LocalDate startDate,
+                                          @Param("endDate") LocalDate endDate);
 }

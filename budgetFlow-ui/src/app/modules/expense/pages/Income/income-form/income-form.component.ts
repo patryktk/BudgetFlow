@@ -1,19 +1,17 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {IncomeRequest} from "../../../../../services/models/income-request";
 import {IncomeService} from "../../../../../services/services/income.service";
-import {IncomeCategory} from "../../../../../services/models/income-category";
 import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
-import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";
 import {CategoryResponse} from "../../../../../services/models/category-response";
 import {CategoryService} from "../../../../../services/services/category.service";
 import {CategoryRequest} from "../../../../../services/models/category-request";
 import {CategoryType} from "../../../../../services/utils/utils.service";
 
 @Component({
-    selector: 'app-income-form',
-    templateUrl: './income-form.component.html',
-    styleUrl: './income-form.component.scss',
-    standalone: false
+  selector: 'app-income-form',
+  templateUrl: './income-form.component.html',
+  styleUrl: './income-form.component.scss',
+  standalone: false
 })
 export class IncomeFormComponent implements OnInit {
   @Input() income: IncomeRequest | null = null;
@@ -87,7 +85,7 @@ export class IncomeFormComponent implements OnInit {
     this.categoryService.getAllCategory({
       body: this.categoryRequest
     }).subscribe({
-      next: (result ) =>{
+      next: (result) => {
         this.categories = result
       },
       error: (error) => {

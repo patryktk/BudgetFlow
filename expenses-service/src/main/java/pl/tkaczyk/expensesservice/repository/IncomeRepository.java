@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.tkaczyk.expensesservice.model.Income;
 import pl.tkaczyk.expensesservice.model.dto.StatisticsPartialProjection;
-import pl.tkaczyk.expensesservice.model.dto.SumResponse;
+import jakarta.persistence.Tuple;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -54,13 +54,13 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
                                          JOIN public.category cat ON i.category_id = cat.id
                                 WHERE i.income_date < :startDate
                                   AND i.user_id in :userIds
-                                and cat.category_type = "INCOME"
+                                and cat.category_type = 'INCOME'
                                 GROUP BY month, cat.id
                                 ORDER BY cat.id, month DESC) avg_table on cat.id = avg_table.category_id
             where i.income_date >= :startDate
               and i.income_date <= :endDate
               and i.user_id in :userIds
-            and cat.category_type = "INCOME"
+            and cat.category_type = 'INCOME'
             group by cat.id, avg_table.averageValue            
                           """, nativeQuery = true)
     List<StatisticsPartialProjection> findExpensesStatistics(@Param("startDate") LocalDate startDate,
@@ -72,9 +72,9 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
             from Income i
             where i.incomeDate >= :startDate
             and i.incomeDate <= :endDate
-            and i.userId =:userIds
+            and i.userId =:userId
             """)
-    SumResponse findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
+    Tuple findSumOfExpenseByUserIdAndDate(@Param("userId") Long userId,
                                                 @Param("startDate") LocalDate startDate,
                                                 @Param("endDate") LocalDate endDate);
 }

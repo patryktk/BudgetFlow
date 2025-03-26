@@ -43,7 +43,7 @@ import {CategoryFormComponent} from './pages/Category/category-form/category-for
 import {MatOption, MatSelect} from "@angular/material/select";
 import {CategoryListMainComponent} from './pages/Category/category-list-main/category-list-main.component';
 import {CategoryListComponent} from "./components/category-list/category-list.component";
-import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {MatTabGroup} from "@angular/material/tabs";
 import {
   ConfirmDialogCategoryComponent
 } from './pages/Category/confirm-dialog-category/confirm-dialog-category.component';
@@ -103,7 +103,6 @@ registerLocaleData(localePl);
     MatSelect,
     MatOption,
     MatTabGroup,
-    MatTab
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pl'}

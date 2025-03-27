@@ -1,9 +1,47 @@
+<div class="row justify-content-center">
+  <div class="col-sm-5 box">
+    <div class="card border">
+      <div *ngIf="inGroup" class="card-body">
+        <h4 class="card-title"> Stwórz grupę</h4>
+        <input [(ngModel)]="groupRequest.name" class="form-control mt-2" placeholder="Nazwa grupy"/>
+        <input [(ngModel)]="groupRequest.description" class="form-control mt-2" placeholder="Opis grupy"/>
+        <button (click)="createGroup()" class="btn btn-primary mt-3">Załóż grupę</button>
+        Tutaj możliwość założenia grupy, a gdy jest założona to zarządzanie [edycja nazwy, opisu, usuwanie grupy.]
+      </div>
+      <div *ngIf="!inGroup" class="card-body">
+        <h4 class="card-title"> Zarządzanie grupą</h4>
+        <p class="mt-3"><strong>Nazwa:</strong>{{ groupDetails.name }}</p>
+        <p><strong>Opis:</strong>{{ groupDetails.description }}</p>
+        <button (click)="deleteGroup()" class="btn btn-danger mt-3">Usuń grupę</button>
+        <button (click)="editGroup()" class="btn btn-warning mt-3">Edytuj grupę</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5 box">
+    <div class="card border">
+      <div class="card-body">
+        <h4 class="card-title"> Lista osób w grupie</h4>
+        <div>
+          <strong>Users:</strong>
+          <ul class="list-group mt-2">
+            <li *ngFor="let user of groupDetails.usersData" class="list-group-item">
+              {{ user.email }}
+            </li>
+          </ul>
+        </div>
+        Lista osób w grupie z buttonami do zarządzania nimi
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="container mt-5">
   <div *ngIf="!inGroup" class="card group-card">
     <div class="card-body">
       <h3 class="card-title">Create a Group</h3>
-      <input [(ngModel)]="groupRequest.name" class="form-control mt-2" placeholder="Group Name" />
-      <input [(ngModel)]="groupRequest.description" class="form-control mt-2" placeholder="Group description" />
+      <input [(ngModel)]="groupRequest.name" class="form-control mt-2" placeholder="Group Name"/>
+      <input [(ngModel)]="groupRequest.description" class="form-control mt-2" placeholder="Group description"/>
       <button (click)="createGroup()" class="btn btn-primary mt-3">Create Group</button>
     </div>
   </div>
@@ -17,22 +55,22 @@
       <div>
         <strong>Users:</strong>
         <ul class="list-group mt-2">
-          <li class="list-group-item" *ngFor="let user of groupDetails.usersData">
+          <li *ngFor="let user of groupDetails.usersData" class="list-group-item">
             {{ user.email }}
           </li>
         </ul>
       </div>
 
-      <button class="btn btn-secondary mt-2" (click)="openInvitePopup()">Invite</button>
-      <button *ngIf="groupOwner" class="btn btn-danger mt-2" (click)="deleteGroup()">Delete</button>
+      <button (click)="openInvitePopup()" class="btn btn-secondary mt-2">Invite</button>
+      <button (click)="deleteGroup()" *ngIf="groupOwner" class="btn btn-danger mt-2">Delete</button>
     </div>
   </div>
 
 
   <app-invite-to-group
+    (close)="closeInvitePopup()"
     *ngIf="showInvitePopup"
-    [groupId]="groupDetails.id"
-    (close)="closeInvitePopup()">
+    [groupId]="groupDetails.id">
   </app-invite-to-group>
 
 </div>

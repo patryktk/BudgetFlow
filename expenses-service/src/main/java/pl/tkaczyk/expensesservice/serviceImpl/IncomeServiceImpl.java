@@ -97,6 +97,9 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public SumResponse getSumOfIncomes(String userId, StatisticsByMonthRequest request) {
-        return null;
+        return incomeMapper.toSumResponse(
+                incomeRepository.findSumOfExpenseByUserIdAndDate(Long.valueOf(userId),
+                        LocalDate.parse(request.startDate()),
+                        LocalDate.parse(request.endDate())));
     }
 }

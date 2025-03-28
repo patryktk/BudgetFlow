@@ -15,7 +15,6 @@ export { GroupInviteRequest } from './models/group-invite-request';
 export { GroupRequest } from './models/group-request';
 export { GroupResponseForExpenseService } from './models/group-response-for-expense-service';
 export { GroupResponseWithUser } from './models/group-response-with-user';
-export { IncomeCategory } from './models/income-category';
 export { IncomeCategoryRequest } from './models/income-category-request';
 export { IncomeCategoryResponse } from './models/income-category-response';
 export { IncomeRequest } from './models/income-request';

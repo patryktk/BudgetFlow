@@ -23,8 +23,8 @@ public class Expense {
     private Long id;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "expenseCategoryId")
-    private ExpenseCategory expenseCategory;
+    @JoinColumn(name = "categoryId")
+    private Category category;
     private double amount;
     private LocalDate expenseDate;
     private String note;

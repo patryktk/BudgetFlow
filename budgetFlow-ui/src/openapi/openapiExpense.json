@@ -770,7 +770,7 @@
   },
   "components": {
     "schemas": {
-      "ExpenseCategoryRequest": {
+      "CategoryRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -786,6 +786,13 @@
           "parentId": {
             "type": "integer",
             "format": "int64"
+          },
+          "categoryType": {
+            "type": "string",
+            "enum": [
+              "EXPENSE",
+              "INCOME"
+            ]
           }
         }
       },
@@ -799,8 +806,8 @@
           "name": {
             "type": "string"
           },
-          "expenseCategoryRequest": {
-            "$ref": "#/components/schemas/ExpenseCategoryRequest"
+          "categoryRequest": {
+            "$ref": "#/components/schemas/CategoryRequest"
           },
           "amount": {
             "type": "number",
@@ -815,7 +822,7 @@
           }
         }
       },
-      "ExpenseCategoryResponse": {
+      "CategoryResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -842,6 +849,13 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          "categoryType": {
+            "type": "string",
+            "enum": [
+              "EXPENSE",
+              "INCOME"
+            ]
           }
         }
       },
@@ -858,8 +872,8 @@
           "name": {
             "type": "string"
           },
-          "expenseCategoryResponse": {
-            "$ref": "#/components/schemas/ExpenseCategoryResponse"
+          "categoryResponse": {
+            "$ref": "#/components/schemas/CategoryResponse"
           },
           "amount": {
             "type": "number",
@@ -888,30 +902,6 @@
         },
         "additionalProperties": true
       },
-      "IncomeCategory": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "createdByUserId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "sharedWithUsers": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        }
-      },
       "IncomeRequest": {
         "type": "object",
         "properties": {
@@ -922,8 +912,8 @@
           "name": {
             "type": "string"
           },
-          "incomeCategory": {
-            "$ref": "#/components/schemas/IncomeCategory"
+          "categoryRequest": {
+            "$ref": "#/components/schemas/CategoryRequest"
           },
           "amount": {
             "type": "number",
@@ -956,6 +946,9 @@
           "userId": {
             "type": "integer",
             "format": "int64"
+          },
+          "categoryResponse": {
+            "$ref": "#/components/schemas/CategoryResponse"
           }
         },
         "additionalProperties": true
@@ -1024,7 +1017,7 @@
           }
         }
       },
-      "CategoryRequest": {
+      "ExpenseCategoryRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -1040,17 +1033,10 @@
           "parentId": {
             "type": "integer",
             "format": "int64"
-          },
-          "categoryType": {
-            "type": "string",
-            "enum": [
-              "EXPENSE",
-              "INCOME"
-            ]
           }
         }
       },
-      "CategoryResponse": {
+      "ExpenseCategoryResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -1077,13 +1063,6 @@
               "type": "integer",
               "format": "int64"
             }
-          },
-          "categoryType": {
-            "type": "string",
-            "enum": [
-              "EXPENSE",
-              "INCOME"
-            ]
           }
         }
       },

@@ -4,10 +4,10 @@ import {GroupService} from "../../../../../services/services/group.service";
 import {AuthenticationService} from "../../../../../services/services/authentication.service";
 
 @Component({
-    selector: 'app-group-invitation',
-    templateUrl: './group-invitation.component.html',
-    styleUrl: './group-invitation.component.scss',
-    standalone: false
+  selector: 'app-group-invitation',
+  templateUrl: './group-invitation.component.html',
+  styleUrl: './group-invitation.component.scss',
+  standalone: false
 })
 export class GroupInvitationComponent implements OnInit {
   token: string | null = null;
@@ -26,9 +26,9 @@ export class GroupInvitationComponent implements OnInit {
 
   ngOnInit(): void {
     this.token = this.route.snapshot.queryParamMap.get("token");
-    if(!this.isLoggedIn()){
+    if (!this.isLoggedIn()) {
       this.redirectToLogin();
-    }else if (this.token){
+    } else if (this.token) {
       this.groupService.verifyInvitation({token: this.token}).subscribe({
         next: result => {
           this.invitation = result;
@@ -44,16 +44,16 @@ export class GroupInvitationComponent implements OnInit {
 
   redirectToLogin(): void {
     const currentUrl = window.location.pathname; // Aktualna ścieżka
-    this.router.navigate(['/login'], { queryParams: { returnUrl: currentUrl } });
+    this.router.navigate(['/login'], {queryParams: {returnUrl: currentUrl}});
   }
 
-  isLoggedIn() : boolean{
+  isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
     return !!token;
   }
 
-  acceptInvitation(){
-    if(this.token){
+  acceptInvitation() {
+    if (this.token) {
       this.groupService.acceptInvitation({token: this.token}).subscribe({
         next: () => this.router.navigate(['/expense']),
         error: () => (this.error = "Wystąpił błąd przy akceptowaniu zaproszenia")
@@ -61,7 +61,7 @@ export class GroupInvitationComponent implements OnInit {
     }
   }
 
-  declineInvitation(){
+  declineInvitation() {
     this.router.navigate(['/expense'])
   }
 

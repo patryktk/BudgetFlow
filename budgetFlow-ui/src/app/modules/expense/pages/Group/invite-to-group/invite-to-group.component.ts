@@ -3,10 +3,10 @@ import {GroupService} from "../../../../../services/services/group.service";
 import {GroupInviteRequest} from "../../../../../services/models/group-invite-request";
 
 @Component({
-    selector: 'app-invite-to-group',
-    templateUrl: './invite-to-group.component.html',
-    styleUrl: './invite-to-group.component.scss',
-    standalone: false
+  selector: 'app-invite-to-group',
+  templateUrl: './invite-to-group.component.html',
+  styleUrl: './invite-to-group.component.scss',
+  standalone: false
 })
 export class InviteToGroupComponent {
 
@@ -18,6 +18,7 @@ export class InviteToGroupComponent {
     private groupService: GroupService
   ) {
   }
+
   @Input() groupId!: number | undefined;
   @Output() close = new EventEmitter<void>(); // EventEmitter do zamykania popupu
   closePopup() {

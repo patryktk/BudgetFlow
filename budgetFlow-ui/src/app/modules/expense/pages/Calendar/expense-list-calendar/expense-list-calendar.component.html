@@ -24,7 +24,7 @@
             <tr *ngFor="let expense of expenses; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ expense.name }}</td>
-              <td>{{ expense.expenseCategoryResponse?.name }}</td>
+              <td>{{ expense.categoryResponse?.name }}</td>
               <td class="text-end">{{ expense.amount | currency:'PLN' }}</td>
               <td>{{ expense.expenseDate | date:'dd-MM-yyyy' }}</td>
               <td>{{ expense.note }}</td>

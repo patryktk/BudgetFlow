@@ -8,6 +8,7 @@ import pl.tkaczyk.expensesservice.model.dto.ExpenseCalendarFieldInfo;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseRequest;
 import pl.tkaczyk.expensesservice.model.dto.ExpenseResponse;
 import pl.tkaczyk.expensesservice.model.dto.SumResponse;
+import pl.tkaczyk.expensesservice.repository.CategoryRepository;
 import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
 
 import java.math.BigDecimal;
@@ -20,6 +21,8 @@ public class ExpenseMapper {
 
     private final ExpenseCategoryMapper expenseCategoryMapper;
     private final ExpenseCategoryRepository expenseCategoryRepository;
+    private final CategoryMapper categoryMapper;
+    private final CategoryRepository categoryRepository;
 
     public Expense toExpense(ExpenseRequest request, String userId){
         if(request == null) return null;
@@ -28,7 +31,7 @@ public class ExpenseMapper {
                 .name(request.name())
                 .amount(request.amount())
                 .userId(Long.valueOf(userId))
-                .expenseCategory(expenseCategoryRepository.findById(request.expenseCategoryRequest().id()).orElseThrow(() -> new IllegalArgumentException("Expense category not found")))
+                .category(categoryRepository.findById(request.categoryRequest().id()).orElseThrow(() -> new IllegalArgumentException("Expense category not found")))
                 .expenseDate(request.expenseDate())
                 .note(request.note())
                 .build();
@@ -40,7 +43,7 @@ public class ExpenseMapper {
                 .id(expense.getId())
                 .name(expense.getName())
                 .amount(expense.getAmount())
-                .expenseCategoryResponse(expenseCategoryMapper.toExpenseCategoryResponse(expense.getExpenseCategory()))
+                .categoryResponse(categoryMapper.toCategoryResponse(expense.getCategory()))
                 .expenseDate(expense.getExpenseDate())
                 .note(expense.getNote())
                 .userId(expense.getUserId())

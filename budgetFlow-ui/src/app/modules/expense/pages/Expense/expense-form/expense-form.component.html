@@ -80,13 +80,13 @@
                 id="expenseCategory"
                 class="form-control form-select"
                 name="expenseCategory"
-                [(ngModel)]="expenseData.expenseCategoryRequest"
+                [(ngModel)]="expenseData.categoryRequest"
                 [compareWith]="compareCategories"
                 required
                 #categoryInput="ngModel"
               >
                 <option value="" disabled>Wybierz kategorię</option>
-                <option *ngFor="let category of expenseCategories" [ngValue]="category">
+                <option *ngFor="let category of categories" [ngValue]="category">
                   {{ category.name }}
                 </option>
               </select>

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public record ExpenseRequest(
         Long id,
         String name,
-        ExpenseCategory expenseCategory,
+        CategoryRequest categoryRequest,
         double amount,
         LocalDate expenseDate,
         String note

@@ -11,6 +11,7 @@ import { ExpenseService } from './services/expense.service';
 import { IncomeService } from './services/income.service';
 import { IncomeCategoryService } from './services/income-category.service';
 import { ExpensesCategoryService } from './services/expenses-category.service';
+import { CategoryService } from './services/category.service';
 import { UsersService } from './services/users.service';
 import { AuthenticationService } from './services/authentication.service';
 
@@ -27,6 +28,7 @@ import { AuthenticationService } from './services/authentication.service';
     IncomeService,
     IncomeCategoryService,
     ExpensesCategoryService,
+    CategoryService,
     UsersService,
     AuthenticationService,
     ApiConfiguration

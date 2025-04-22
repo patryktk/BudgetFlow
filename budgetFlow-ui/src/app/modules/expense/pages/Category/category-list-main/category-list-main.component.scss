@@ -1,0 +1,55 @@
+//@import '~@angular/material/theming';
+
+$themeColor: #c4a347;
+$blackToolbarColor: #1a1b1c;
+
+.card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  .card-header {
+    font-weight: 500;
+    border-bottom: none;
+    padding: 15px 20px;
+  }
+
+  .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 15px 20px;
+    transition: background-color 0.2s;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.hover-effect {
+      &:hover {
+        background-color: rgba($themeColor, 0.05);
+      }
+    }
+  }
+}
+
+.color-box {
+  min-width: 70px;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+}

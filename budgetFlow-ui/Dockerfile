@@ -1,29 +1,20 @@
-# Etap 1: Budowanie aplikacji Angular
-FROM node:18-alpine AS build
+FROM node:20-alpine as build
 
 WORKDIR /app
 
-# Kopiowanie plików konfiguracyjnych
-COPY package.json package-lock.json ./
+COPY package*.json ./
+
 RUN npm install
 
-# Kopiowanie reszty kodu
+RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-entry-points
 COPY . .
 
-# Budowanie aplikacji
-RUN npm run build --prod
+RUN npm run build
 
-# Etap 2: Serwowanie aplikacji za pomocą Nginx
-FROM nginx:1.21.6-alpine
+FROM nginx:stable
 
-# Usunięcie domyślnej konfiguracji Nginx
-RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist/budget-flow-ui/browser/* /usr/share/nginx/html/
+COPY --from=build /app/public/* /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Kopiowanie zbudowanej aplikacji do katalogu Nginx
-COPY --from=build /app/dist/budget-flow-ui /usr/share/nginx/html
-
-# Ustawienie domyślnej komendy dla kontenera
-CMD ["nginx", "-g", "daemon off;"]
-
-# Eksponowanie portu 80
 EXPOSE 80

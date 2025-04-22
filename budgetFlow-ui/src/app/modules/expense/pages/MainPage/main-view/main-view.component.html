@@ -1,54 +1,37 @@
-<div class="row">
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">
-        <h3>Wydatki - Statystyki</h3>
-      </div>
-      <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th>Kategoria</th>
-            <th>Kwota</th>
-            <th>Procent do średniej</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let stat of expensesStatistics">
-            <td>{{ stat.name }}</td>
-            <td>{{ stat.amount | currency:'PLN' }}</td>
-            <td>{{ stat.averageValue }}%</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="container mt-4">
+  <div class="row">
+    <h3>Witaj, {{ username }}</h3>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 box">
+      <app-summary-card [value]="sumOfIncome.sum" title="Przychód"></app-summary-card>
+    </div>
+    <div class="col-sm-3 box">
+      <app-summary-card [value]="sumOfExpense.sum" title="Wydatki"></app-summary-card>
+    </div>
+    <div class="col-sm-3 box">
+      <app-summary-card title="Bilans"></app-summary-card>
+    </div>
+    <div class="col-sm-3 box">
+      <app-summary-card title="Oszczędności"></app-summary-card>
     </div>
   </div>
-
-  <!-- Karta Przychodów -->
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">
-        <h3>Przychody - Statystyki</h3>
-      </div>
-      <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th>Kategoria</th>
-            <th>Kwota</th>
-            <th>Procent do średniej</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let stat of incomeStatistics">
-            <td>{{ stat.name }}</td>
-            <td>{{ stat.amount | currency:'PLN' }}</td>
-            <td>{{ stat.averageValue }}%</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="row">
+    <div class="col-12 chart-box">
+      <app-chart-main [chartData]="doughnutChartData"
+                      [chartOptions]="doughnutChartOptions"
+                      [chartType]="doughnutChartType"
+                      [isDataLoaded]="isDataLoaded"
+                      [statistics]="expensesStatistics">
+      </app-chart-main>
     </div>
+  </div>
+  <div class="row category-box">
+    <app-category-list [statistics]="expensesStatistics" title="Kategoria Wydatków">
+    </app-category-list>
+  </div>
+  <div class="row category-box">
+    <app-category-list [statistics]="incomeStatistics" title="Kategoria Przychodów">
+    </app-category-list>
   </div>
 </div>

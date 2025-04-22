@@ -14,6 +14,7 @@ services:
     networks:
       - budget-flow
     restart: unless-stopped
+
   pgadmin:
     container_name: ms_pgadmin
     image: dpage/pgadmin4
@@ -30,19 +31,12 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
-#  mail-dev:
-#    container_name: mail-dev
-#    image: maildev/maildev
-#    ports:
-#      - 1080:1080
-#      - 1025:1025
+
   config-server:
     container_name: config-server
     image: config-server
     ports:
       - "8888:8888"
-#    environment:
-#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8888"
     networks:
       - budget-flow
     healthcheck:
@@ -50,13 +44,12 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
   eureka-server:
     container_name: eureka-server
     image: eureka-server
     ports:
       - "8761:8761"
-#    environment:
-#      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8761"
     expose:
       - "8761"
     networks:
@@ -69,14 +62,12 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
   gateway:
     container_name: gateway
     image: gateway
     ports:
       - "8000:8000"
-      - "8001:8001"
-    environment:
-      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8001"
     networks:
       - budget-flow
     depends_on:
@@ -84,14 +75,12 @@ services:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
+
   expenses-service:
     container_name: expenses-service
     image: expenses-service
     ports:
       - "8090:8090"
-      - "8091:8091"
-    environment:
-      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8091"
     networks:
       - budget-flow
     depends_on:
@@ -99,14 +88,12 @@ services:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
+
   groups-service:
     container_name: groups-service
     image: groups-service
     ports:
       - "8070:8070"
-      - "8071:8071"
-    environment:
-      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8071"
     networks:
       - budget-flow
     depends_on:
@@ -114,14 +101,12 @@ services:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
+
   users-service:
     container_name: users-service
     image: users-service
     ports:
       - "8080:8080"
-      - "8081:8081"
-    environment:
-      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081"
     networks:
       - budget-flow
     depends_on:
@@ -129,16 +114,25 @@ services:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
-#  budget-flow-ui:
-#    image: budget-flow-ui
-#    container_name: budget-flow-ui
-#    ports:
-#      - "4200:80"  # Mapa portów (port hosta:port kontenera)
-#    networks:
-#      - budget-flow
+
+  budget-flow-ui:
+    build:
+      context: ./budgetFlow-ui  # Ścieżka do katalogu z aplikacją Angular
+      dockerfile: budgetFlow-ui/Dockerfile
+    container_name: budget-flow-ui
+    ports:
+      - "80:80"
+    expose:
+      - 80
+    networks:
+      - budget-flow
+    depends_on:
+      - gateway
+
 networks:
   budget-flow:
     driver: bridge
+
 volumes:
   postgres:
     driver: local

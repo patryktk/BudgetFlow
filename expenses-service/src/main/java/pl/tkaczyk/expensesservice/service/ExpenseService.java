@@ -20,4 +20,6 @@ public interface ExpenseService {
     List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup);
 
     List<ExpenseCalendarFieldInfo> getExpensesToCalendarByCategory(String userId);
+
+    SumResponse getExpensesSumByMonth(String userId, StatisticsByMonthRequest request);
 }

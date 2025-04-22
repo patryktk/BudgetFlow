@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public record IncomeRequest(
         Long id,
         String name,
-        IncomeCategory incomeCategory,
+        CategoryRequest categoryRequest,
         double amount,
         LocalDate incomeDate
 ) {

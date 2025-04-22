@@ -25,6 +25,7 @@ public class ExpensesController {
         return ResponseEntity.ok().body(expenseService.getAllExpenses(Long.parseLong(userId)));
     }
 
+    //Widok kalendarza
     @PostMapping(value = "/expenseByMonth", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseResponse>> getAllExpenseByUserByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
                                                                             @RequestBody StatisticsByMonthRequest request,
@@ -57,5 +58,11 @@ public class ExpensesController {
     @GetMapping(value = "/expensesToCalendarByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ExpenseCalendarFieldInfo>> getExpensesToCalendarByCategory(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId) {
         return ResponseEntity.ok().body(expenseService.getExpensesToCalendarByCategory(userId));
+    }
+
+    @PostMapping(value = "/getSumOfExpenses", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SumResponse> getSumOfExpensesByMonth(@Parameter(hidden = true) @RequestHeader("X-User-Id") String userId,
+                                                               @RequestBody StatisticsByMonthRequest request) {
+        return ResponseEntity.ok().body(expenseService.getExpensesSumByMonth(userId,request));
     }
 }

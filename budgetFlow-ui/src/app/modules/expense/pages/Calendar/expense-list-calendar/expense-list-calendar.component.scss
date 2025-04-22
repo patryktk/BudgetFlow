@@ -4,23 +4,97 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1050;
+  animation: fadeIn 0.3s ease;
 }
 
 .modal-dialog {
   position: relative;
   z-index: 1051;
-  max-width: 60%; /* Ustaw maksymalną szerokość modalu */
+  max-width: 80%;
+  width: auto;
+  margin: 1.75rem auto;
+  animation: slideDown 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+}
+
+.modal-content {
+  border-radius: 8px;
+  border: none;
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.modal-body {
+  padding: 1.5rem;
 }
 
 .table-responsive {
-  overflow-x: auto; /* Dodaj przewijanie poziome, jeśli tabela jest zbyt szeroka */
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border-radius: 4px;
 }
 
 .table {
-  width: 100%; /* Ustaw szerokość tabeli na 100% */
+  width: 100%;
+  margin-bottom: 0;
+  color: #212529;
+  vertical-align: middle;
+}
+
+.table th {
+  font-weight: 600;
+  border-top: none;
+}
+
+.table td, .table th {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.btn-group .btn {
+  transition: all 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+  justify-content: flex-end;
+}
+
+/* Animacje */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }

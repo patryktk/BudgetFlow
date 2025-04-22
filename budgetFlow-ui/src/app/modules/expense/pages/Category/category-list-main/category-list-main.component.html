@@ -1,0 +1,64 @@
+<div class="card">
+  <div class="card-header" [ngStyle]="{'background-color': '#1a1b1c', 'color': 'white'}">
+    <h5>Lista Kategorii {{ type === 'EXPENSE' ? 'Wydatków' : 'Przychodów' }}</h5>
+  </div>
+  <div class="list-group list-group-flush">
+    <!-- Root categories -->
+    <ng-container *ngFor="let category of getRootCategories()">
+      <div class="list-group-item hover-effect">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-bold">{{ category.name }}</div>
+            <small class="text-muted">Założyciel: {{ category.createdByUserId }}</small>
+          </div>
+          <div class="d-flex align-items-center">
+            <div *ngIf="category.hexColor" [ngStyle]="{'background': category.hexColor}" class="color-box me-3 border rounded px-2 py-1">
+              {{ category.hexColor }}
+            </div>
+            <div class="action-buttons">
+              <button mat-icon-button color="primary" (click)="onEdit(category)" matTooltip="Edytuj kategorię">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" [disabled]="!canModify(category)" (click)="onDelete(category.id)"
+                      [matTooltip]="canModify(category) ? 'Usuń kategorię' : 'Nie możesz usunąć tej kategorii, bo nie jesteś jej twórcą.'"
+                      matTooltipShowDelay="500">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subcategories -->
+        <div *ngIf="getSubCategories(category.id).length > 0" class="mt-2">
+          <div *ngFor="let subCategory of getSubCategories(category.id)"
+               class="ms-4 py-2 border-top d-flex justify-content-between align-items-center hover-effect">
+            <div>
+              <div>{{ subCategory.name }}</div>
+              <small class="text-muted">Założyciel: {{ subCategory.createdByUserId }}</small>
+            </div>
+            <div class="d-flex align-items-center">
+              <div *ngIf="subCategory.hexColor" [ngStyle]="{'background': subCategory.hexColor}"
+                   class="color-box me-3 border rounded px-2 py-1">
+                {{ subCategory.hexColor }}
+              </div>
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" (click)="onEdit(subCategory)" matTooltip="Edytuj kategorię">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" [disabled]="!canModify(subCategory)" (click)="onDelete(subCategory.id)"
+                        [matTooltip]="canModify(subCategory) ? 'Usuń kategorię' : 'Nie możesz usunąć tej kategorii, bo nie jesteś jej twórcą.'"
+                        matTooltipShowDelay="500">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="categories.length === 0" class="list-group-item text-center">
+      Brak kategorii do wyświetlenia.
+    </div>
+  </div>
+</div>

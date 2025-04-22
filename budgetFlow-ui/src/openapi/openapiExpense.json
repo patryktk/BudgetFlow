@@ -386,6 +386,66 @@
         }
       }
     },
+    "/expenses/income/getSumOfIncomes": {
+      "post": {
+        "tags": [
+          "Income"
+        ],
+        "operationId": "getSumOfIncomesByMonth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SumResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/getSumOfExpenses": {
+      "post": {
+        "tags": [
+          "Expense"
+        ],
+        "operationId": "getSumOfExpensesByMonth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsByMonthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SumResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenseCategory": {
       "post": {
         "tags": [
@@ -452,6 +512,99 @@
                   "items": {
                     "$ref": "#/components/schemas/ExpenseResponse"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/category": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "saveCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/category/getCategoriesByType": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "getAllCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/category/editCategory": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "editCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
                 }
               }
             }
@@ -582,11 +735,94 @@
           }
         }
       }
+    },
+    "/expenses/category/{categoryId}": {
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "deleteCategory",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ExpenseCategory": {
+      "CategoryRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hexColor": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "categoryType": {
+            "type": "string",
+            "enum": [
+              "EXPENSE",
+              "INCOME"
+            ]
+          }
+        }
+      },
+      "ExpenseRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "categoryRequest": {
+            "$ref": "#/components/schemas/CategoryRequest"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "expenseDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoryResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -603,48 +839,23 @@
           "hexColor": {
             "type": "string"
           },
-          "parentCategory": {
-            "$ref": "#/components/schemas/ExpenseCategory"
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
           },
           "subCategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ExpenseCategory"
-            }
-          },
-          "sharedWithUsers": {
-            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "integer",
               "format": "int64"
             }
-          }
-        }
-      },
-      "ExpenseRequest": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
           },
-          "name": {
-            "type": "string"
-          },
-          "expenseCategory": {
-            "$ref": "#/components/schemas/ExpenseCategory"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "expenseDate": {
+          "categoryType": {
             "type": "string",
-            "format": "date"
-          },
-          "note": {
-            "type": "string"
+            "enum": [
+              "EXPENSE",
+              "INCOME"
+            ]
           }
         }
       },
@@ -661,8 +872,8 @@
           "name": {
             "type": "string"
           },
-          "expenseCategory": {
-            "$ref": "#/components/schemas/ExpenseCategory"
+          "categoryResponse": {
+            "$ref": "#/components/schemas/CategoryResponse"
           },
           "amount": {
             "type": "number",
@@ -691,30 +902,6 @@
         },
         "additionalProperties": true
       },
-      "IncomeCategory": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "createdByUserId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "sharedWithUsers": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        }
-      },
       "IncomeRequest": {
         "type": "object",
         "properties": {
@@ -725,8 +912,8 @@
           "name": {
             "type": "string"
           },
-          "incomeCategory": {
-            "$ref": "#/components/schemas/IncomeCategory"
+          "categoryRequest": {
+            "$ref": "#/components/schemas/CategoryRequest"
           },
           "amount": {
             "type": "number",
@@ -759,6 +946,9 @@
           "userId": {
             "type": "integer",
             "format": "int64"
+          },
+          "categoryResponse": {
+            "$ref": "#/components/schemas/CategoryResponse"
           }
         },
         "additionalProperties": true
@@ -815,6 +1005,15 @@
           "createdByUserId": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "SumResponse": {
+        "type": "object",
+        "properties": {
+          "sum": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

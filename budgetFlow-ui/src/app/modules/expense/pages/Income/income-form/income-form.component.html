@@ -31,12 +31,12 @@
                 id="incomeCategory"
                 class="form-control"
                 name="incomeCategory"
-                [(ngModel)]="incomeData.incomeCategory"
+                [(ngModel)]="incomeData.categoryRequest"
                 [compareWith]="compareCategories"
                 required
               >
                 <option value="" disabled>Wybierz kategorię</option>
-                <option *ngFor="let category of incomeCategories" [ngValue]="category">
+                <option *ngFor="let category of categories" [ngValue]="category">
                   {{ category.name }}
                 </option>
               </select>

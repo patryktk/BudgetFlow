@@ -1,0 +1,39 @@
+.navbar-brand i {
+  color: #c4a347;
+}
+
+.user-avatar-button {
+  background-color: #c4a347 !important;
+  min-width: 40px !important; /* Zapobiega rozciąganiu */
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  line-height: 40px !important; /* Zapewnia równomierne wycentrowanie pionowe */
+  overflow: hidden !important; /* Zapobiega przekraczaniu granic przycisku */
+}
+
+.user-initial {
+  color: white !important;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+/* Stylizacja sekcji wyświetlającej nazwę użytkownika w menu */
+.username-display {
+  padding: 8px 16px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* Zapewnienie odstępu dla separatora */
+mat-divider {
+  margin: 4px 0;
+}

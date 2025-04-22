@@ -10,6 +10,7 @@ public record IncomeResponse(
         String name,
         double amount,
         LocalDate incomeDate,
-        Long userId
+        Long userId,
+        CategoryResponse categoryResponse
 ) {
 }

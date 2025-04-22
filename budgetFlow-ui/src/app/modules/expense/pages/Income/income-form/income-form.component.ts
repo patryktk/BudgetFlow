@@ -1,15 +1,17 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {IncomeRequest} from "../../../../../services/models/income-request";
 import {IncomeService} from "../../../../../services/services/income.service";
-import {IncomeCategory} from "../../../../../services/models/income-category";
 import {IncomeCategoryService} from "../../../../../services/services/income-category.service";
-import {IncomeCategoryResponse} from "../../../../../services/models/income-category-response";
+import {CategoryResponse} from "../../../../../services/models/category-response";
+import {CategoryService} from "../../../../../services/services/category.service";
+import {CategoryRequest} from "../../../../../services/models/category-request";
+import {CategoryType} from "../../../../../services/utils/utils.service";
 
 @Component({
-    selector: 'app-income-form',
-    templateUrl: './income-form.component.html',
-    styleUrl: './income-form.component.scss',
-    standalone: false
+  selector: 'app-income-form',
+  templateUrl: './income-form.component.html',
+  styleUrl: './income-form.component.scss',
+  standalone: false
 })
 export class IncomeFormComponent implements OnInit {
   @Input() income: IncomeRequest | null = null;
@@ -17,10 +19,13 @@ export class IncomeFormComponent implements OnInit {
   @Output() formClose = new EventEmitter<void>();
 
   incomeData: IncomeRequest = {};
-  incomeCategories: IncomeCategoryResponse[] = [];
+  categories: CategoryResponse[] = [];
+  categoryRequest: CategoryRequest = {};
+
 
   constructor(private incomeService: IncomeService,
-              private incomeCategoryService: IncomeCategoryService) {
+              private incomeCategoryService: IncomeCategoryService,
+              private categoryService: CategoryService) {
   }
 
   ngOnInit() {
@@ -31,7 +36,7 @@ export class IncomeFormComponent implements OnInit {
     }
   }
 
-  compareCategories(cat1: IncomeCategory, cat2: IncomeCategory): boolean {
+  compareCategories(cat1: CategoryRequest, cat2: CategoryRequest): boolean {
     return cat1 && cat2 ? cat1.id === cat2.id : cat1 === cat2;
   }
 
@@ -75,15 +80,18 @@ export class IncomeFormComponent implements OnInit {
     }
   }
 
-  private getIncomeCategories() {
-    this.incomeCategoryService.getAllIncomeCategories().subscribe({
-      next: result => {
-        this.incomeCategories = result;
-        console.log(result)
+  getIncomeCategories() {
+    this.categoryRequest.categoryType = CategoryType.INCOME;
+    this.categoryService.getAllCategory({
+      body: this.categoryRequest
+    }).subscribe({
+      next: (result) => {
+        this.categories = result
       },
-      error: err => {
-        console.log('Error: getting income categories ', err)
+      error: (error) => {
+        console.error("Błąd podczas pobierania kategorii wydatków:", error);
       }
     })
   }
+
 }

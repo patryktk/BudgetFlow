@@ -1,55 +1,63 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">BudgetFlow</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="#navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation"
-    >
+    <!-- Dodana ikona obok nazwy aplikacji -->
+    <a class="navbar-brand d-flex align-items-center" href="javascript:void(0)">
+      <i class="fas fa-wallet me-2"></i> BudgetFlow
+    </a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler" data-bs-target="#navbarSupportedContent"
+            data-bs-toggle="collapse" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/calendar">
-            <i class="fas fa-home-alt"></i>&nbsp;Calendar
+          <a aria-current="page" class="nav-link" routerLink="/expense">
+            <i class="fas fa-home"></i> Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense">
-            <i class="fas fa-home-alt"></i>&nbsp;Home
+          <a class="nav-link" routerLink="/expense/calendar">
+            <i class="fas fa-calendar"></i> Calendar
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/expense">
-            <i class="fas fa-book"></i>&nbsp;Expense
+          <a class="nav-link" routerLink="/expense/expense">
+            <i class="fas fa-receipt"></i> Expense
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/addExpenseCategory">
-            <i class="fas fa-book"></i>&nbsp;Expense Category
+          <a class="nav-link" routerLink="/expense/income">
+            <i class="fas fa-money-bill"></i> Income
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/groups">
-            <i class="fas fa-book"></i>&nbsp;My Groups
+          <a class="nav-link" routerLink="/expense/category">
+            <i class="fas fa-folder"></i> Category
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/income">
-            <i class="fas fa-book"></i>&nbsp;Income
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/expense/incomeCategory">
-            <i class="fas fa-book"></i>&nbsp;Income Category
+          <a class="nav-link" routerLink="/expense/groups">
+            <i class="fas fa-users"></i> My Groups
           </a>
         </li>
       </ul>
-      <form class="d-flex gap-2 align-items-center" role="search">
-        <span class="text-capitalize fw-bold">{{ username }}</span>
-        <button class="btn btn-link" type="button" (click)="logout()"><i class="fas fa-door-open"></i></button>
-      </form>
+      <button [matMenuTriggerFor]="menu" class="user-avatar-button ms-3" mat-button>
+        <span class="user-initial">{{ username.charAt(0) }}</span>
+      </button>
     </div>
   </div>
-
 </nav>
+
+<mat-menu #menu="matMenu" [xPosition]="'before'" [yPosition]="'below'">
+  <!-- Element z nazwą użytkownika (bez możliwości kliknięcia) -->
+  <div class="username-display">
+    <small>{{ username }}</small>
+  </div>
+  <!-- Separator -->
+  <mat-divider></mat-divider>
+  <!-- Przycisk wylogowania -->
+  <button (click)="logout()" mat-menu-item>
+    <i class="fas fa-sign-out-alt me-2"></i> Wyloguj się
+  </button>
+</mat-menu>

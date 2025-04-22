@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tkaczyk.expensesservice.feign.GroupClient;
+import pl.tkaczyk.expensesservice.mapper.ExpenseCategoryMapper;
 import pl.tkaczyk.expensesservice.mapper.ExpenseMapper;
 import pl.tkaczyk.expensesservice.mapper.StatisticsPartialMapper;
 import pl.tkaczyk.expensesservice.model.Expense;
 import pl.tkaczyk.expensesservice.model.dto.*;
+import pl.tkaczyk.expensesservice.repository.CategoryRepository;
+import pl.tkaczyk.expensesservice.repository.ExpenseCategoryRepository;
 import pl.tkaczyk.expensesservice.repository.ExpenseRepository;
+import pl.tkaczyk.expensesservice.service.ExpenseCategoryService;
 import pl.tkaczyk.expensesservice.service.ExpenseService;
 
 import java.time.LocalDate;
@@ -24,6 +28,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseMapper expenseMapper;
     private final GroupClient groupClient;
     private final StatisticsPartialMapper statisticsPartialMapper;
+    private final ExpenseCategoryMapper expenseCategoryMapper;
+    private final ExpenseCategoryService expenseCategoryService;
+    private final ExpenseCategoryRepository expenseCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<ExpenseResponse> getAllExpenses(Long userId) {
@@ -42,8 +50,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseResponse saveExpense(ExpenseRequest request, String userId) {
-        Expense expense = expenseMapper.toExpense(request);
-        expense.setUserId(Long.valueOf(userId));
+        Expense expense = expenseMapper.toExpense(request, userId);
         return expenseMapper.toExpenseResponse(expenseRepository.save(expense));
     }
 
@@ -59,11 +66,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         List<StatisticsPartialProjection> expensesByStartDateAndEndDate;
         if (groupResponse.isInGroup()) {
             expensesByStartDateAndEndDate = expenseRepository.findPartialExpensesByUsersByStartDateAndEndDate(LocalDate.parse(request.startDate())
-                    ,LocalDate.parse(request.endDate()),
+                    , LocalDate.parse(request.endDate()),
                     groupResponse.users());
         } else {
             expensesByStartDateAndEndDate = expenseRepository.findPartialExpensesByUsersByStartDateAndEndDate(LocalDate.parse(request.startDate())
-                    ,LocalDate.parse(request.endDate())
+                    , LocalDate.parse(request.endDate())
                     , Collections.singleton(Long.valueOf(userId)));
         }
         return expensesByStartDateAndEndDate.stream().map(statisticsPartialMapper::toStatisticsResponse).collect(Collectors.toList());
@@ -73,7 +80,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseResponse updateExpense(ExpenseRequest expenseRequest, String userId) {
         Expense expenseToEdit = expenseRepository.findById(expenseRequest.id()).orElseThrow(() -> new IllegalArgumentException("Expense does not exist"));
         expenseToEdit.setName(expenseRequest.name());
-        expenseToEdit.setExpenseCategory(expenseRequest.expenseCategory());
+        expenseToEdit.setCategory(categoryRepository.findById(expenseRequest.categoryRequest().id()).orElseThrow(() -> new IllegalArgumentException("Expense does not exist")));
         expenseToEdit.setAmount(expenseRequest.amount());
         expenseToEdit.setExpenseDate(expenseRequest.expenseDate());
         expenseToEdit.setNote(expenseRequest.note());
@@ -83,7 +90,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<ExpenseResponse> getAllExpensesByUserByMonth(String userId, StatisticsByMonthRequest request, Boolean inGroup) {
-        if(inGroup){
+        if (inGroup) {
             ResponseEntity<GroupResponse> groupResponseResponseEntity = groupClient.checkIfUserInAnyGroup(Long.valueOf(userId));
             if (groupResponseResponseEntity.getStatusCode().is2xxSuccessful() && groupResponseResponseEntity.getBody() != null && groupResponseResponseEntity.getBody().isInGroup()) {
                 return expenseRepository.findExpensesByUserIdAndMonth(LocalDate.parse(request.startDate()),
@@ -108,5 +115,13 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .stream()
                 .map(expenseMapper::toExpenseCalendarFieldInfo)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public SumResponse getExpensesSumByMonth(String userId, StatisticsByMonthRequest request) {
+        return expenseMapper.toSumResponse(
+                expenseRepository.findSumOfExpenseByUserIdAndDate(Long.valueOf(userId),
+                        LocalDate.parse(request.startDate()),
+                        LocalDate.parse(request.endDate())));
     }
 }

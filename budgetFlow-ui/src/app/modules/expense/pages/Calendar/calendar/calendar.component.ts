@@ -23,18 +23,47 @@ export class CalendarComponent implements OnInit {
   selectedExpense: ExpenseRequest | null = null;
   @Input() selectedTab: 'all' | 'user' | 'group' = 'all';
   events: any[] = [];
+  dateDay: string | undefined = "";
+  themeColor = '#c4a347';
+  blackToolbarColor = '#1a1b1c';
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
     locale: "pl",
     firstDay: 1,
+    height: 'auto',
+    headerToolbar: {
+      start: '',
+      center: 'title'
+    },
     selectable: true,
     dateClick: (arg) => this.handleDateClick(arg),
     events: [],
     eventClick: arg => this.handleEventClick(arg),
+
+    dayCellDidMount: (info) => {
+      // Zmiana koloru numerów dni
+      const dayNumber = info.el.querySelector('.fc-daygrid-day-number');
+      if (dayNumber) {
+        (dayNumber as HTMLElement).style.color = this.themeColor;
+      }
+    },
+
+    viewDidMount: (info) => {
+      // Zmiana koloru nagłówków dni tygodnia
+      const headerCells = document.querySelectorAll('.fc-col-header-cell-cushion');
+      headerCells.forEach(cell => {
+        (cell as HTMLElement).style.color = this.blackToolbarColor;
+      });
+
+      // Zmiana koloru tytułu miesiąca i roku
+      const toolbarTitle = document.querySelector('.fc-toolbar-title');
+      if (toolbarTitle) {
+        (toolbarTitle as HTMLElement).style.color = this.blackToolbarColor;
+      }
+    }
   };
-  dateDay: string | undefined = "";
 
   constructor(
     private expenseService: ExpenseService,
